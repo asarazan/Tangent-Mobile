@@ -17,7 +17,7 @@ import kotlinx.serialization.json.jsonObject
 @Serializable
 data class Emoji(
   val shortcode: String,
-  val static_url: String,
+  @SerialName("static_url") val staticUrl: String,
   val url: String,
-  val visible_in_picker: Boolean
+  @SerialName("visible_in_picker") val visibleInPicker: Boolean
 )

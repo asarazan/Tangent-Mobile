@@ -27,7 +27,7 @@ data class Relationship(
   /**
    * Whether the user is currently being followed by the account
    */
-  val followed_by: Boolean,
+  @SerialName("followed_by") val followedBy: Boolean,
   /**
    * Whether the user is currently blocking the account
    */

@@ -42,11 +42,12 @@ data class Status(
   /**
    * null or the ID of the status it replies to
    */
-  val in_reply_to_id: String? = null,
+  @SerialName("in_reply_to_id") val inReplyToId: String? = null,
   /**
    * null or the ID of the account it replies to
    */
-  val in_reply_to_account_id: String? = null,
+  @SerialName("in_reply_to_account_id")
+  val inReplyToAccountId: String? = null,
   /**
    * null or the reblogged [Status]
    */
@@ -58,15 +59,15 @@ data class Status(
   /**
    * The time the status was created
    */
-  val created_at: String,
+  @SerialName("created_at") val createdAt: String,
   /**
    * The number of reblogs for the status
    */
-  val reblogs_count: Double,
+  @SerialName("reblogs_count") val reblogsCount: Double,
   /**
    * The number of favourites for the status
    */
-  val favourites_count: Double,
+  @SerialName("favourites_count") val favouritesCount: Double,
   /**
    * Whether the authenticated user has reblogged the status
    */
@@ -82,7 +83,7 @@ data class Status(
   /**
    * If not empty, warning text that should be displayed before the actual content
    */
-  val spoiler_text: String,
+  @SerialName("spoiler_text") val spoilerText: String,
   /**
    * One of: public, unlisted, private, direct
    */
@@ -90,7 +91,7 @@ data class Status(
   /**
    * An array of [Attachments]s
    */
-  val media_attachments: List<Attachment>,
+  @SerialName("media_attachments") val mediaAttachments: List<Attachment>,
   /**
    * An array of [Mentions]
    */

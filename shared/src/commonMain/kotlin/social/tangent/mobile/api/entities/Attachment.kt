@@ -31,15 +31,15 @@ data class Attachment(
   /**
    * For remote images, the remote URL of the original image
    */
-  val remote_url: String,
+  @SerialName("remote_url") val remoteUrl: String,
   /**
    * URL of the preview image
    */
-  val preview_url: String,
+  @SerialName("preview_url") val previewUrl: String,
   /**
    * Shorter URL for the image, for insertion into text (only present on local images)
    */
-  val text_url: String
+  @SerialName("text_url") val textUrl: String
 ) {
   @Serializable
   enum class Type(

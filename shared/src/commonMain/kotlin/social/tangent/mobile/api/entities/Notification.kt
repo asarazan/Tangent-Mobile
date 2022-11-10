@@ -30,7 +30,7 @@ data class Notification(
   /**
    * The time the notification was created
    */
-  val created_at: String,
+  @SerialName("created_at") val createdAt: String,
   /**
    * The [Account] sending the notification to the user
    */

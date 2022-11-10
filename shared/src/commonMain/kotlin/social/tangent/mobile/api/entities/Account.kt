@@ -32,7 +32,7 @@ data class Account(
   /**
    * The account's display name
    */
-  val display_name: String,
+  @SerialName("display_name") val displayName: String,
   /**
    * Boolean for when the account cannot be followed without waiting for approval first
    */
@@ -40,22 +40,22 @@ data class Account(
   /**
    * The time the account was created
    */
-  val created_at: String,
+  @SerialName("created_at") val createdAt: String,
   /**
    * The number of followers for the account
    * @precision int
    */
-  val followers_count: Int,
+  @SerialName("followers_count") val followersCount: Int,
   /**
    * The number of accounts the given account is following
    * @precision int
    */
-  val following_count: Int,
+  @SerialName("following_count") val followingCount: Int,
   /**
    * The number of statuses the account has made
    * @precision int
    */
-  val statuses_count: Int,
+  @SerialName("statuses_count") val statusesCount: Int,
   /**
    * Biography of user
    */
@@ -71,7 +71,7 @@ data class Account(
   /**
    * URL to the avatar static image (gif)
    */
-  val avatar_static: String,
+  @SerialName("avatar_static") val avatarStatic: String,
   /**
    * URL to the header image
    */
@@ -79,5 +79,5 @@ data class Account(
   /**
    * URL to the header static image (gif)
    */
-  val header_static: String
+  @SerialName("header_static") val headerStatic: String
 )
