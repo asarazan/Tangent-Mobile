@@ -58,6 +58,11 @@ data class Filter(
    * Description: Should the filter consider word boundaries?
    * Type: Boolean
    * Version history: Added in 2.4.3
+   * 
+   * If whole_word is true , client app should do:
+   * Define ‘word constituent character’ for your app. In the official implementation, it’s [A-Za-z0-9_] in JavaScript, and [[:word:]] in Ruby. Ruby uses the POSIX character class (Letter | Mark | Decimal_Number | Connector_Punctuation).
+   * If the phrase starts with a word character, and if the previous character before matched range is a word character, its matched range should be treated to not match.
+   * If the phrase ends with a word character, and if the next character after matched range is a word character, its matched range should be treated to not match.
    */
   @SerialName("whole_word") val wholeWord: Boolean
 ) {
