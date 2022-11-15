@@ -33,9 +33,9 @@ data class AnnouncementReaction(
    * Type: Number
    * Version history:
    * 3.1.0 - added
-   * @precision int
+   * @precision long
    */
-  val count: Int,
+  val count: Long,
   /**
    * Description: Whether the authorized user has added this reaction to the announcement.
    * Type: Boolean

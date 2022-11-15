@@ -21,7 +21,7 @@ export type AnnouncementReaction = {
    * Version history:
    * 3.1.0 - added
    *
-   * @precision int
+   * @precision long
    */
   count: number;
 

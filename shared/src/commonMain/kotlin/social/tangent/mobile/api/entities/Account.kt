@@ -139,25 +139,25 @@ data class Account(
    * Type: Number
    * Version history:
    * 0.1.0 - added
-   * @precision int
+   * @precision long
    */
-  @SerialName("statuses_count") val statusesCount: Int,
+  @SerialName("statuses_count") val statusesCount: Long,
   /**
    * Description: The reported followers of this profile.
    * Type: Number
    * Version history:
    * 0.1.0 - added
-   * @precision int
+   * @precision long
    */
-  @SerialName("followers_count") val followersCount: Int,
+  @SerialName("followers_count") val followersCount: Long,
   /**
    * Description: The reported follows of this profile.
    * Type: Number
    * Version history:
    * 0.1.0 - added
-   * @precision int
+   * @precision long
    */
-  @SerialName("following_count") val followingCount: Int,
+  @SerialName("following_count") val followingCount: Long,
   /**
    * Description: Indicates that the profile is currently inactive and that its user has moved to a new account.
    * Type: Account

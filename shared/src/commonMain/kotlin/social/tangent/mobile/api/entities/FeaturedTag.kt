@@ -42,9 +42,9 @@ data class FeaturedTag(
    * Description: The number of authored statuses containing this hashtag.
    * Type: Number
    * Version history: Added in 3.0.0
-   * @precision int
+   * @precision long
    */
-  @SerialName("statuses_count") val statusesCount: Int,
+  @SerialName("statuses_count") val statusesCount: Long,
   /**
    * Description: The timestamp of the last authored status containing this hashtag.
    * Type: String (ISO 8601 Datetime)

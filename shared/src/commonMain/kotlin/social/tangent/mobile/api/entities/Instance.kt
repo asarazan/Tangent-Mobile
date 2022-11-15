@@ -120,18 +120,18 @@ data class Instance(
   data class Stats(
     /**
      * Users registered on this instance. Number.
-     * @precision int
+     * @precision long
      */
-    @SerialName("user_count") val userCount: Int,
+    @SerialName("user_count") val userCount: Long,
     /**
      * Statuses authored by users on instance. Number.
-     * @precision int
+     * @precision long
      */
-    @SerialName("status_count") val statusCount: Int,
+    @SerialName("status_count") val statusCount: Long,
     /**
      * Domains federated with this instance. Number.
-     * @precision int
+     * @precision long
      */
-    @SerialName("domain_count") val domainCount: Int
+    @SerialName("domain_count") val domainCount: Long
   )
 }

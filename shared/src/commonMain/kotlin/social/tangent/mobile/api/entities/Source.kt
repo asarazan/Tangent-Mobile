@@ -61,10 +61,10 @@ data class Source(
    * Description: The number of pending follow requests.
    * Type: Number
    * Version history: Added in 3.0.0.
-   * @precision int
+   * @precision long
    */
   @SerialName("follow_requests_count")
-  val followRequestsCount: Int? = null
+  val followRequestsCount: Long? = null
 ) {
   @Serializable
   enum class Privacy(

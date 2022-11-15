@@ -99,19 +99,19 @@ export type Instance = {
 
     /**
      * Users registered on this instance. Number.
-     * @precision int
+     * @precision long
      */
     user_count: number;
 
     /**
      * Statuses authored by users on instance. Number.
-     * @precision int
+     * @precision long
      */
     status_count: number;
 
     /**
      * Domains federated with this instance. Number.
-     * @precision int
+     * @precision long
      */
     domain_count: number;
   };

@@ -144,7 +144,7 @@ export type Account = {
    * Version history:
    * 0.1.0 - added
    *
-   * @precision int
+   * @precision long
    */
   statuses_count: number;
 
@@ -154,7 +154,7 @@ export type Account = {
    * Version history:
    * 0.1.0 - added
    *
-   * @precision int
+   * @precision long
    */
   followers_count: number;
 
@@ -164,7 +164,7 @@ export type Account = {
    * Version history:
    * 0.1.0 - added
    *
-   * @precision int
+   * @precision long
    */
   following_count: number;
 

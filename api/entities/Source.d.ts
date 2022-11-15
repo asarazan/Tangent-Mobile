@@ -55,7 +55,7 @@ export type Source = {
    * Type: Number
    * Version history: Added in 3.0.0.
    *
-   * @precision int
+   * @precision long
    */
   follow_requests_count?: number;
 }

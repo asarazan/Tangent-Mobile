@@ -92,17 +92,17 @@ data class Card(
    * Type: Number
    * Version history:
    * 1.3.0 - added
-   * @precision int
+   * @precision long
    */
-  val width: Int? = null,
+  val width: Long? = null,
   /**
    * Description: Height of preview, in pixels.
    * Type: Number
    * Version history:
    * 1.3.0 - added
-   * @precision int
+   * @precision long
    */
-  val height: Int? = null,
+  val height: Long? = null,
   /**
    * Description: Preview thumbnail.
    * Type: String (URL)

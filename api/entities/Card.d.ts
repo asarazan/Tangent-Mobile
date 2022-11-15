@@ -90,7 +90,7 @@ export type Card = {
    * Version history:
    * 1.3.0 - added
    *
-   * @precision int
+   * @precision long
    */
   width?: number;
 
@@ -100,7 +100,7 @@ export type Card = {
    * Version history:
    * 1.3.0 - added
    *
-   * @precision int
+   * @precision long
    */
   height?: number;
 
