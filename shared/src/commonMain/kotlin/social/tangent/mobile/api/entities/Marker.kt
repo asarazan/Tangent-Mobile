@@ -56,9 +56,11 @@ data class MarkerEntry(
    * Description: The timestamp of when the marker was set.
    * Type: String (ISO 8601 Datetime)
    * Version history: Added in 3.0.0
+   * @DateTime
    */
   @SerialName("updated_at")
-  val updatedAt: String,
+  @Serializable(with = kotlinx.datetime.serializers.InstantIso8601Serializer::class)
+  val updatedAt: kotlinx.datetime.Instant,
 
   /**
    * Description: Used for locking to prevent write conflicts.

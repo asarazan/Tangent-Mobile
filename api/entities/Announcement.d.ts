@@ -45,6 +45,8 @@ export type Announcement = {
    * Type: String (ISO 8601 Datetime)
    * Version history:
    * 3.1.0 - added
+   *
+   * @DateTime
    */
   created_at: string;
 
@@ -53,6 +55,8 @@ export type Announcement = {
    * Type: String (ISO 8601 Datetime)
    * Version history:
    * 3.1.0 - added
+   *
+   * @DateTime
    */
   updated_at: string;
 
@@ -79,6 +83,8 @@ export type Announcement = {
    * Type: String (ISO 8601 Datetime)
    * Version history:
    * 3.1.0 - added
+   *
+   * @DateTime
    */
   scheduled_at: string;
 
@@ -87,6 +93,8 @@ export type Announcement = {
    * Type: String (ISO 8601 Datetime)
    * Version history:
    * 3.1.0 - added
+   *
+   * @DateTime
    */
   starts_at: string;
 
@@ -95,6 +103,8 @@ export type Announcement = {
    * Type: String (ISO 8601 Datetime)
    * Version history:
    * 3.1.0 - added
+   *
+   * @DateTime
    */
   ends_at: string;
 };

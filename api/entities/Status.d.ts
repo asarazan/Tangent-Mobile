@@ -31,6 +31,8 @@ export type Status = {
    * Description: The date when this status was created.
    * Type: String (ISO 8601 Datetime)
    * Version history: Added in 0.1.0
+   *
+   * @DateTime
    */
   created_at: string;
 

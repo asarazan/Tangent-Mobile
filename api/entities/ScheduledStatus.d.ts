@@ -17,6 +17,8 @@ export type ScheduledStatus = {
    * Description: ID of the status in the database.
    * Type: String (ISO 8601 Datetime)
    * Version history: Added in 2.7.0
+   *
+   * @DateTime
    */
   scheduled_at: string;
 

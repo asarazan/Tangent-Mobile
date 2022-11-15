@@ -19,9 +19,11 @@ export type Field = {
   value: string;
 
   /**
-   * Description: Timestamp of when the server verified a URL value for a rel="me” link.
+   * Description: Timestamp of when the server verified a URL value for a rel="me" link.
    * Type: String (ISO 8601 Datetime) if value is a verified URL. Otherwise, null
    * Version history: Added in 2.6.0
+   *
+   * @DateTime
    */
   verified_at?: string;
 }

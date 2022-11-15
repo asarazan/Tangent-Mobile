@@ -38,6 +38,8 @@ export type IdentityProof = {
    * Description: When the identity proof was last updated.
    * Type: String (ISO 8601 Datetime)
    * Version history: Added in 2.8.0
+   *
+   * @DateTime
    */
   updated_at: string;
 };

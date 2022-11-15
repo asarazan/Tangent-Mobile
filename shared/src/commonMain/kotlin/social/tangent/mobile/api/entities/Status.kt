@@ -49,9 +49,11 @@ data class Status(
    * Description: The date when this status was created.
    * Type: String (ISO 8601 Datetime)
    * Version history: Added in 0.1.0
+   * @DateTime
    */
   @SerialName("created_at")
-  val createdAt: String,
+  @Serializable(with = kotlinx.datetime.serializers.InstantIso8601Serializer::class)
+  val createdAt: kotlinx.datetime.Instant,
 
   /**
    * Description: The account that authored this status.

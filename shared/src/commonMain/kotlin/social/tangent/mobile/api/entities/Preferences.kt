@@ -47,7 +47,7 @@ data class Preferences(
    * Version history: Added in 2.8.0
    */
   @SerialName("posting:default:language")
-  val postingDefaultLanguage: String,
+  val postingDefaultLanguage: String? = null,
 
   /**
    * Description: Whether media attachments should be automatically displayed or blurred/hidden.

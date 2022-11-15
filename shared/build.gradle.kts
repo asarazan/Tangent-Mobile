@@ -36,6 +36,7 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
                 implementation("co.touchlab:kermit:1.1.3") //Add latest version
                 implementation("io.insert-koin:koin-core:$koin_version")
+                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
             }
         }
         val commonTest by getting {

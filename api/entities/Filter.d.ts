@@ -35,8 +35,10 @@ export type Filter = {
    * Description: When the filter should no longer be applied
    * Type: String (ISO 8601 Datetime), or null if the filter does not expire
    * Version history: Added in 2.4.3
+   *
+   * @DateTime
    */
-  expires_at: string;
+  expires_at?: string;
 
   /**
    * Description: Should matching entities in home and notifications be dropped by the server?

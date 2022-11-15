@@ -39,6 +39,8 @@ export type MarkerEntry = {
    * Description: The timestamp of when the marker was set.
    * Type: String (ISO 8601 Datetime)
    * Version history: Added in 3.0.0
+   *
+   * @DateTime
    */
   updated_at: string;
 

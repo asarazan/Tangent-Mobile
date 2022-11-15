@@ -61,18 +61,22 @@ data class Announcement(
    * Type: String (ISO 8601 Datetime)
    * Version history:
    * 3.1.0 - added
+   * @DateTime
    */
   @SerialName("created_at")
-  val createdAt: String,
+  @Serializable(with = kotlinx.datetime.serializers.InstantIso8601Serializer::class)
+  val createdAt: kotlinx.datetime.Instant,
 
   /**
    * Description: When the announcement was last updated.
    * Type: String (ISO 8601 Datetime)
    * Version history:
    * 3.1.0 - added
+   * @DateTime
    */
   @SerialName("updated_at")
-  val updatedAt: String,
+  @Serializable(with = kotlinx.datetime.serializers.InstantIso8601Serializer::class)
+  val updatedAt: kotlinx.datetime.Instant,
 
   /**
    * Description: Whether the announcement has been read by the user.
@@ -95,25 +99,31 @@ data class Announcement(
    * Type: String (ISO 8601 Datetime)
    * Version history:
    * 3.1.0 - added
+   * @DateTime
    */
   @SerialName("scheduled_at")
-  val scheduledAt: String,
+  @Serializable(with = kotlinx.datetime.serializers.InstantIso8601Serializer::class)
+  val scheduledAt: kotlinx.datetime.Instant,
 
   /**
    * Description: When the future announcement will start.
    * Type: String (ISO 8601 Datetime)
    * Version history:
    * 3.1.0 - added
+   * @DateTime
    */
   @SerialName("starts_at")
-  val startsAt: String,
+  @Serializable(with = kotlinx.datetime.serializers.InstantIso8601Serializer::class)
+  val startsAt: kotlinx.datetime.Instant,
 
   /**
    * Description: When the future announcement will end.
    * Type: String (ISO 8601 Datetime)
    * Version history:
    * 3.1.0 - added
+   * @DateTime
    */
   @SerialName("ends_at")
-  val endsAt: String
+  @Serializable(with = kotlinx.datetime.serializers.InstantIso8601Serializer::class)
+  val endsAt: kotlinx.datetime.Instant
 )

@@ -39,6 +39,8 @@ export type Notification = {
    * Type: String (ISO 8601 Datetime)
    * Version history:
    * 0.9.9 - added
+   *
+   * @DateTime
    */
   created_at: string;
 

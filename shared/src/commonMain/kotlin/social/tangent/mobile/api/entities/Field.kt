@@ -36,10 +36,12 @@ data class Field(
   val value: String,
 
   /**
-   * Description: Timestamp of when the server verified a URL value for a rel="me” link.
+   * Description: Timestamp of when the server verified a URL value for a rel="me" link.
    * Type: String (ISO 8601 Datetime) if value is a verified URL. Otherwise, null
    * Version history: Added in 2.6.0
+   * @DateTime
    */
   @SerialName("verified_at")
-  val verifiedAt: String? = null
+  @Serializable(with = kotlinx.datetime.serializers.InstantIso8601Serializer::class)
+  val verifiedAt: kotlinx.datetime.Instant? = null
 )

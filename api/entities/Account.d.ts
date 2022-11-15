@@ -126,6 +126,8 @@ export type Account = {
    * Type: String (ISO 8601 Datetime)
    * Version history:
    * 0.1.0 - added
+   *
+   * @DateTime
    */
   created_at: string;
 
@@ -135,6 +137,8 @@ export type Account = {
    * Version history:
    * 3.0.0 - added
    * 3.1.0 - now returns date only, no time
+   *
+   * @DateTime
    */
   last_status_at: string;
 
@@ -219,6 +223,8 @@ export type Account = {
    * Type: String (ISO 8601 Datetime)
    * Version history:
    * 3.3.0 - added
+   *
+   * @DateTime
    */
   mute_expires_at?: boolean;
 }

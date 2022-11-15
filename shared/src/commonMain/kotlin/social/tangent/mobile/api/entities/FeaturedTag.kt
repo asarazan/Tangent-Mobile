@@ -55,7 +55,9 @@ data class FeaturedTag(
    * Description: The timestamp of the last authored status containing this hashtag.
    * Type: String (ISO 8601 Datetime)
    * Version history: Added in 3.0.0
+   * @DateTime
    */
   @SerialName("last_status_at")
-  val lastStatusAt: String
+  @Serializable(with = kotlinx.datetime.serializers.InstantIso8601Serializer::class)
+  val lastStatusAt: kotlinx.datetime.Instant
 )

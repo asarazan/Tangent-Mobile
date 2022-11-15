@@ -19,8 +19,10 @@ export type Poll = {
    * Description: When the poll ends.
    * Type: String (ISO 8601 Datetime), or null if the poll does not end
    * Version history: Added in 2.8.0
+   *
+   * @DateTime
    */
-  expires_at: string;
+  expires_at?: string;
 
   /**
    * Description: Is the poll currently expired?

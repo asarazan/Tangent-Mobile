@@ -56,7 +56,9 @@ data class IdentityProof(
    * Description: When the identity proof was last updated.
    * Type: String (ISO 8601 Datetime)
    * Version history: Added in 2.8.0
+   * @DateTime
    */
   @SerialName("updated_at")
-  val updatedAt: String
+  @Serializable(with = kotlinx.datetime.serializers.InstantIso8601Serializer::class)
+  val updatedAt: kotlinx.datetime.Instant
 )

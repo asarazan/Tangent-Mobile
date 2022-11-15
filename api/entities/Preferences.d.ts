@@ -29,7 +29,7 @@ export type Preferences = {
    * Type: String (ISO 639-1 language two-letter code), or null
    * Version history: Added in 2.8.0
    */
-  "posting:default:language": string;
+  "posting:default:language"?: string;
 
   /**
    * Description: Whether media attachments should be automatically displayed or blurred/hidden.

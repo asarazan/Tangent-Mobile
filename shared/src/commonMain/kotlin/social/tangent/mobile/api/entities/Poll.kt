@@ -34,9 +34,11 @@ data class Poll(
    * Description: When the poll ends.
    * Type: String (ISO 8601 Datetime), or null if the poll does not end
    * Version history: Added in 2.8.0
+   * @DateTime
    */
   @SerialName("expires_at")
-  val expiresAt: String,
+  @Serializable(with = kotlinx.datetime.serializers.InstantIso8601Serializer::class)
+  val expiresAt: kotlinx.datetime.Instant? = null,
 
   /**
    * Description: Is the poll currently expired?

@@ -40,6 +40,8 @@ export type FeaturedTag = {
    * Description: The timestamp of the last authored status containing this hashtag.
    * Type: String (ISO 8601 Datetime)
    * Version history: Added in 3.0.0
+   *
+   * @DateTime
    */
   last_status_at: string;
 };

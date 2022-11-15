@@ -141,9 +141,11 @@ data class Account(
    * Type: String (ISO 8601 Datetime)
    * Version history:
    * 0.1.0 - added
+   * @DateTime
    */
   @SerialName("created_at")
-  val createdAt: String,
+  @Serializable(with = kotlinx.datetime.serializers.InstantIso8601Serializer::class)
+  val createdAt: kotlinx.datetime.Instant,
 
   /**
    * Description: When the most recent status was posted.
@@ -151,9 +153,11 @@ data class Account(
    * Version history:
    * 3.0.0 - added
    * 3.1.0 - now returns date only, no time
+   * @DateTime
    */
   @SerialName("last_status_at")
-  val lastStatusAt: String,
+  @Serializable(with = kotlinx.datetime.serializers.InstantIso8601Serializer::class)
+  val lastStatusAt: kotlinx.datetime.Instant,
 
   /**
    * Description: How many statuses are attached to this account.
@@ -234,6 +238,7 @@ data class Account(
    * Type: String (ISO 8601 Datetime)
    * Version history:
    * 3.3.0 - added
+   * @DateTime
    */
   @SerialName("mute_expires_at")
   val muteExpiresAt: Boolean? = null

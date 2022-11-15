@@ -32,7 +32,9 @@ data class ScheduledStatus(
    * Description: ID of the status in the database.
    * Type: String (ISO 8601 Datetime)
    * Version history: Added in 2.7.0
+   * @DateTime
    */
   @SerialName("scheduled_at")
-  val scheduledAt: String
+  @Serializable(with = kotlinx.datetime.serializers.InstantIso8601Serializer::class)
+  val scheduledAt: kotlinx.datetime.Instant
 )

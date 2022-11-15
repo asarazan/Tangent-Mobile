@@ -50,9 +50,11 @@ data class Filter(
    * Description: When the filter should no longer be applied
    * Type: String (ISO 8601 Datetime), or null if the filter does not expire
    * Version history: Added in 2.4.3
+   * @DateTime
    */
   @SerialName("expires_at")
-  val expiresAt: String,
+  @Serializable(with = kotlinx.datetime.serializers.InstantIso8601Serializer::class)
+  val expiresAt: kotlinx.datetime.Instant? = null,
 
   /**
    * Description: Should matching entities in home and notifications be dropped by the server?

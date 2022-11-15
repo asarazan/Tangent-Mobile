@@ -56,9 +56,11 @@ data class Notification(
    * Type: String (ISO 8601 Datetime)
    * Version history:
    * 0.9.9 - added
+   * @DateTime
    */
   @SerialName("created_at")
-  val createdAt: String,
+  @Serializable(with = kotlinx.datetime.serializers.InstantIso8601Serializer::class)
+  val createdAt: kotlinx.datetime.Instant,
 
   /**
    * Description: The account that performed the action that generated the notification.
