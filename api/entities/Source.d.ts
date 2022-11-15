@@ -10,35 +10,51 @@ export type Source = {
   // Base Attributes
 
   /**
-   * Profile bio.
+   * Description: Profile bio.
+   * Type: String
+   * Version history: Added in 1.5.0
    */
   note: string;
 
   /**
-   * Metadata about the account.
+   * Description: Metadata about the account.
+   * Type: Array of Field
+   * Version history: Added in 2.4.0
    */
   fields: Field[];
 
   // Nullable Attributes
 
   /**
-   * The default post privacy to be used for new statuses.
+   * Description: The default post privacy to be used for new statuses.
+   * Type: String (Enumerable, oneOf)
+   * public = Public post
+   * unlisted = Unlisted post
+   * private = Followers-only post
+   * direct = Direct post
+   * Version history: Added in 1.5.0
    */
   privacy?: "public" | "unlisted" | "private" | "direct";
 
   /**
-   * Whether new statuses should be marked sensitive by default.
+   * Description: Whether new statuses should be marked sensitive by default.
+   * Type: Boolean
+   * Version history: Added in 1.5.0
    */
   sensitive?: boolean;
 
   /**
-   * The default posting language for new statuses.
+   * Description: The default posting language for new statuses.
    * Type: String (ISO 639-1 language two-letter code)
+   * Version history: Added in 2.4.2
    */
   language?: string;
 
   /**
-   * The number of pending follow requests.
+   * Description: The number of pending follow requests.
+   * Type: Number
+   * Version history: Added in 3.0.0.
+   *
    * @precision int
    */
   follow_requests_count?: number;

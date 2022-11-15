@@ -11,110 +11,159 @@ export type Account = {
   // Base Attributes
 
   /**
-   * The account id header.
+   * Description: The account idheader.
    * Type: String (cast from an integer, but not guaranteed to be a number)
+   * Version history:
+   * 0.1.0 - added
    */
-  id:              string;
+  id: string;
 
   /**
-   * The username of the account, not including domain.
+   * Description: The username of the account, not including domain.
+   * Type: String
+   * Version history:
+   * 0.1.0 - added
    */
-  username:        string;
+  username: string;
 
   /**
-   * The Webfinger account URI.
+   * Description: The Webfinger account URI.
    * Equal to username for local users, or username@domain for remote users.
+   * Type: String
+   * Version history:
+   * 0.1.0 - added
    */
-  acct:            string;
+  acct: string;
 
   /**
-   * The location of the user's profile page.
+   * Description: The location of the user's profile page.
+   * Type: String (HTTPS URL)
+   * Version history:
+   * 0.1.0 - added
    */
-  url:             string;
+  url: string;
 
   // Display Attributes
 
   /**
-   * The profile's display name.
+   * Description: The profile's display name.
+   * Type: String
+   * Version history:
+   * 0.1.0 - added
    */
-  display_name:    string;
+  display_name: string;
 
   /**
-   * The profile's bio / description.
+   * Description: The profile's bio / description.
    * Type: String (HTML)
+   * Version history:
+   * 0.1.0 - added
    */
-  note:            string;
+  note: string;
 
   /**
-   * An image icon that is shown next to statuses and in the profile.
-   * Type: string (URL)
+   * Description: An image icon that is shown next to statuses and in the profile.
+   * Type: String (URL)
+   * Version history:
+   * 0.1.0 - added
    */
-  avatar:          string;
+  avatar: string;
 
   /**
-   * A static version of the avatar.
+   * Description: A static version of the avatar.
    * Equal to avatar if its value is a static image; different if avatar is an animated GIF.
-   * Type: string (URL)
+   * Type: String (URL)
+   * Version history:
+   * 1.1.2 - added
    */
-  avatar_static:   string;
+  avatar_static: string;
 
   /**
-   * An image banner that is shown above the profile and in profile cards.
-   * Type: string (URL)
+   * Description: An image banner that is shown above the profile and in profile cards.
+   * Type: String (URL)
+   * Version history:
+   * 0.1.0 - added
    */
-  header:          string;
+  header: string;
 
   /**
-   * A static version of the header.
+   * Description: A static version of the header.
    * Equal to header if its value is a static image; different if header is an animated GIF.
-   * Type: string (URL)
+   * Type: String (URL)
+   * Version history:
+   * 1.1.2 - added
    */
-  header_static:   string;
+  header_static: string;
 
   /**
-   * Whether the account manually approves follow requests.
+   * Description: Whether the account manually approves follow requests.
+   * Type: Boolean
+   * Version history:
+   * 0.1.0 - added
    */
-  locked:          boolean;
+  locked: boolean;
 
   /**
-   * Custom emoji entities to be used when rendering the profile.
-   * If none, an empty array will be returned.
+   * Description: Custom emoji entities to be used when rendering the profile. If none, an empty array will be returned.
+   * Type: Array of Emoji
+   * Version history:
+   * 2.4.0 - added
    */
-  emojis:          Emoji[];
+  emojis: Emoji[];
 
   /**
-   * Whether the account has opted into discovery features such as the profile directory.
+   * Description: Whether the account has opted into discovery features such as the profile directory.
+   * Type: Boolean
+   * Version history:
+   * 3.1.0 - added
    */
-  discoverable:    boolean;
+  discoverable: boolean;
 
   // Statistical Attributes
 
   /**
-   * When the account was created.
+   * Description: When the account was created.
    * Type: String (ISO 8601 Datetime)
+   * Version history:
+   * 0.1.0 - added
    */
-  created_at:      string;
+  created_at: string;
 
   /**
-   * When the most recent status was posted.
+   * Description: When the most recent status was posted.
    * Type: String (ISO 8601 Datetime)
+   * Version history:
+   * 3.0.0 - added
+   * 3.1.0 - now returns date only, no time
    */
-  last_status_at:  string;
+  last_status_at: string;
 
   /**
-   * How many statuses are attached to this account.
+   * Description: How many statuses are attached to this account.
+   * Type: Number
+   * Version history:
+   * 0.1.0 - added
+   *
    * @precision int
    */
-  statuses_count:  number;
+  statuses_count: number;
 
   /**
-   * The reported followers of this profile.
+   * Description: The reported followers of this profile.
+   * Type: Number
+   * Version history:
+   * 0.1.0 - added
+   *
    * @precision int
    */
   followers_count: number;
 
   /**
-   * The reported follows of this profile.
+   * Description: The reported follows of this profile.
+   * Type: Number
+   * Version history:
+   * 0.1.0 - added
+   *
    * @precision int
    */
   following_count: number;
@@ -122,36 +171,54 @@ export type Account = {
   // Optional Attributes
 
   /**
-   * Indicates that the profile is currently inactive and that its user has moved to a new account.
+   * Description: Indicates that the profile is currently inactive and that its user has moved to a new account.
+   * Type: Account
+   * Version history:
+   * 2.1.0 - added
    */
-  moved?:          Account;
+  moved?: Account;
 
   /**
-   * Additional metadata attached to a profile as name-value pairs.
+   * Description: Additional metadata attached to a profile as name-value pairs.
+   * Type: Array of Field
+   * Version history:
+   * 2.4.0 - added
    */
-  fields?:         Field[];
+  fields?: Field[];
 
   /**
-   * A presentational flag.
+   * Description: A presentational flag.
    * Indicates that the account may perform automated actions, may not be monitored, or identifies as a robot.
+   * Type: Boolean
+   * Version history:
+   * 2.4.0 - added
    */
-  bot?:            boolean;
+  bot?: boolean;
 
   /**
-   * An extra entity to be used with API methods to verify credentials and update credentials.
+   * Description: An extra entity to be used with API methods to verify credentials and update credentials.
+   * Type: Source
+   * Version history:
+   * 2.4.0 - added
+   *
    * @link https://docs.joinmastodon.org/methods/accounts/#verify-account-credentials
    * @link https://docs.joinmastodon.org/methods/accounts/#update-account-credentials
    */
-  source?:         Source;
+  source?: Source;
 
   /**
-   * An extra entity returned when an account is suspended.
+   * Description: An extra entity returned when an account is suspended.
+   * Type: Boolean
+   * Version history:
+   * 3.3.0 - added
    */
-  suspended?:      boolean;
+  suspended?: boolean;
 
   /**
-   * When a timed mute will expire, if applicable.
+   * Description: When a timed mute will expire, if applicable.
    * Type: String (ISO 8601 Datetime)
+   * Version history:
+   * 3.3.0 - added
    */
   mute_expires_at?: boolean;
 }
