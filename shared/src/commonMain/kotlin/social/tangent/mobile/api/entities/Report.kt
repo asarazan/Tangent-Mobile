@@ -14,6 +14,10 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.jsonObject
 
+/**
+ * Unsure.
+ * @see https://docs.joinmastodon.org/entities/report/
+ */
 @Serializable
 data class Report(
   /**

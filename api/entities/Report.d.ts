@@ -1,3 +1,7 @@
+/**
+ * Unsure.
+ * @see https://docs.joinmastodon.org/entities/report/
+ */
 export type Report = {
 
   /**
