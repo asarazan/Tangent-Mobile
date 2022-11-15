@@ -16,32 +16,35 @@ import kotlinx.serialization.json.jsonObject
 
 import social.tangent.mobile.api.entities.Account
 import social.tangent.mobile.api.entities.Status
-import social.tangent.mobile.api.entities.Tag
 
 /**
- * Represents the results of a search.
- * @see https://docs.joinmastodon.org/entities/results/
+ * Represents a conversation with "direct message" visibility.
+ * @see https://docs.joinmastodon.org/entities/conversation/
  */
 @Serializable
-data class Results(
+data class Conversation(
   /**
-   * Description: Accounts which match the given query
+   * Description: Local database ID of the conversation.
+   * Type: String (cast from an integer, but not guaranteed to be a number)
+   * Version history: Added in 2.6.0
+   */
+  val id: String,
+  /**
+   * Description: Participants in the conversation.
    * Type: Array of Account
-   * Version history: Added in x.x.x
+   * Version history: Added in 2.6.0
    */
   val accounts: List<Account>,
   /**
-   * Description: Statuses which match the given query
-   * Type: Array of Status
-   * Version history: Added in x.x.x
+   * Description: Is the conversation currently marked as unread?
+   * Type: Boolean
+   * Version history: Added in 2.6.0
    */
-  val statuses: List<Status>,
+  val unread: Boolean,
   /**
-   * Description: Hashtags which match the given query
-   * Type: Array of Tag (v2). Array of String (v1).
-   * Version history: v1 added in 1.1.0 and deprecated in 3.0.0. v2 added in 2.4.1 and replaced v1 in 3.0.0.
-   * 
-   * Note: Made an executive decision to keep v2.
+   * Description: The last status in the conversation, to be used for optional display.
+   * Type: Status
+   * Version history: Added in 2.6.0
    */
-  val hashtags: List<Tag>
+  @SerialName("last_status") val lastStatus: Status? = null
 )

@@ -16,14 +16,22 @@ import kotlinx.serialization.json.jsonObject
 
 import social.tangent.mobile.api.entities.Status
 
+/**
+ * Represents the tree around a given status. Used for reconstructing threads of statuses.
+ * @see https://docs.joinmastodon.org/entities/context/
+ */
 @Serializable
 data class Context(
   /**
-   * The ancestors of the status in the conversation, as a list of [Status]
+   * Description: Parents in the thread.
+   * Type: Array of Status
+   * Version history: Added in 0.6.0
    */
   val ancestors: List<Status>,
   /**
-   * The descendants of the status in the conversation, as a list of [Status]
+   * Description: Children in the thread.
+   * Type: Array of Status
+   * Version history: Added in 0.6.0
    */
   val descendants: List<Status>
 )

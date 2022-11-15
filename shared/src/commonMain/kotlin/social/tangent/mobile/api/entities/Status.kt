@@ -19,91 +19,202 @@ import social.tangent.mobile.api.entities.Attachment
 import social.tangent.mobile.api.entities.Mention
 import social.tangent.mobile.api.entities.Tag
 import social.tangent.mobile.api.entities.Application
+import social.tangent.mobile.api.entities.Emoji
+import social.tangent.mobile.api.entities.Poll
+import social.tangent.mobile.api.entities.Card
 import social.tangent.mobile.api.entities.Status
 
+/**
+ * Represents a status posted by an account.
+ * @see https://docs.joinmastodon.org/entities/status/
+ */
 @Serializable
 data class Status(
   /**
-   * The ID of the status
+   * Description: ID of the status in the database.
+   * Type: String (cast from an integer but not guaranteed to be a number)
+   * Version history: Added in 0.1.0
    */
   val id: String,
   /**
-   * A Fediverse-unique resource ID
+   * Description: URI of the status used for federation.
+   * Type: String
+   * Version history: Added in 0.1.0
    */
   val uri: String,
   /**
-   * URL to the status page (can be remote)
+   * Description: The date when this status was created.
+   * Type: String (ISO 8601 Datetime)
+   * Version history: Added in 0.1.0
    */
-  val url: String,
+  @SerialName("created_at") val createdAt: String,
   /**
-   * The [Account] which posted the status
+   * Description: The account that authored this status.
+   * Type: Account
+   * Version history: Added in 0.1.0
    */
   val account: Account,
   /**
-   * null or the ID of the status it replies to
+   * Description: HTML-encoded status content.
+   * Type: String (HTML)
+   * Version history: Added in 0.1.0
+   */
+  val content: String,
+  /**
+   * Description: Visibility of this status.
+   * Type: String (Enumerable oneOf)
+   * public = Visible to everyone, shown in public timelines.
+   * unlisted = Visible to public, but not included in public timelines.
+   * private = Visible to followers only, and to any mentioned users.
+   * direct = Visible only to mentioned users.
+   * 
+   * Version history: Added in 0.9.9
+   */
+  val visibility: Visibility,
+  /**
+   * Description: Is this status marked as sensitive content?
+   * Type: Boolean
+   * Version history: Added in 0.9.9
+   */
+  val sensitive: Boolean,
+  /**
+   * Description: Subject or summary line, below which status content is collapsed until expanded.
+   * Type: String
+   * Version history: Added in 1.0.0
+   */
+  @SerialName("spoiler_text") val spoilerText: String,
+  /**
+   * Description: Media that is attached to this status.
+   * Type: Array of Attachment
+   * Version history: Added in 0.6.0
+   */
+  @SerialName("media_attachments") val mediaAttachments: List<Attachment>,
+  /**
+   * Description: The application used to post this status.
+   * Type: Application
+   * Version history: Added in 0.9.9
+   */
+  val application: Application,
+  /**
+   * Description: Mentions of users within the status content.
+   * Type: Array of Mention
+   * Version history: Added in 0.6.0
+   */
+  val mentions: List<Mention>,
+  /**
+   * Description: Hashtags used within the status content.
+   * Type: Array of Tag
+   * Version history: Added in 0.9.0
+   */
+  val tags: List<Tag>,
+  /**
+   * Description: Custom emoji to be used when rendering status content.
+   * Type: Array of Emoji
+   * Version history: Added in 2.0.0
+   */
+  val emojis: List<Emoji>,
+  /**
+   * Description: How many boosts this status has received.
+   * Type: Number
+   * Version history: Added in 0.1.0
+   * @precision long
+   */
+  @SerialName("reblogs_count") val reblogsCount: Long,
+  /**
+   * Description: How many favourites this status has received.
+   * Type: Number
+   * Version history: Added in 0.1.0
+   * @precision long
+   */
+  @SerialName("favourites_count") val favouritesCount: Long,
+  /**
+   * Description: How many replies this status has received.
+   * Type: Number
+   * Version history: Added in 2.5.0
+   * @precision long
+   */
+  @SerialName("replies_count") val repliesCount: Long,
+  /**
+   * Description: A link to the status's HTML representation.
+   * Type: String (URL)
+   * Version history: Added in 0.1.0
+   */
+  val url: String? = null,
+  /**
+   * Description: ID of the status being replied.
+   * Type: String (cast from an integer but not guaranteed to be a number)
+   * Version history: Added in 0.1.0
    */
   @SerialName("in_reply_to_id") val inReplyToId: String? = null,
   /**
-   * null or the ID of the account it replies to
+   * Description: ID of the account being replied to.
+   * Type: String (cast from an integer but not guaranteed to be a number)
+   * Version history: Added in 1.0.0
    */
   @SerialName("in_reply_to_account_id")
   val inReplyToAccountId: String? = null,
   /**
-   * null or the reblogged [Status]
+   * Description: The status being reblogged.
+   * Type: Status
+   * Version history: Added in 0.1.0
    */
   val reblog: Status? = null,
   /**
-   * Body of the status; this will contain HTML (remote HTML already sanitized)
+   * Description: The poll attached to the status.
+   * Type: Poll
+   * Version history: Added in 2.8.0
    */
-  val content: String,
+  val poll: Poll? = null,
   /**
-   * The time the status was created
+   * Description: Preview card for links included within status content.
+   * Type: Card
+   * Version history: Added in 2.6.0
    */
-  @SerialName("created_at") val createdAt: String,
+  val card: Card? = null,
   /**
-   * The number of reblogs for the status
+   * Description: Primary language of this status.
+   * Type: String (ISO 639 Part 1 two-letter language code)
+   * Version history: Added in 1.4.0
    */
-  @SerialName("reblogs_count") val reblogsCount: Double,
+  val language: String? = null,
   /**
-   * The number of favourites for the status
+   * Description: Plain-text source of a status.
+   * Returned instead of content when status is deleted,
+   * so the user may redraft from the source text without the client having to reverse-engineer the original text from the HTML content.
+   * Type: String
+   * Version history: Added in 2.9.0
    */
-  @SerialName("favourites_count") val favouritesCount: Double,
+  val text: String? = null,
   /**
-   * Whether the authenticated user has reblogged the status
+   * Description: Have you favourited this status?
+   * Type: Boolean
+   * Version history: Added in 0.1.0
    */
-  val reblogged: Boolean,
+  val favourited: Boolean? = null,
   /**
-   * Whether the authenticated user has favourited the status
+   * Description: Have you boosted this status?
+   * Type: Boolean
+   * Version history: Added in 0.1.0
    */
-  val favourited: Boolean,
+  val reblogged: Boolean? = null,
   /**
-   * Whether media attachments should be hidden by default
+   * Description: Have you muted notifications for this status's conversation?
+   * Type: Boolean
+   * Version history: Added in 1.4.0
    */
-  val sensitive: Boolean,
+  val muted: Boolean? = null,
   /**
-   * If not empty, warning text that should be displayed before the actual content
+   * Description: Have you bookmarked this status?
+   * Type: Boolean
+   * Version history: Added in 3.1.0
    */
-  @SerialName("spoiler_text") val spoilerText: String,
+  val bookmarked: Boolean? = null,
   /**
-   * One of: public, unlisted, private, direct
+   * Description: Have you pinned this status? Only appears if the status is pinnable.
+   * Type: Boolean
+   * Version history: Added in 1.6.0
    */
-  val visibility: Visibility,
-  /**
-   * An array of [Attachments]s
-   */
-  @SerialName("media_attachments") val mediaAttachments: List<Attachment>,
-  /**
-   * An array of [Mentions]
-   */
-  val mentions: List<Mention>,
-  /**
-   * An array of [Tag]s
-   */
-  val tags: List<Tag>,
-  /**
-   * [Application] from which the status was posted
-   */
-  val application: Application
+  val pinned: Boolean? = null
 ) {
   @Serializable
   enum class Visibility(

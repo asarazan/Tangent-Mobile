@@ -14,30 +14,28 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.jsonObject
 
-import social.tangent.mobile.api.entities.History
-
 /**
- * Represents a hashtag used within the content of a status.
- * @see https://docs.joinmastodon.org/entities/tag/
+ * Represents a profile field as a name-value pair with optional verification.
+ * @see https://docs.joinmastodon.org/entities/field/
  */
 @Serializable
-data class Tag(
+data class Field(
   /**
-   * Description: The value of the hashtag after the # sign.
+   * Description: The key of a given field's key-value pair.
    * Type: String
-   * Version history: Added in 0.9.0
+   * Version history: Added in 2.4.0
    */
   val name: String,
   /**
-   * Description: A link to the hashtag on the instance.
-   * Type: String (URL)
-   * Version history: Added in 0.9.0
+   * Description: The value associated with the name key.
+   * Type: String (HTML)
+   * Version history: Added in 2.4.0
    */
-  val url: String,
+  val value: String,
   /**
-   * Description: Usage statistics for given days.
-   * Type: Array of History
-   * Version history: Added in 2.4.1
+   * Description: Timestamp of when the server verified a URL value for a rel="me” link.
+   * Type: String (ISO 8601 Datetime) if value is a verified URL. Otherwise, null
+   * Version history: Added in 2.6.0
    */
-  val history: List<History>? = null
+  @SerialName("verified_at") val verifiedAt: String? = null
 )

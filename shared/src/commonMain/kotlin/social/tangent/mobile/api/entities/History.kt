@@ -14,30 +14,28 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.jsonObject
 
-import social.tangent.mobile.api.entities.History
-
 /**
- * Represents a hashtag used within the content of a status.
- * @see https://docs.joinmastodon.org/entities/tag/
+ * Represents daily usage history of a hashtag.
+ * @see https://docs.joinmastodon.org/entities/history/
  */
 @Serializable
-data class Tag(
+data class History(
   /**
-   * Description: The value of the hashtag after the # sign.
-   * Type: String
-   * Version history: Added in 0.9.0
-   */
-  val name: String,
-  /**
-   * Description: A link to the hashtag on the instance.
-   * Type: String (URL)
-   * Version history: Added in 0.9.0
-   */
-  val url: String,
-  /**
-   * Description: Usage statistics for given days.
-   * Type: Array of History
+   * Description: UNIX timestamp on midnight of the given day.
+   * Type: String (UNIX timestamp)
    * Version history: Added in 2.4.1
    */
-  val history: List<History>? = null
+  val day: String,
+  /**
+   * Description: the counted usage of the tag within that day.
+   * Type: String (cast from an integer)
+   * Version history: Added in 2.4.1
+   */
+  val uses: String,
+  /**
+   * Description: the total of accounts using the tag within that day.
+   * Type: String (cast from an integer)
+   * Version history: Added in 2.4.1
+   */
+  val accounts: String
 )
