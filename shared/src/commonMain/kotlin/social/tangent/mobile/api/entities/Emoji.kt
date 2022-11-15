@@ -14,10 +14,40 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.jsonObject
 
+/**
+ * Represents a custom emoji.
+ * @see https://docs.joinmastodon.org/entities/emoji/
+ */
 @Serializable
 data class Emoji(
+  /**
+   * Description: The name of the custom emoji.
+   * Type: String
+   * Version history: Added in 2.0.0
+   */
   val shortcode: String,
-  @SerialName("static_url") val staticUrl: String,
+  /**
+   * Description: A link to the custom emoji.
+   * Type: String (URL)
+   * Version history: Added in 2.0.0
+   */
   val url: String,
-  @SerialName("visible_in_picker") val visibleInPicker: Boolean
+  /**
+   * Description: A link to a static copy of the custom emoji.
+   * Type: String (URL)
+   * Version history: Added in 2.0.0
+   */
+  @SerialName("static_url") val staticUrl: String,
+  /**
+   * Description: Whether this Emoji should be visible in the picker or unlisted.
+   * Type: Boolean
+   * Version history: Added in 2.0.0
+   */
+  @SerialName("visible_in_picker") val visibleInPicker: Boolean,
+  /**
+   * Description: Used for sorting custom emoji in the picker.
+   * Type: String
+   * Version history: Added in 3.0.0
+   */
+  val category: String? = null
 )

@@ -24,28 +24,43 @@ import social.tangent.mobile.api.entities.Field
 @Serializable
 data class Source(
   /**
-   * Profile bio.
+   * Description: Profile bio.
+   * Type: String
+   * Version history: Added in 1.5.0
    */
   val note: String,
   /**
-   * Metadata about the account.
+   * Description: Metadata about the account.
+   * Type: Array of Field
+   * Version history: Added in 2.4.0
    */
   val fields: List<Field>,
   /**
-   * The default post privacy to be used for new statuses.
+   * Description: The default post privacy to be used for new statuses.
+   * Type: String (Enumerable, oneOf)
+   * public = Public post
+   * unlisted = Unlisted post
+   * private = Followers-only post
+   * direct = Direct post
+   * Version history: Added in 1.5.0
    */
   val privacy: Privacy? = null,
   /**
-   * Whether new statuses should be marked sensitive by default.
+   * Description: Whether new statuses should be marked sensitive by default.
+   * Type: Boolean
+   * Version history: Added in 1.5.0
    */
   val sensitive: Boolean? = null,
   /**
-   * The default posting language for new statuses.
+   * Description: The default posting language for new statuses.
    * Type: String (ISO 639-1 language two-letter code)
+   * Version history: Added in 2.4.2
    */
   val language: String? = null,
   /**
-   * The number of pending follow requests.
+   * Description: The number of pending follow requests.
+   * Type: Number
+   * Version history: Added in 3.0.0.
    * @precision int
    */
   @SerialName("follow_requests_count")

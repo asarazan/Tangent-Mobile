@@ -26,119 +26,182 @@ import social.tangent.mobile.api.entities.Account
 @Serializable
 data class Account(
   /**
-   * The account id header.
+   * Description: The account idheader.
    * Type: String (cast from an integer, but not guaranteed to be a number)
+   * Version history:
+   * 0.1.0 - added
    */
   val id: String,
   /**
-   * The username of the account, not including domain.
+   * Description: The username of the account, not including domain.
+   * Type: String
+   * Version history:
+   * 0.1.0 - added
    */
   val username: String,
   /**
-   * The Webfinger account URI.
+   * Description: The Webfinger account URI.
    * Equal to username for local users, or username@domain for remote users.
+   * Type: String
+   * Version history:
+   * 0.1.0 - added
    */
   val acct: String,
   /**
-   * The location of the user's profile page.
+   * Description: The location of the user's profile page.
+   * Type: String (HTTPS URL)
+   * Version history:
+   * 0.1.0 - added
    */
   val url: String,
   /**
-   * The profile's display name.
+   * Description: The profile's display name.
+   * Type: String
+   * Version history:
+   * 0.1.0 - added
    */
   @SerialName("display_name") val displayName: String,
   /**
-   * The profile's bio / description.
+   * Description: The profile's bio / description.
    * Type: String (HTML)
+   * Version history:
+   * 0.1.0 - added
    */
   val note: String,
   /**
-   * An image icon that is shown next to statuses and in the profile.
-   * Type: string (URL)
+   * Description: An image icon that is shown next to statuses and in the profile.
+   * Type: String (URL)
+   * Version history:
+   * 0.1.0 - added
    */
   val avatar: String,
   /**
-   * A static version of the avatar.
+   * Description: A static version of the avatar.
    * Equal to avatar if its value is a static image; different if avatar is an animated GIF.
-   * Type: string (URL)
+   * Type: String (URL)
+   * Version history:
+   * 1.1.2 - added
    */
   @SerialName("avatar_static") val avatarStatic: String,
   /**
-   * An image banner that is shown above the profile and in profile cards.
-   * Type: string (URL)
+   * Description: An image banner that is shown above the profile and in profile cards.
+   * Type: String (URL)
+   * Version history:
+   * 0.1.0 - added
    */
   val header: String,
   /**
-   * A static version of the header.
+   * Description: A static version of the header.
    * Equal to header if its value is a static image; different if header is an animated GIF.
-   * Type: string (URL)
+   * Type: String (URL)
+   * Version history:
+   * 1.1.2 - added
    */
   @SerialName("header_static") val headerStatic: String,
   /**
-   * Whether the account manually approves follow requests.
+   * Description: Whether the account manually approves follow requests.
+   * Type: Boolean
+   * Version history:
+   * 0.1.0 - added
    */
   val locked: Boolean,
   /**
-   * Custom emoji entities to be used when rendering the profile.
-   * If none, an empty array will be returned.
+   * Description: Custom emoji entities to be used when rendering the profile. If none, an empty array will be returned.
+   * Type: Array of Emoji
+   * Version history:
+   * 2.4.0 - added
    */
   val emojis: List<Emoji>,
   /**
-   * Whether the account has opted into discovery features such as the profile directory.
+   * Description: Whether the account has opted into discovery features such as the profile directory.
+   * Type: Boolean
+   * Version history:
+   * 3.1.0 - added
    */
   val discoverable: Boolean,
   /**
-   * When the account was created.
+   * Description: When the account was created.
    * Type: String (ISO 8601 Datetime)
+   * Version history:
+   * 0.1.0 - added
    */
   @SerialName("created_at") val createdAt: String,
   /**
-   * When the most recent status was posted.
+   * Description: When the most recent status was posted.
    * Type: String (ISO 8601 Datetime)
+   * Version history:
+   * 3.0.0 - added
+   * 3.1.0 - now returns date only, no time
    */
   @SerialName("last_status_at") val lastStatusAt: String,
   /**
-   * How many statuses are attached to this account.
+   * Description: How many statuses are attached to this account.
+   * Type: Number
+   * Version history:
+   * 0.1.0 - added
    * @precision int
    */
   @SerialName("statuses_count") val statusesCount: Int,
   /**
-   * The reported followers of this profile.
+   * Description: The reported followers of this profile.
+   * Type: Number
+   * Version history:
+   * 0.1.0 - added
    * @precision int
    */
   @SerialName("followers_count") val followersCount: Int,
   /**
-   * The reported follows of this profile.
+   * Description: The reported follows of this profile.
+   * Type: Number
+   * Version history:
+   * 0.1.0 - added
    * @precision int
    */
   @SerialName("following_count") val followingCount: Int,
   /**
-   * Indicates that the profile is currently inactive and that its user has moved to a new account.
+   * Description: Indicates that the profile is currently inactive and that its user has moved to a new account.
+   * Type: Account
+   * Version history:
+   * 2.1.0 - added
    */
   val moved: Account? = null,
   /**
-   * Additional metadata attached to a profile as name-value pairs.
+   * Description: Additional metadata attached to a profile as name-value pairs.
+   * Type: Array of Field
+   * Version history:
+   * 2.4.0 - added
    */
   val fields: List<Field>? = null,
   /**
-   * A presentational flag.
+   * Description: A presentational flag.
    * Indicates that the account may perform automated actions, may not be monitored, or identifies as a robot.
+   * Type: Boolean
+   * Version history:
+   * 2.4.0 - added
    */
   val bot: Boolean? = null,
   /**
-   * An extra entity to be used with API methods to verify credentials and update credentials.
+   * Description: An extra entity to be used with API methods to verify credentials and update credentials.
+   * Type: Source
+   * Version history:
+   * 2.4.0 - added
    * @link https://docs.joinmastodon.org/methods/accounts/#verify-account-credentials
    *    * 
    * @link https://docs.joinmastodon.org/methods/accounts/#update-account-credentials
    */
   val source: Source? = null,
   /**
-   * An extra entity returned when an account is suspended.
+   * Description: An extra entity returned when an account is suspended.
+   * Type: Boolean
+   * Version history:
+   * 3.3.0 - added
    */
   val suspended: Boolean? = null,
   /**
-   * When a timed mute will expire, if applicable.
+   * Description: When a timed mute will expire, if applicable.
    * Type: String (ISO 8601 Datetime)
+   * Version history:
+   * 3.3.0 - added
    */
   @SerialName("mute_expires_at") val muteExpiresAt: Boolean? = null
 )
