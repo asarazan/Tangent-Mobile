@@ -1,81 +1,157 @@
+import {Emoji} from "./Emoji";
+import {Field} from "./Field";
+import {Source} from "./Source";
+
+/**
+ * Represents a user of Mastodon and their associated profile.
+ * @see https://docs.joinmastodon.org/entities/account/
+ */
 export type Account = {
 
-  /**
-   * The ID of the account
-   * @precision long
-   */
-  id: number;
+  // Base Attributes
 
   /**
-   * The username of the account
+   * The account id header.
+   * Type: String (cast from an integer, but not guaranteed to be a number)
    */
-  username: string;
+  id:              string;
 
   /**
-   * Equals username for local users, includes @domain for remote ones
+   * The username of the account, not including domain.
    */
-  acct: string;
+  username:        string;
 
   /**
-   * The account's display name
+   * The Webfinger account URI.
+   * Equal to username for local users, or username@domain for remote users.
    */
-  display_name: string;
+  acct:            string;
 
   /**
-   * Boolean for when the account cannot be followed without waiting for approval first
+   * The location of the user's profile page.
    */
-  locked: boolean;
+  url:             string;
+
+  // Display Attributes
 
   /**
-   * The time the account was created
+   * The profile's display name.
    */
-  created_at: string;
+  display_name:    string;
 
   /**
-   The number of followers for the account
+   * The profile's bio / description.
+   * Type: String (HTML)
+   */
+  note:            string;
+
+  /**
+   * An image icon that is shown next to statuses and in the profile.
+   * Type: string (URL)
+   */
+  avatar:          string;
+
+  /**
+   * A static version of the avatar.
+   * Equal to avatar if its value is a static image; different if avatar is an animated GIF.
+   * Type: string (URL)
+   */
+  avatar_static:   string;
+
+  /**
+   * An image banner that is shown above the profile and in profile cards.
+   * Type: string (URL)
+   */
+  header:          string;
+
+  /**
+   * A static version of the header.
+   * Equal to header if its value is a static image; different if header is an animated GIF.
+   * Type: string (URL)
+   */
+  header_static:   string;
+
+  /**
+   * Whether the account manually approves follow requests.
+   */
+  locked:          boolean;
+
+  /**
+   * Custom emoji entities to be used when rendering the profile.
+   * If none, an empty array will be returned.
+   */
+  emojis:          Emoji[];
+
+  /**
+   * Whether the account has opted into discovery features such as the profile directory.
+   */
+  discoverable:    boolean;
+
+  // Statistical Attributes
+
+  /**
+   * When the account was created.
+   * Type: String (ISO 8601 Datetime)
+   */
+  created_at:      string;
+
+  /**
+   * When the most recent status was posted.
+   * Type: String (ISO 8601 Datetime)
+   */
+  last_status_at:  string;
+
+  /**
+   * How many statuses are attached to this account.
+   * @precision int
+   */
+  statuses_count:  number;
+
+  /**
+   * The reported followers of this profile.
    * @precision int
    */
   followers_count: number;
 
   /**
-   * The number of accounts the given account is following
+   * The reported follows of this profile.
    * @precision int
    */
   following_count: number;
 
-  /**
-   * The number of statuses the account has made
-   * @precision int
-   */
-  statuses_count: number;
+  // Optional Attributes
 
   /**
-   * Biography of user
+   * Indicates that the profile is currently inactive and that its user has moved to a new account.
    */
-  note: string;
+  moved?:          Account;
 
   /**
-   * URL of the user's profile page (can be remote)
+   * Additional metadata attached to a profile as name-value pairs.
    */
-  url: string;
+  fields?:         Field[];
 
   /**
-   * URL to the avatar image
+   * A presentational flag.
+   * Indicates that the account may perform automated actions, may not be monitored, or identifies as a robot.
    */
-  avatar: string;
+  bot?:            boolean;
 
   /**
-   * URL to the avatar static image (gif)
+   * An extra entity to be used with API methods to verify credentials and update credentials.
+   * @link https://docs.joinmastodon.org/methods/accounts/#verify-account-credentials
+   * @link https://docs.joinmastodon.org/methods/accounts/#update-account-credentials
    */
-  avatar_static: string;
+  source?:         Source;
 
   /**
-   * URL to the header image
+   * An extra entity returned when an account is suspended.
    */
-  header: string;
+  suspended?:      boolean;
 
   /**
-   * URL to the header static image (gif)
+   * When a timed mute will expire, if applicable.
+   * Type: String (ISO 8601 Datetime)
    */
-  header_static: string;
+  mute_expires_at?: boolean;
 }
