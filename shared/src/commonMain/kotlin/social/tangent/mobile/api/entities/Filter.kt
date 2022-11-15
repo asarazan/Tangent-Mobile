@@ -51,7 +51,8 @@ data class Filter(
    * Type: String (ISO 8601 Datetime), or null if the filter does not expire
    * Version history: Added in 2.4.3
    */
-  @SerialName("expires_at") val expiresAt: String,
+  @SerialName("expires_at")
+  val expiresAt: String,
 
   /**
    * Description: Should matching entities in home and notifications be dropped by the server?
@@ -70,7 +71,8 @@ data class Filter(
    * If the phrase starts with a word character, and if the previous character before matched range is a word character, its matched range should be treated to not match.
    * If the phrase ends with a word character, and if the next character after matched range is a word character, its matched range should be treated to not match.
    */
-  @SerialName("whole_word") val wholeWord: Boolean
+  @SerialName("whole_word")
+  val wholeWord: Boolean
 ) {
 
   @Serializable

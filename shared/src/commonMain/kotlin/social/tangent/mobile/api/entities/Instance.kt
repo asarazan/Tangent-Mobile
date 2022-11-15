@@ -49,7 +49,8 @@ data class Instance(
    * Type: String
    * Version history: Added in 2.9.2
    */
-  @SerialName("short_description") val shortDescription: String,
+  @SerialName("short_description")
+  val shortDescription: String,
 
   /**
    * Description: An email that may be contacted for any inquiries.
@@ -84,14 +85,16 @@ data class Instance(
    * Type: Boolean
    * Version history: Added in 2.9.2
    */
-  @SerialName("approval_required") val approvalRequired: Boolean,
+  @SerialName("approval_required")
+  val approvalRequired: Boolean,
 
   /**
    * Description: Whether invites are enabled.
    * Type: Boolean
    * Version history: Added in 3.1.4
    */
-  @SerialName("invites_enabled") val invitesEnabled: Boolean,
+  @SerialName("invites_enabled")
+  val invitesEnabled: Boolean,
 
   /**
    * Description: URLs of interest for clients apps.
@@ -122,13 +125,15 @@ data class Instance(
    * Type: Account or null
    * Version history: Added in 2.3.0
    */
-  @SerialName("contact_account") val contactAccount: Account? = null
+  @SerialName("contact_account")
+  val contactAccount: Account? = null
 ) {
 
   @Serializable
   data class Urls(
 
-    @SerialName("streaming_api") val streamingApi: String
+    @SerialName("streaming_api")
+    val streamingApi: String
   )
 
 
@@ -140,18 +145,21 @@ data class Instance(
      * Users registered on this instance. Number.
      * @precision long
      */
-    @SerialName("user_count") val userCount: Long,
+    @SerialName("user_count")
+    val userCount: Long,
 
     /**
      * Statuses authored by users on instance. Number.
      * @precision long
      */
-    @SerialName("status_count") val statusCount: Long,
+    @SerialName("status_count")
+    val statusCount: Long,
 
     /**
      * Domains federated with this instance. Number.
      * @precision long
      */
-    @SerialName("domain_count") val domainCount: Long
+    @SerialName("domain_count")
+    val domainCount: Long
   )
 }

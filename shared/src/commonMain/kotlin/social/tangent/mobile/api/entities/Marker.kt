@@ -49,14 +49,16 @@ data class MarkerEntry(
    * Type: String (cast from integer but not guaranteed to be a number)
    * Version history: Added in 3.0.0
    */
-  @SerialName("last_read_id") val lastReadId: String,
+  @SerialName("last_read_id")
+  val lastReadId: String,
 
   /**
    * Description: The timestamp of when the marker was set.
    * Type: String (ISO 8601 Datetime)
    * Version history: Added in 3.0.0
    */
-  @SerialName("updated_at") val updatedAt: String,
+  @SerialName("updated_at")
+  val updatedAt: String,
 
   /**
    * Description: Used for locking to prevent write conflicts.

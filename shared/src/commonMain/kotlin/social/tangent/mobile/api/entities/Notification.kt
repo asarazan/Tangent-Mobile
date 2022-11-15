@@ -57,7 +57,8 @@ data class Notification(
    * Version history:
    * 0.9.9 - added
    */
-  @SerialName("created_at") val createdAt: String,
+  @SerialName("created_at")
+  val createdAt: String,
 
   /**
    * Description: The account that performed the action that generated the notification.

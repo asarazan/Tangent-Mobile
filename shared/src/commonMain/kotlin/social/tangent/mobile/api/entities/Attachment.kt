@@ -52,14 +52,16 @@ data class Attachment(
    * Type: String (URL)
    * Version history: Added in 0.6.0.
    */
-  @SerialName("preview_url") val previewUrl: String,
+  @SerialName("preview_url")
+  val previewUrl: String,
 
   /**
    * Description: The location of the full-size original attachment on the remote website.
    * Type: String (URL), or null if the attachment is local
    * Version history: Added in 0.6.0.
    */
-  @SerialName("remote_url") val remoteUrl: String? = null,
+  @SerialName("remote_url")
+  val remoteUrl: String? = null,
 
   /**
    * Description: Metadata returned by Paperclip.
@@ -92,7 +94,8 @@ data class Attachment(
    * Type: String (URL)
    * Version history: Added in 0.6.0 and deprecated in 3.5.0.
    */
-  @SerialName("text_url") val textUrl: String? = null
+  @SerialName("text_url")
+  val textUrl: String? = null
 ) {
 
   @Serializable

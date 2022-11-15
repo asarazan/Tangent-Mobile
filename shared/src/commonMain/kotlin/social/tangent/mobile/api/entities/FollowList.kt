@@ -46,7 +46,8 @@ data class FollowList(
    * Version history:
    * 3.3.0 - added
    */
-  @SerialName("replies_policy") val repliesPolicy: RepliesPolicy
+  @SerialName("replies_policy")
+  val repliesPolicy: RepliesPolicy
 ) {
 
   @Serializable

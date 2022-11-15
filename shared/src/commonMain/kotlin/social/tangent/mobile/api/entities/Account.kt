@@ -65,7 +65,8 @@ data class Account(
    * Version history:
    * 0.1.0 - added
    */
-  @SerialName("display_name") val displayName: String,
+  @SerialName("display_name")
+  val displayName: String,
 
   /**
    * Description: The profile's bio / description.
@@ -90,7 +91,8 @@ data class Account(
    * Version history:
    * 1.1.2 - added
    */
-  @SerialName("avatar_static") val avatarStatic: String,
+  @SerialName("avatar_static")
+  val avatarStatic: String,
 
   /**
    * Description: An image banner that is shown above the profile and in profile cards.
@@ -107,7 +109,8 @@ data class Account(
    * Version history:
    * 1.1.2 - added
    */
-  @SerialName("header_static") val headerStatic: String,
+  @SerialName("header_static")
+  val headerStatic: String,
 
   /**
    * Description: Whether the account manually approves follow requests.
@@ -139,7 +142,8 @@ data class Account(
    * Version history:
    * 0.1.0 - added
    */
-  @SerialName("created_at") val createdAt: String,
+  @SerialName("created_at")
+  val createdAt: String,
 
   /**
    * Description: When the most recent status was posted.
@@ -148,7 +152,8 @@ data class Account(
    * 3.0.0 - added
    * 3.1.0 - now returns date only, no time
    */
-  @SerialName("last_status_at") val lastStatusAt: String,
+  @SerialName("last_status_at")
+  val lastStatusAt: String,
 
   /**
    * Description: How many statuses are attached to this account.
@@ -157,7 +162,8 @@ data class Account(
    * 0.1.0 - added
    * @precision long
    */
-  @SerialName("statuses_count") val statusesCount: Long,
+  @SerialName("statuses_count")
+  val statusesCount: Long,
 
   /**
    * Description: The reported followers of this profile.
@@ -166,7 +172,8 @@ data class Account(
    * 0.1.0 - added
    * @precision long
    */
-  @SerialName("followers_count") val followersCount: Long,
+  @SerialName("followers_count")
+  val followersCount: Long,
 
   /**
    * Description: The reported follows of this profile.
@@ -175,7 +182,8 @@ data class Account(
    * 0.1.0 - added
    * @precision long
    */
-  @SerialName("following_count") val followingCount: Long,
+  @SerialName("following_count")
+  val followingCount: Long,
 
   /**
    * Description: Indicates that the profile is currently inactive and that its user has moved to a new account.
@@ -227,5 +235,6 @@ data class Account(
    * Version history:
    * 3.3.0 - added
    */
-  @SerialName("mute_expires_at") val muteExpiresAt: Boolean? = null
+  @SerialName("mute_expires_at")
+  val muteExpiresAt: Boolean? = null
 )

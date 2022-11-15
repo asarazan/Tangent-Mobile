@@ -48,12 +48,14 @@ data class FeaturedTag(
    * Version history: Added in 3.0.0
    * @precision long
    */
-  @SerialName("statuses_count") val statusesCount: Long,
+  @SerialName("statuses_count")
+  val statusesCount: Long,
 
   /**
    * Description: The timestamp of the last authored status containing this hashtag.
    * Type: String (ISO 8601 Datetime)
    * Version history: Added in 3.0.0
    */
-  @SerialName("last_status_at") val lastStatusAt: String
+  @SerialName("last_status_at")
+  val lastStatusAt: String
 )

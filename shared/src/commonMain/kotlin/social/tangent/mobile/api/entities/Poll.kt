@@ -35,7 +35,8 @@ data class Poll(
    * Type: String (ISO 8601 Datetime), or null if the poll does not end
    * Version history: Added in 2.8.0
    */
-  @SerialName("expires_at") val expiresAt: String,
+  @SerialName("expires_at")
+  val expiresAt: String,
 
   /**
    * Description: Is the poll currently expired?
@@ -57,14 +58,16 @@ data class Poll(
    * Version history: Added in 2.8.0
    * @precision long
    */
-  @SerialName("votes_count") val votesCount: Long,
+  @SerialName("votes_count")
+  val votesCount: Long,
 
   /**
    * Description: How many unique accounts have voted on a multiple-choice poll.
    * Type: Number, or null if multiple is false.
    * Version history: Added in 2.8.0
    */
-  @SerialName("voters_count") val votersCount: Double? = null,
+  @SerialName("voters_count")
+  val votersCount: Double? = null,
 
   /**
    * Description: When called with a user token, has the authorized user voted?
@@ -80,7 +83,8 @@ data class Poll(
    * Version history: Added in 2.8.0
    * @precision long
    */
-  @SerialName("own_votes") val ownVotes: List<Long>? = null,
+  @SerialName("own_votes")
+  val ownVotes: List<Long>? = null,
 
   /**
    * Description: Possible answers for the poll.
@@ -109,6 +113,7 @@ data class Poll(
      * The number of received votes for this option.
      * Number, or null if results are not published yet.
      */
-    @SerialName("votes_count") val votesCount: Double? = null
+    @SerialName("votes_count")
+    val votesCount: Double? = null
   )
 }

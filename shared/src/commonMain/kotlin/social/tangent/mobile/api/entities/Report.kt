@@ -29,5 +29,6 @@ data class Report(
   /**
    * The action taken in response to the report
    */
-  @SerialName("action_taken") val actionTaken: String
+  @SerialName("action_taken")
+  val actionTaken: String
 )

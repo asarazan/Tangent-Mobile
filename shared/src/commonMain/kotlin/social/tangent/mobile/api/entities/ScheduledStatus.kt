@@ -33,5 +33,6 @@ data class ScheduledStatus(
    * Type: String (ISO 8601 Datetime)
    * Version history: Added in 2.7.0
    */
-  @SerialName("scheduled_at") val scheduledAt: String
+  @SerialName("scheduled_at")
+  val scheduledAt: String
 )

@@ -53,7 +53,8 @@ data class Announcement(
    * Version history:
    * 3.1.0 - added
    */
-  @SerialName("all_day") val allDay: Boolean,
+  @SerialName("all_day")
+  val allDay: Boolean,
 
   /**
    * Description: When the announcement was created.
@@ -61,7 +62,8 @@ data class Announcement(
    * Version history:
    * 3.1.0 - added
    */
-  @SerialName("created_at") val createdAt: String,
+  @SerialName("created_at")
+  val createdAt: String,
 
   /**
    * Description: When the announcement was last updated.
@@ -69,7 +71,8 @@ data class Announcement(
    * Version history:
    * 3.1.0 - added
    */
-  @SerialName("updated_at") val updatedAt: String,
+  @SerialName("updated_at")
+  val updatedAt: String,
 
   /**
    * Description: Whether the announcement has been read by the user.
@@ -93,7 +96,8 @@ data class Announcement(
    * Version history:
    * 3.1.0 - added
    */
-  @SerialName("scheduled_at") val scheduledAt: String,
+  @SerialName("scheduled_at")
+  val scheduledAt: String,
 
   /**
    * Description: When the future announcement will start.
@@ -101,7 +105,8 @@ data class Announcement(
    * Version history:
    * 3.1.0 - added
    */
-  @SerialName("starts_at") val startsAt: String,
+  @SerialName("starts_at")
+  val startsAt: String,
 
   /**
    * Description: When the future announcement will end.
@@ -109,5 +114,6 @@ data class Announcement(
    * Version history:
    * 3.1.0 - added
    */
-  @SerialName("ends_at") val endsAt: String
+  @SerialName("ends_at")
+  val endsAt: String
 )

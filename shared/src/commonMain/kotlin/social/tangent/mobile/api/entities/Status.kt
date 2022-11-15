@@ -50,7 +50,8 @@ data class Status(
    * Type: String (ISO 8601 Datetime)
    * Version history: Added in 0.1.0
    */
-  @SerialName("created_at") val createdAt: String,
+  @SerialName("created_at")
+  val createdAt: String,
 
   /**
    * Description: The account that authored this status.
@@ -90,14 +91,16 @@ data class Status(
    * Type: String
    * Version history: Added in 1.0.0
    */
-  @SerialName("spoiler_text") val spoilerText: String,
+  @SerialName("spoiler_text")
+  val spoilerText: String,
 
   /**
    * Description: Media that is attached to this status.
    * Type: Array of Attachment
    * Version history: Added in 0.6.0
    */
-  @SerialName("media_attachments") val mediaAttachments: List<Attachment>,
+  @SerialName("media_attachments")
+  val mediaAttachments: List<Attachment>,
 
   /**
    * Description: The application used to post this status.
@@ -133,7 +136,8 @@ data class Status(
    * Version history: Added in 0.1.0
    * @precision long
    */
-  @SerialName("reblogs_count") val reblogsCount: Long,
+  @SerialName("reblogs_count")
+  val reblogsCount: Long,
 
   /**
    * Description: How many favourites this status has received.
@@ -141,7 +145,8 @@ data class Status(
    * Version history: Added in 0.1.0
    * @precision long
    */
-  @SerialName("favourites_count") val favouritesCount: Long,
+  @SerialName("favourites_count")
+  val favouritesCount: Long,
 
   /**
    * Description: How many replies this status has received.
@@ -149,7 +154,8 @@ data class Status(
    * Version history: Added in 2.5.0
    * @precision long
    */
-  @SerialName("replies_count") val repliesCount: Long,
+  @SerialName("replies_count")
+  val repliesCount: Long,
 
   /**
    * Description: A link to the status's HTML representation.
@@ -163,7 +169,8 @@ data class Status(
    * Type: String (cast from an integer but not guaranteed to be a number)
    * Version history: Added in 0.1.0
    */
-  @SerialName("in_reply_to_id") val inReplyToId: String? = null,
+  @SerialName("in_reply_to_id")
+  val inReplyToId: String? = null,
 
   /**
    * Description: ID of the account being replied to.

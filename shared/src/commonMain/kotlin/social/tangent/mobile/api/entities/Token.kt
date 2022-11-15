@@ -26,14 +26,16 @@ data class Token(
    * Type: String
    * Version history: Added in 0.1.0
    */
-  @SerialName("access_token") val accessToken: String,
+  @SerialName("access_token")
+  val accessToken: String,
 
   /**
    * Description: The OAuth token type. Mastodon uses Bearer tokens.
    * Type: String
    * Version history: Added in 0.1.0
    */
-  @SerialName("token_type") val tokenType: String,
+  @SerialName("token_type")
+  val tokenType: String,
 
   /**
    * Description: The OAuth scopes granted by this token, space-separated.
@@ -48,5 +50,6 @@ data class Token(
    * Version history: Added in 0.1.0
    * @precision long
    */
-  @SerialName("created_at") val createdAt: Long
+  @SerialName("created_at")
+  val createdAt: Long
 )

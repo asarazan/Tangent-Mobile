@@ -61,5 +61,6 @@ data class AnnouncementReaction(
    * Version history:
    * 3.1.0 - added
    */
-  @SerialName("static_url") val staticUrl: String
+  @SerialName("static_url")
+  val staticUrl: String
 )

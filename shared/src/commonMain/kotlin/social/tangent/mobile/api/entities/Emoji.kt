@@ -40,14 +40,16 @@ data class Emoji(
    * Type: String (URL)
    * Version history: Added in 2.0.0
    */
-  @SerialName("static_url") val staticUrl: String,
+  @SerialName("static_url")
+  val staticUrl: String,
 
   /**
    * Description: Whether this Emoji should be visible in the picker or unlisted.
    * Type: Boolean
    * Version history: Added in 2.0.0
    */
-  @SerialName("visible_in_picker") val visibleInPicker: Boolean,
+  @SerialName("visible_in_picker")
+  val visibleInPicker: Boolean,
 
   /**
    * Description: Used for sorting custom emoji in the picker.

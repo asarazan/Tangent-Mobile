@@ -40,5 +40,6 @@ data class Field(
    * Type: String (ISO 8601 Datetime) if value is a verified URL. Otherwise, null
    * Version history: Added in 2.6.0
    */
-  @SerialName("verified_at") val verifiedAt: String? = null
+  @SerialName("verified_at")
+  val verifiedAt: String? = null
 )

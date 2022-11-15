@@ -50,5 +50,6 @@ data class Conversation(
    * Type: Status
    * Version history: Added in 2.6.0
    */
-  @SerialName("last_status") val lastStatus: Status? = null
+  @SerialName("last_status")
+  val lastStatus: Status? = null
 )

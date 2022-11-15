@@ -42,19 +42,22 @@ data class Application(
    * Type: String
    * Version history: Added in 2.8.0
    */
-  @SerialName("vapid_key") val vapidKey: String? = null,
+  @SerialName("vapid_key")
+  val vapidKey: String? = null,
 
   /**
    * Description: Client ID key, to be used for obtaining OAuth tokens
    * Type: String
    * Version history: Added in 0.9.9
    */
-  @SerialName("client_id") val clientId: String? = null,
+  @SerialName("client_id")
+  val clientId: String? = null,
 
   /**
    * Description: Client secret key, to be used for obtaining OAuth tokens
    * Type: String
    * Version history: Added in 0.9.9
    */
-  @SerialName("client_secret") val clientSecret: String? = null
+  @SerialName("client_secret")
+  val clientSecret: String? = null
 )

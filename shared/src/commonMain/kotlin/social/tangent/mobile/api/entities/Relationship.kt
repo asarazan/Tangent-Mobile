@@ -59,7 +59,8 @@ data class Relationship(
    * Version history:
    * 0.6.0 - added
    */
-  @SerialName("followed_by") val followedBy: Boolean,
+  @SerialName("followed_by")
+  val followedBy: Boolean,
 
   /**
    * Description: Are you muting this user?
@@ -83,7 +84,8 @@ data class Relationship(
    * Version history:
    * 2.1.0 - added
    */
-  @SerialName("showing_reblogs") val showingReblogs: Boolean,
+  @SerialName("showing_reblogs")
+  val showingReblogs: Boolean,
 
   /**
    * Description: Have you enabled notifications for this user?
@@ -107,7 +109,8 @@ data class Relationship(
    * Version history:
    * 1.4.0 - added
    */
-  @SerialName("domain_blocking") val domainBlocking: Boolean,
+  @SerialName("domain_blocking")
+  val domainBlocking: Boolean,
 
   /**
    * Description: Is this user blocking you?
@@ -115,7 +118,8 @@ data class Relationship(
    * Version history:
    * 2.8.0 - added
    */
-  @SerialName("blocked_by") val blockedBy: Boolean,
+  @SerialName("blocked_by")
+  val blockedBy: Boolean,
 
   /**
    * Description: This user's profile bio

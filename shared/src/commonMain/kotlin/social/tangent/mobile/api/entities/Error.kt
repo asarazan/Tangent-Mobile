@@ -63,5 +63,6 @@ data class Error(
    * Type: String
    * Version history: Added in 0.6.0
    */
-  @SerialName("error_description") val errorDescription: String? = null
+  @SerialName("error_description")
+  val errorDescription: String? = null
 )
