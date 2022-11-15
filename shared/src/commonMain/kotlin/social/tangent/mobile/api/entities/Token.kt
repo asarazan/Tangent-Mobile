@@ -20,24 +20,28 @@ import kotlinx.serialization.json.jsonObject
  */
 @Serializable
 data class Token(
+
   /**
    * Description: An OAuth token to be used for authorization.
    * Type: String
    * Version history: Added in 0.1.0
    */
   @SerialName("access_token") val accessToken: String,
+
   /**
    * Description: The OAuth token type. Mastodon uses Bearer tokens.
    * Type: String
    * Version history: Added in 0.1.0
    */
   @SerialName("token_type") val tokenType: String,
+
   /**
    * Description: The OAuth scopes granted by this token, space-separated.
    * Type: String
    * Version history: Added in 0.1.0
    */
   val scope: String,
+
   /**
    * Description: When the token was generated.
    * Type: Number (UNIX Timestamp)

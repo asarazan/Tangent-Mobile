@@ -14,33 +14,24 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.jsonObject
 
-import social.tangent.mobile.api.entities.History
-
 /**
- * Represents a hashtag used within the content of a status.
- * @see https://docs.joinmastodon.org/entities/tag/
+ * Represents a status that will be published at a future scheduled date.
+ * @see https://docs.joinmastodon.org/entities/scheduledstatus/
  */
 @Serializable
-data class Tag(
+data class ScheduledStatus(
 
   /**
-   * Description: The value of the hashtag after the # sign.
-   * Type: String
-   * Version history: Added in 0.9.0
+   * Description: ID of the scheduled status in the database.
+   * Type: String (cast from an integer but not guaranteed to be a number)
+   * Version history: Added in 2.7.0
    */
-  val name: String,
+  val id: String,
 
   /**
-   * Description: A link to the hashtag on the instance.
-   * Type: String (URL)
-   * Version history: Added in 0.9.0
+   * Description: ID of the status in the database.
+   * Type: String (ISO 8601 Datetime)
+   * Version history: Added in 2.7.0
    */
-  val url: String,
-
-  /**
-   * Description: Usage statistics for given days.
-   * Type: Array of History
-   * Version history: Added in 2.4.1
-   */
-  val history: List<History>? = null
+  @SerialName("scheduled_at") val scheduledAt: String
 )

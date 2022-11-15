@@ -20,6 +20,7 @@ import kotlinx.serialization.json.jsonObject
  */
 @Serializable
 data class Card(
+
   /**
    * Description: Location of linked resource.
    * Type: String (URL)
@@ -27,6 +28,7 @@ data class Card(
    * 1.0.0 - added
    */
   val url: String,
+
   /**
    * Description: Title of linked resource.
    * Type: String
@@ -34,6 +36,7 @@ data class Card(
    * 1.0.0 - added
    */
   val title: String,
+
   /**
    * Description: Description of preview.
    * Type: String
@@ -41,6 +44,7 @@ data class Card(
    * 1.0.0 - added
    */
   val description: String,
+
   /**
    * Description: The type of the preview card.
    * Type: String (Enumerable, oneOf)
@@ -52,6 +56,7 @@ data class Card(
    * 1.3.0 - added
    */
   val type: Type,
+
   /**
    * Description: The author of the original resource.
    * Type: String
@@ -59,6 +64,7 @@ data class Card(
    * 1.3.0 - added
    */
   @SerialName("author_name") val authorName: String? = null,
+
   /**
    * Description: A link to the author of the original resource.
    * Type: String (URL)
@@ -66,6 +72,7 @@ data class Card(
    * 1.3.0 - added
    */
   @SerialName("author_url") val authorUrl: String? = null,
+
   /**
    * Description: The provider of the original resource.
    * Type: String
@@ -73,6 +80,7 @@ data class Card(
    * 1.3.0 - added
    */
   @SerialName("provider_name") val providerName: String? = null,
+
   /**
    * Description: A link to the provider of the original resource.
    * Type: String (URL)
@@ -80,6 +88,7 @@ data class Card(
    * 1.3.0 - added
    */
   @SerialName("provider_url") val providerUrl: String? = null,
+
   /**
    * Description: HTML to be used for generating the preview card.
    * Type: String (HTML)
@@ -87,6 +96,7 @@ data class Card(
    * 1.3.0 - added
    */
   val html: String? = null,
+
   /**
    * Description: Width of preview, in pixels.
    * Type: Number
@@ -95,6 +105,7 @@ data class Card(
    * @precision long
    */
   val width: Long? = null,
+
   /**
    * Description: Height of preview, in pixels.
    * Type: Number
@@ -103,6 +114,7 @@ data class Card(
    * @precision long
    */
   val height: Long? = null,
+
   /**
    * Description: Preview thumbnail.
    * Type: String (URL)
@@ -110,6 +122,7 @@ data class Card(
    * 1.0.0 - added
    */
   val image: String? = null,
+
   /**
    * Description: Used for photo embeds, instead of custom html.
    * Type: String (URL)
@@ -117,6 +130,7 @@ data class Card(
    * 2.1.0 - added
    */
   @SerialName("embed_url") val embedUrl: String? = null,
+
   /**
    * Description: A hash computed by the BlurHash algorithm, for generating colorful preview thumbnails when media has not been downloaded yet.
    * Type: String
@@ -125,8 +139,10 @@ data class Card(
    */
   val blurhash: String? = null
 ) {
+
   @Serializable
   enum class Type(
+
     val serialName: String
   ) {
     @SerialName("link") LINK("link"),

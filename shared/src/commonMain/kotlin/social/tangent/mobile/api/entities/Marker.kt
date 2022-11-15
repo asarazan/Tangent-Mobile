@@ -22,12 +22,14 @@ import social.tangent.mobile.api.entities.MarkerEntry
  */
 @Serializable
 data class Marker(
+
   /**
    * Description: Information about the user's position in the home timeline.
    * Type: Hash
    * Version history: Added in 3.0.0
    */
   val home: MarkerEntry,
+
   /**
    * Description: Information about the user's position in their notifications.
    * Type: Hash
@@ -41,18 +43,21 @@ data class Marker(
  */
 @Serializable
 data class MarkerEntry(
+
   /**
    * Description: The ID of the most recently viewed entity.
    * Type: String (cast from integer but not guaranteed to be a number)
    * Version history: Added in 3.0.0
    */
   @SerialName("last_read_id") val lastReadId: String,
+
   /**
    * Description: The timestamp of when the marker was set.
    * Type: String (ISO 8601 Datetime)
    * Version history: Added in 3.0.0
    */
   @SerialName("updated_at") val updatedAt: String,
+
   /**
    * Description: Used for locking to prevent write conflicts.
    * Type: Number

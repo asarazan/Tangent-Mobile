@@ -20,10 +20,12 @@ import kotlinx.serialization.json.jsonObject
  */
 @Serializable
 data class Report(
+
   /**
    * The ID of the report
    */
   val id: String,
+
   /**
    * The action taken in response to the report
    */

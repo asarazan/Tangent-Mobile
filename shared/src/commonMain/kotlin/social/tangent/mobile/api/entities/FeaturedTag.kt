@@ -20,24 +20,28 @@ import kotlinx.serialization.json.jsonObject
  */
 @Serializable
 data class FeaturedTag(
+
   /**
    * Description: The internal ID of the featured tag in the database.
    * Type: String (cast from integer but not guaranteed to be a number)
    * Version history: Added in 3.0.0
    */
   val id: String,
+
   /**
    * Description: The name of the hashtag being featured.
    * Type: String
    * Version history: Added in 3.0.0
    */
   val name: String,
+
   /**
    * Description: A link to all statuses by a user that contain this hashtag.
    * Type: String (URL)
    * Version history: Added in 3.3.0
    */
   val url: String,
+
   /**
    * Description: The number of authored statuses containing this hashtag.
    * Type: Number
@@ -45,6 +49,7 @@ data class FeaturedTag(
    * @precision long
    */
   @SerialName("statuses_count") val statusesCount: Long,
+
   /**
    * Description: The timestamp of the last authored status containing this hashtag.
    * Type: String (ISO 8601 Datetime)

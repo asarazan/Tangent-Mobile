@@ -20,18 +20,21 @@ import kotlinx.serialization.json.jsonObject
  */
 @Serializable
 data class History(
+
   /**
    * Description: UNIX timestamp on midnight of the given day.
    * Type: String (UNIX timestamp)
    * Version history: Added in 2.4.1
    */
   val day: String,
+
   /**
    * Description: the counted usage of the tag within that day.
    * Type: String (cast from an integer)
    * Version history: Added in 2.4.1
    */
   val uses: String,
+
   /**
    * Description: the total of accounts using the tag within that day.
    * Type: String (cast from an integer)

@@ -22,12 +22,14 @@ import social.tangent.mobile.api.entities.Status
  */
 @Serializable
 data class Context(
+
   /**
    * Description: Parents in the thread.
    * Type: Array of Status
    * Version history: Added in 0.6.0
    */
   val ancestors: List<Status>,
+
   /**
    * Description: Children in the thread.
    * Type: Array of Status

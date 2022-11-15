@@ -23,24 +23,28 @@ import social.tangent.mobile.api.entities.Status
  */
 @Serializable
 data class Conversation(
+
   /**
    * Description: Local database ID of the conversation.
    * Type: String (cast from an integer, but not guaranteed to be a number)
    * Version history: Added in 2.6.0
    */
   val id: String,
+
   /**
    * Description: Participants in the conversation.
    * Type: Array of Account
    * Version history: Added in 2.6.0
    */
   val accounts: List<Account>,
+
   /**
    * Description: Is the conversation currently marked as unread?
    * Type: Boolean
    * Version history: Added in 2.6.0
    */
   val unread: Boolean,
+
   /**
    * Description: The last status in the conversation, to be used for optional display.
    * Type: Status

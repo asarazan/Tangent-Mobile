@@ -22,6 +22,7 @@ import social.tangent.mobile.api.entities.AnnouncementReaction
  */
 @Serializable
 data class Announcement(
+
   /**
    * Description: The announcement id.
    * Type: String (cast from an integer, but not guaranteed to be a number)
@@ -29,6 +30,7 @@ data class Announcement(
    * 3.1.0 - added
    */
   val id: String,
+
   /**
    * Description: The content of the announcement.
    * Type: String
@@ -36,6 +38,7 @@ data class Announcement(
    * 3.1.0 - added
    */
   val text: String,
+
   /**
    * Description: Whether the announcement is currently active.
    * Type: Boolean
@@ -43,6 +46,7 @@ data class Announcement(
    * 3.1.0 - added
    */
   val published: Boolean,
+
   /**
    * Description: Whether the announcement has a start/end time.
    * Type: Boolean
@@ -50,6 +54,7 @@ data class Announcement(
    * 3.1.0 - added
    */
   @SerialName("all_day") val allDay: Boolean,
+
   /**
    * Description: When the announcement was created.
    * Type: String (ISO 8601 Datetime)
@@ -57,6 +62,7 @@ data class Announcement(
    * 3.1.0 - added
    */
   @SerialName("created_at") val createdAt: String,
+
   /**
    * Description: When the announcement was last updated.
    * Type: String (ISO 8601 Datetime)
@@ -64,6 +70,7 @@ data class Announcement(
    * 3.1.0 - added
    */
   @SerialName("updated_at") val updatedAt: String,
+
   /**
    * Description: Whether the announcement has been read by the user.
    * Type: Boolean
@@ -71,6 +78,7 @@ data class Announcement(
    * 3.1.0 - added
    */
   val read: Boolean,
+
   /**
    * Description: Emoji reactions attached to the announcement.
    * Type: Array of AnnouncementReaction
@@ -78,6 +86,7 @@ data class Announcement(
    * 3.1.0 - added
    */
   val reactions: List<AnnouncementReaction>,
+
   /**
    * Description: When the future announcement was scheduled.
    * Type: String (ISO 8601 Datetime)
@@ -85,6 +94,7 @@ data class Announcement(
    * 3.1.0 - added
    */
   @SerialName("scheduled_at") val scheduledAt: String,
+
   /**
    * Description: When the future announcement will start.
    * Type: String (ISO 8601 Datetime)
@@ -92,6 +102,7 @@ data class Announcement(
    * 3.1.0 - added
    */
   @SerialName("starts_at") val startsAt: String,
+
   /**
    * Description: When the future announcement will end.
    * Type: String (ISO 8601 Datetime)

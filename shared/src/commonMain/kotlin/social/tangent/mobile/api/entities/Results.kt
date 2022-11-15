@@ -24,18 +24,21 @@ import social.tangent.mobile.api.entities.Tag
  */
 @Serializable
 data class Results(
+
   /**
    * Description: Accounts which match the given query
    * Type: Array of Account
    * Version history: Added in x.x.x
    */
   val accounts: List<Account>,
+
   /**
    * Description: Statuses which match the given query
    * Type: Array of Status
    * Version history: Added in x.x.x
    */
   val statuses: List<Status>,
+
   /**
    * Description: Hashtags which match the given query
    * Type: Array of Tag (v2). Array of String (v1).

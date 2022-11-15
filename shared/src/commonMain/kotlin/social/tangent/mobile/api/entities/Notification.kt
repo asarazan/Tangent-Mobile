@@ -23,6 +23,7 @@ import social.tangent.mobile.api.entities.Status
  */
 @Serializable
 data class Notification(
+
   /**
    * Description: The id of the notification in the database.
    * Type: String (cast from an integer, but not guaranteed to be a number)
@@ -30,6 +31,7 @@ data class Notification(
    * 0.9.9 - added
    */
   val id: String,
+
   /**
    * Description: The type of event that resulted in the notification.
    * Type: String (Enumerable oneOf)
@@ -48,6 +50,7 @@ data class Notification(
    * 3.3.0 - added status
    */
   val type: Type,
+
   /**
    * Description: The timestamp of the notification.
    * Type: String (ISO 8601 Datetime)
@@ -55,6 +58,7 @@ data class Notification(
    * 0.9.9 - added
    */
   @SerialName("created_at") val createdAt: String,
+
   /**
    * Description: The account that performed the action that generated the notification.
    * Type: Account
@@ -62,6 +66,7 @@ data class Notification(
    * 0.9.9 - added
    */
   val account: Account,
+
   /**
    * Description: Status that was the object of the notification,
    * e.g. in mentions, reblogs, favourites, or polls.
@@ -71,8 +76,10 @@ data class Notification(
    */
   val status: Status
 ) {
+
   @Serializable
   enum class Type(
+
     val serialName: String
   ) {
     @SerialName("follow") FOLLOW("follow"),

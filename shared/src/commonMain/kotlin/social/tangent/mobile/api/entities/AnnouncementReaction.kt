@@ -20,6 +20,7 @@ import kotlinx.serialization.json.jsonObject
  */
 @Serializable
 data class AnnouncementReaction(
+
   /**
    * Description: The emoji used for the reaction.
    * Either a unicode emoji, or a custom emoji's shortcode.
@@ -28,6 +29,7 @@ data class AnnouncementReaction(
    * 3.1.0 - added
    */
   val name: String,
+
   /**
    * Description: The total number of users who have added this reaction.
    * Type: Number
@@ -36,6 +38,7 @@ data class AnnouncementReaction(
    * @precision long
    */
   val count: Long,
+
   /**
    * Description: Whether the authorized user has added this reaction to the announcement.
    * Type: Boolean
@@ -43,6 +46,7 @@ data class AnnouncementReaction(
    * 3.1.0 - added
    */
   val me: Boolean,
+
   /**
    * Description: A link to the custom emoji.
    * Type: String (URL)
@@ -50,6 +54,7 @@ data class AnnouncementReaction(
    * 3.1.0 - added
    */
   val url: String,
+
   /**
    * Description: A link to a non-animated version of the custom emoji.
    * Type: String (URL)

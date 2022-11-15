@@ -20,30 +20,35 @@ import kotlinx.serialization.json.jsonObject
  */
 @Serializable
 data class Emoji(
+
   /**
    * Description: The name of the custom emoji.
    * Type: String
    * Version history: Added in 2.0.0
    */
   val shortcode: String,
+
   /**
    * Description: A link to the custom emoji.
    * Type: String (URL)
    * Version history: Added in 2.0.0
    */
   val url: String,
+
   /**
    * Description: A link to a static copy of the custom emoji.
    * Type: String (URL)
    * Version history: Added in 2.0.0
    */
   @SerialName("static_url") val staticUrl: String,
+
   /**
    * Description: Whether this Emoji should be visible in the picker or unlisted.
    * Type: Boolean
    * Version history: Added in 2.0.0
    */
   @SerialName("visible_in_picker") val visibleInPicker: Boolean,
+
   /**
    * Description: Used for sorting custom emoji in the picker.
    * Type: String

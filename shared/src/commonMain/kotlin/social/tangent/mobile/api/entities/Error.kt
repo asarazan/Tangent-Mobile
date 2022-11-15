@@ -50,12 +50,14 @@ import kotlinx.serialization.json.jsonObject
  */
 @Serializable
 data class Error(
+
   /**
    * Description: The error message.
    * Type: String
    * Version history: Added in 0.6.0
    */
   val error: String,
+
   /**
    * Description: A longer description of the error, mainly provided with the OAuth API.
    * Type: String

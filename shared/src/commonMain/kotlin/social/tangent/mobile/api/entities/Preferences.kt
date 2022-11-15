@@ -20,6 +20,7 @@ import kotlinx.serialization.json.jsonObject
  */
 @Serializable
 data class Preferences(
+
   /**
    * Description: Default visibility for new posts. Equivalent to Source#privacy.
    * Type: String (Enumerable, oneOf)
@@ -31,6 +32,7 @@ data class Preferences(
    */
   @SerialName("posting:default:visibility")
   val postingDefaultVisibility: PostingDefaultVisibility,
+
   /**
    * Description: Default sensitivity flag for new posts. Equivalent to Source#sensitive.
    * Type: Boolean
@@ -38,6 +40,7 @@ data class Preferences(
    */
   @SerialName("posting:default:sensitive")
   val postingDefaultSensitive: Boolean,
+
   /**
    * Description: Default language for new posts. Equivalent to Source#language
    * Type: String (ISO 639-1 language two-letter code), or null
@@ -45,6 +48,7 @@ data class Preferences(
    */
   @SerialName("posting:default:language")
   val postingDefaultLanguage: String,
+
   /**
    * Description: Whether media attachments should be automatically displayed or blurred/hidden.
    * Type: String (Enumerable, oneOf)
@@ -55,6 +59,7 @@ data class Preferences(
    */
   @SerialName("reading:expand:media")
   val readingExpandMedia: ReadingExpandMedia,
+
   /**
    * Description: Whether CWs should be expanded by default.
    * Type: Boolean
@@ -63,8 +68,10 @@ data class Preferences(
   @SerialName("reading:expand:spoilers")
   val readingExpandSpoilers: Boolean
 ) {
+
   @Serializable
   enum class PostingDefaultVisibility(
+
     val serialName: String
   ) {
     @SerialName("public") PUBLIC("public"),
@@ -74,8 +81,10 @@ data class Preferences(
   }
 
 
+
   @Serializable
   enum class ReadingExpandMedia(
+
     val serialName: String
   ) {
     @SerialName("default") DEFAULT("default"),

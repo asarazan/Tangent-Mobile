@@ -20,6 +20,7 @@ import kotlinx.serialization.json.jsonObject
  */
 @Serializable
 data class FollowList(
+
   /**
    * Description: The internal database ID of the list.
    * Type: String (cast from an integer, but not guaranteed to be a number)
@@ -27,6 +28,7 @@ data class FollowList(
    * 2.1.0 - added
    */
   val id: String,
+
   /**
    * Description: The user-defined title of the list.
    * Type: String
@@ -34,6 +36,7 @@ data class FollowList(
    * 2.1.0 - added
    */
   val title: String,
+
   /**
    * Description: The user-defined title of the list.
    * Type: String (Enumerable oneOf)
@@ -45,8 +48,10 @@ data class FollowList(
    */
   @SerialName("replies_policy") val repliesPolicy: RepliesPolicy
 ) {
+
   @Serializable
   enum class RepliesPolicy(
+
     val serialName: String
   ) {
     @SerialName("followed") FOLLOWED("followed"),
