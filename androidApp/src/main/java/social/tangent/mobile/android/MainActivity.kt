@@ -16,6 +16,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import social.tangent.mobile.Greeting
 
 @Composable
@@ -70,6 +72,11 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+        GlobalScope.launch {
+            val foo = Greeting().foo()
+            println("Hmmm")
+        }
+
     }
 }
 

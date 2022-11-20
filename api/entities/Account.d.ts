@@ -117,7 +117,7 @@ export type Account = {
    * Version history:
    * 3.1.0 - added
    */
-  discoverable: boolean;
+  discoverable?: boolean;
 
   // Statistical Attributes
 
@@ -138,7 +138,7 @@ export type Account = {
    * 3.0.0 - added
    * 3.1.0 - now returns date only, no time
    *
-   * @DateTime
+   * @Date
    */
   last_status_at: string;
 

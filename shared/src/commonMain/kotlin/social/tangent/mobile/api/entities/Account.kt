@@ -5,7 +5,19 @@
 *****************************************************/
 package social.tangent.mobile.api.entities
 
-import kotlinx.serialization.*
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
+import kotlinx.serialization.json.JsonContentPolymorphicSerializer
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.jsonObject
 
 import social.tangent.mobile.api.entities.Emoji
 import social.tangent.mobile.api.entities.Field
@@ -127,7 +139,7 @@ data class Account(
    * Version history:
    * 3.1.0 - added
    */
-  val discoverable: Boolean,
+  val discoverable: Boolean? = null,
 
   /**
    * Description: When the account was created.
@@ -146,11 +158,11 @@ data class Account(
    * Version history:
    * 3.0.0 - added
    * 3.1.0 - now returns date only, no time
-   * @DateTime
+   * @Date
    */
   @SerialName("last_status_at")
-  @Serializable(with = kotlinx.datetime.serializers.InstantIso8601Serializer::class)
-  val lastStatusAt: kotlinx.datetime.Instant,
+  @Serializable(with = kotlinx.datetime.serializers.LocalDateIso8601Serializer::class)
+  val lastStatusAt: kotlinx.datetime.LocalDate,
 
   /**
    * Description: How many statuses are attached to this account.

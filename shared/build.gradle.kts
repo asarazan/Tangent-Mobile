@@ -1,8 +1,11 @@
+val ktorfitVersion = "1.0.0-beta16"
+
 plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
     kotlin("plugin.serialization") version "1.7.20"
     id("com.android.library")
+    id("com.google.devtools.ksp") version "1.7.20-1.0.7"
 }
 
 kotlin {
@@ -23,7 +26,7 @@ kotlin {
     }
     
     sourceSets {
-        val ktorVersion = "2.1.3"
+        val ktor_version = "2.1.3"
         val koin_version= "3.2.2"
         val koin_android_version= "3.3.0"
         val koin_android_compose_version= "3.3.0"
@@ -32,11 +35,16 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
-                implementation("io.ktor:ktor-client-core:$ktorVersion")
+                implementation("io.ktor:ktor-client-core:$ktor_version")
+                implementation("io.ktor:ktor-client-content-negotiation:$ktor_version")
+                implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
+                implementation("io.ktor:ktor-client-logging:$ktor_version")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
                 implementation("co.touchlab:kermit:1.1.3") //Add latest version
                 implementation("io.insert-koin:koin-core:$koin_version")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
+
+                implementation("de.jensklingenberg.ktorfit:ktorfit-lib:$ktorfitVersion")
             }
         }
         val commonTest by getting {
@@ -47,7 +55,7 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
+                implementation("io.ktor:ktor-client-okhttp:$ktor_version")
                 implementation("io.insert-koin:koin-android:$koin_android_version")
                 implementation("io.insert-koin:koin-android-compat:$koin_android_version")
                 implementation("io.insert-koin:koin-androidx-workmanager:$koin_android_version")
@@ -66,7 +74,7 @@ kotlin {
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
             dependencies {
-                implementation("io.ktor:ktor-client-darwin:$ktorVersion")
+                implementation("io.ktor:ktor-client-darwin:$ktor_version")
             }
         }
         val iosX64Test by getting
@@ -88,4 +96,11 @@ android {
         minSdk = 24
         targetSdk = 32
     }
+}
+
+dependencies {
+    add("kspCommonMainMetadata", "de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfitVersion")
+    add("kspAndroid", "de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfitVersion")
+    add("kspIosX64", "de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfitVersion")
+    add("kspIosSimulatorArm64", "de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfitVersion")
 }

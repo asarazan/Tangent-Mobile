@@ -88,7 +88,7 @@ export type Status = {
    * Type: Application
    * Version history: Added in 0.9.9
    */
-  application: Application;
+  application?: Application;
 
   // Rendering Attributes
 

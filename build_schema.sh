@@ -1,4 +1,4 @@
 #!/bin/sh
 
-rm -rf shared/src/commonMain/kotlin/social/tangent/mobile/api
-martok api -i -t -s -a -d standard -p social.tangent.mobile.api -o shared/src/commonMain/kotlin/social/tangent/mobile/api
+rm -rf shared/src/commonMain/kotlin/social/tangent/mobile/api/entities
+martok api/entities -t -s -a -p social.tangent.mobile.api.entities -o shared/src/commonMain/kotlin/social/tangent/mobile/api/entities
