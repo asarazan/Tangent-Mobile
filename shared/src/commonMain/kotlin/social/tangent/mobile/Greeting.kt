@@ -22,18 +22,20 @@ class Greeting {
                 install(Logging) {
                     logger = Logger.DEFAULT
                     level = LogLevel.ALL
-                    logger = object: Logger {
+                    logger = object : Logger {
                         override fun log(message: String) {
                             println(message)
                         }
                     }
                 }
                 install(ContentNegotiation) {
-                    json(Json {
-                        isLenient = true
-                        ignoreUnknownKeys = true
-                        prettyPrint = true // TODO
-                    })
+                    json(
+                        Json {
+                            isLenient = true
+                            ignoreUnknownKeys = true
+                            prettyPrint = true // TODO
+                        }
+                    )
                 }
             }
             .build()
