@@ -27,7 +27,7 @@ class LoginViewModel(scope: CoroutineScope) :
         var host = state.text
         if (host.isEmpty()) host = "https://mastodon.social"
         if (!host.startsWith("https://") && !host.startsWith("http://")) {
-            host = "https://${host}"
+            host = "https://$host"
         }
         println("Connect to host $host")
 
