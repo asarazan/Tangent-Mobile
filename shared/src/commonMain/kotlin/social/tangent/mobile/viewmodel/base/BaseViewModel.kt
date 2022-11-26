@@ -59,7 +59,7 @@ abstract class BaseViewModel<S, I, SE>(
      * @param currentState viewmodel that will be updated by the intent
      * @return returns updated state
      */
-    protected abstract fun reduce(intent: I, currentState: S): S
+    protected abstract suspend fun reduce(intent: I, currentState: S): S
 
     /**
      * Sends an intent to the ViewModel which will trigger [reduce] function to update the state

@@ -13,14 +13,24 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import social.tangent.mobile.android.MyApplicationTheme
+import social.tangent.mobile.android.viewmodel.AndroidLoginViewModel
+import social.tangent.mobile.viewmodel.LoginViewModel.Event.SelectInstance
+import social.tangent.mobile.viewmodel.LoginViewModel.Event.SetTextEvent
+import social.tangent.mobile.viewmodel.LoginViewModel.State
+import social.tangent.mobile.viewmodel.SharedLoginViewModel
+import social.tangent.mobile.viewmodel.base.PreviewModel
 
 @Composable
-fun InstanceSelect() {
+fun LoginScreen(vm: SharedLoginViewModel = viewModel<AndroidLoginViewModel>()) {
+    val state by vm.stateFlow.collectAsState()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -29,13 +39,18 @@ fun InstanceSelect() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = CenterHorizontally
     ) {
-        TextField(value = "", onValueChange = { TODO() })
+        TextField(
+            value = state.text,
+            label = { Text("Enter Server Address") },
+            placeholder = { Text("https://mastodon.social") },
+            onValueChange = { vm.send(SetTextEvent(it)) }
+        )
         Spacer(modifier = Modifier.height(16.dp))
         Button(
             modifier = Modifier
                 .height(64.dp)
                 .fillMaxWidth(0.8f),
-            onClick = { /*TODO*/ }
+            onClick = { vm.send(SelectInstance) }
         ) {
             Text("Select Instance")
         }
@@ -46,6 +61,6 @@ fun InstanceSelect() {
 @Composable
 fun DefaultPreview() {
     MyApplicationTheme {
-        InstanceSelect()
+        LoginScreen(PreviewModel(State()))
     }
 }

@@ -42,7 +42,7 @@ kotlin {
                 implementation("io.ktor:ktor-client-logging:$ktor_version")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
                 implementation("co.touchlab:kermit:1.1.3") // Add latest version
-                implementation("io.insert-koin:koin-core:$koin_version")
+                api("io.insert-koin:koin-core:$koin_version")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
 
                 implementation("de.jensklingenberg.ktorfit:ktorfit-lib:$ktorfitVersion")
@@ -57,7 +57,7 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation("io.ktor:ktor-client-okhttp:$ktor_version")
-                implementation("io.insert-koin:koin-android:$koin_android_version")
+                api("io.insert-koin:koin-android:$koin_android_version")
                 implementation("io.insert-koin:koin-android-compat:$koin_android_version")
                 implementation("io.insert-koin:koin-androidx-workmanager:$koin_android_version")
                 implementation("io.insert-koin:koin-androidx-navigation:$koin_android_version")
