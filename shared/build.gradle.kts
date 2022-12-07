@@ -40,11 +40,11 @@ kotlin {
                 implementation("io.ktor:ktor-client-content-negotiation:$ktor_version")
                 implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
                 implementation("io.ktor:ktor-client-logging:$ktor_version")
+                implementation("io.ktor:ktor-client-auth:$ktor_version")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
                 implementation("co.touchlab:kermit:1.1.3") // Add latest version
                 api("io.insert-koin:koin-core:$koin_version")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
-
                 implementation("de.jensklingenberg.ktorfit:ktorfit-lib:$ktorfitVersion")
             }
         }
@@ -56,6 +56,7 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
+                api("androidx.browser:browser:1.4.0")
                 implementation("io.ktor:ktor-client-okhttp:$ktor_version")
                 api("io.insert-koin:koin-android:$koin_android_version")
                 implementation("io.insert-koin:koin-android-compat:$koin_android_version")
@@ -63,6 +64,7 @@ kotlin {
                 implementation("io.insert-koin:koin-androidx-navigation:$koin_android_version")
                 implementation("io.insert-koin:koin-androidx-compose:$koin_android_compose_version")
                 implementation("io.insert-koin:koin-ktor:$koin_ktor")
+                api("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1")
             }
         }
         val androidTest by getting

@@ -8,6 +8,8 @@ import social.tangent.mobile.api.entities.Token
 
 interface Api {
 
+    companion object {}
+
     @GET("api/v1/instance")
     suspend fun getInstance(
         @Header("domain") domain: String? = null
@@ -19,7 +21,7 @@ interface Api {
         @Header("domain") domain: String,
         @Field("client_name") clientName: String,
         @Field("redirect_uris", encoded = true) redirectUris: String,
-        @Field("scopes") scopes: String? = null,
+        @Field("scopes", encoded = true) scopes: String? = null,
         @Field("website") website: String? = null
     ): Application
 
@@ -36,7 +38,6 @@ interface Api {
 
     @GET("api/v1/timelines/public")
     suspend fun getPublicTimeline(
-        @Header("Authorization") token: String,
         @Query("local") local: Boolean? = null,
         @Query("max_id") maxId: String? = null,
         @Query("since_id") sinceId: String? = null,

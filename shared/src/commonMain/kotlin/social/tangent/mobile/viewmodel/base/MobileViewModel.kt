@@ -9,12 +9,12 @@ import kotlinx.coroutines.launch
  * Base MVI ViewModel to be used across platforms
  *
  * [S] - State: Encapsulation of data that will be represented by UI
- * [I] - Intent: The mechanism through which state is updated through this viewmodel.
+ * [E] - Intent: The mechanism through which state is updated through this viewmodel.
  *       Any asynchronous event should update state via intents.
  * [SE] - SideEffect: One-off events that are fire and forget and should not be repeated. Useful for animations.
 */
 
-abstract class BaseViewModel<S, I, SE>(
+abstract class MobileViewModel<S, E, SE>(
     /**
      * When implementing this on the android side, it's important to use
      * the [ViewModel.viewModelScope]. Otherwise you need to make sure you
@@ -22,8 +22,12 @@ abstract class BaseViewModel<S, I, SE>(
      * memory leaks and runaway coroutines.
      */
     private val scope: CoroutineScope
-) : SharedViewModel<S, I, SE> {
-    protected abstract val _stateFlow: MutableStateFlow<S>
+) : SharedViewModel<S, E, SE> {
+    companion object {}
+
+    private val _stateFlow: MutableStateFlow<S> by lazy {
+        MutableStateFlow(initialState())
+    }
 
     final override val stateFlow: StateFlow<S>
         get() = _stateFlow
@@ -34,10 +38,10 @@ abstract class BaseViewModel<S, I, SE>(
             _stateFlow.value = value
         }
 
-    private val _intentFlow: MutableSharedFlow<I> = MutableSharedFlow()
+    private val _eventFlow: MutableSharedFlow<E> = MutableSharedFlow()
 
-    protected val intentFlow: SharedFlow<I>
-        get() = _intentFlow
+    protected val intentFlow: SharedFlow<E>
+        get() = _eventFlow
 
     private val _sideEffectFlow: MutableSharedFlow<SE> = MutableSharedFlow()
 
@@ -45,7 +49,7 @@ abstract class BaseViewModel<S, I, SE>(
         get() = _sideEffectFlow
 
     init {
-        _intentFlow.onEach { intent ->
+        _eventFlow.onEach { intent ->
             val currentState = state
             state = reduce(intent, currentState)
         }.launchIn(scope)
@@ -55,18 +59,23 @@ abstract class BaseViewModel<S, I, SE>(
      * Reduces the state of the ViewModel based on the intent.
      * This is where state gets updated.
      * The [state] should only be updated via this function.
-     * @param intent which will update the state
+     * @param event which will update the state
      * @param currentState viewmodel that will be updated by the intent
      * @return returns updated state
      */
-    protected abstract suspend fun reduce(intent: I, currentState: S): S
+    protected abstract suspend fun reduce(event: E, currentState: S): S
+
+    /**
+     * Create first instance of state
+     */
+    protected abstract fun initialState(): S
 
     /**
      * Sends an intent to the ViewModel which will trigger [reduce] function to update the state
      */
-    final override fun send(intent: I) {
+    final override fun send(event: E) {
         scope.launch {
-            _intentFlow.emit(intent)
+            _eventFlow.emit(event)
         }
     }
 

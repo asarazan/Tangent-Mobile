@@ -1,15 +1,36 @@
 package social.tangent.mobile.sdk
 
 import org.koin.core.component.KoinComponent
+import social.tangent.mobile.api.Api
+import social.tangent.mobile.api.create
+import social.tangent.mobile.api.entities.Application
+import social.tangent.mobile.api.entities.Token
 
-const val redirect = "oauth2redirect://social.tangent.mobile"
-const val scopes = "read write follow push"
 
-interface Mastodon {
+class Mastodon(val api: Api, val domain: String, val app: Application, val token: Token) {
+
     companion object : KoinComponent {
-        // fun get(clientName: String): MastodonInstance
-    }
-    suspend fun current(): MastodonInstance
-}
 
-interface MastodonInstance
+        const val client = "Tangent"
+        const val redirect = "tangentsocial://tangent.social/redirect"
+        const val scopes = "read write follow push"
+
+        suspend fun create(domain: String): Mastodon {
+            val api = Api.create(domain)
+            val app = api.authenticateApp(
+                domain = domain,
+                clientName = client,
+                redirectUris = redirect,
+                scopes = scopes
+            )
+            val token = api.fetchOAuthToken(
+                domain,
+                app.clientId!!,
+                app.clientSecret!!,
+                redirect,
+                "client_credentials"
+            )
+            return Mastodon(api, domain, app, token)
+        }
+    }
+}

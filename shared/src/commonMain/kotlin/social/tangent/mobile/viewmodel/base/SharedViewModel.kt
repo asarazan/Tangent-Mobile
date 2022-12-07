@@ -4,11 +4,11 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 
 /***
- * Public functions we need to expose for use with [BaseViewModel]
+ * Public functions we need to expose for use with [MobileViewModel]
  */
-interface SharedViewModel<State, Intent, SideEffect> {
+interface SharedViewModel<State, Event, SideEffect> {
     val state: State
     val stateFlow: StateFlow<State>
     val sideEffectFlow: SharedFlow<SideEffect>
-    fun send(intent: Intent)
+    fun send(event: Event)
 }

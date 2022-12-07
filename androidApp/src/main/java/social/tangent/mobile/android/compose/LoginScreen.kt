@@ -21,7 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import social.tangent.mobile.android.MyApplicationTheme
-import social.tangent.mobile.android.viewmodel.AndroidLoginViewModel
+import social.tangent.mobile.viewmodel.AndroidLoginViewModel
 import social.tangent.mobile.viewmodel.LoginViewModel.Event.SelectInstance
 import social.tangent.mobile.viewmodel.LoginViewModel.Event.SetTextEvent
 import social.tangent.mobile.viewmodel.LoginViewModel.State
@@ -29,7 +29,10 @@ import social.tangent.mobile.viewmodel.SharedLoginViewModel
 import social.tangent.mobile.viewmodel.base.PreviewModel
 
 @Composable
-fun LoginScreen(vm: SharedLoginViewModel = viewModel<AndroidLoginViewModel>()) {
+fun LoginScreen(
+    vm: SharedLoginViewModel = viewModel<AndroidLoginViewModel>(),
+    onSelect: (String) -> Unit = {}
+) {
     val state by vm.stateFlow.collectAsState()
     Column(
         modifier = Modifier
@@ -50,7 +53,7 @@ fun LoginScreen(vm: SharedLoginViewModel = viewModel<AndroidLoginViewModel>()) {
             modifier = Modifier
                 .height(64.dp)
                 .fillMaxWidth(0.8f),
-            onClick = { vm.send(SelectInstance) }
+            onClick = { vm.send(SelectInstance(onSelect)) }
         ) {
             Text("Select Instance")
         }

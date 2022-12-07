@@ -8,5 +8,5 @@ data class PreviewModel<S, I, SE>(override val state: S) : SharedViewModel<S, I,
         get() = throw RuntimeException("Not implemented for preview")
     override val sideEffectFlow: SharedFlow<SE>
         get() = throw RuntimeException("Not implemented for preview")
-    override fun send(intent: I) {}
+    override fun send(event: I) {}
 }
