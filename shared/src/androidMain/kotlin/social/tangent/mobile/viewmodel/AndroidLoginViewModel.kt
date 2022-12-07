@@ -6,4 +6,4 @@ class AndroidLoginViewModel : AndroidViewModel<
     LoginViewModel.State,
     LoginViewModel.Event,
     LoginViewModel.Effect>
-    (::LoginViewModel)
+(::LoginViewModel)

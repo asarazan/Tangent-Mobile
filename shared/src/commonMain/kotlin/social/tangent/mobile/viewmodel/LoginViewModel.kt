@@ -26,8 +26,10 @@ class LoginViewModel(scope: CoroutineScope) :
 
     private suspend fun onSelect(onReady: (String) -> Unit) {
         var host = state.text
-        if (host.isEmpty()) host = "https://mastodon.social/" +
-            ""
+        if (host.isEmpty()) {
+            host = "https://mastodon.social/" +
+                ""
+        }
         if (!host.startsWith("https://") && !host.startsWith("http://")) {
             host = "https://$host"
         }

@@ -7,9 +7,11 @@ import org.koin.dsl.module
 class TangentApp : Application() {
     override fun onCreate() {
         super.onCreate()
-        initKoinAndroid(module {
-            single<Context> { this@TangentApp }
-            single<Application> { this@TangentApp }
-        })
+        initKoinAndroid(
+            module {
+                single<Context> { this@TangentApp }
+                single<Application> { this@TangentApp }
+            }
+        )
     }
 }

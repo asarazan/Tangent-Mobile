@@ -6,7 +6,6 @@ import social.tangent.mobile.api.create
 import social.tangent.mobile.api.entities.Application
 import social.tangent.mobile.api.entities.Token
 
-
 class Mastodon(val api: Api, val domain: String, val app: Application, val token: Token) {
 
     companion object : KoinComponent {
