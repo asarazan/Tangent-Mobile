@@ -1,4 +1,4 @@
-package social.tangent.mobile.android
+package social.tangent.mobile.android.activity
 
 import android.content.Intent
 import android.net.Uri
@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import social.tangent.mobile.android.MyApplicationTheme
 import social.tangent.mobile.android.compose.LoginScreen
 
 class MainActivity : ComponentActivity() {
@@ -27,7 +28,8 @@ class MainActivity : ComponentActivity() {
                 ) {
                     LoginScreen(onSelect = {
                         lifecycleScope.launch(Dispatchers.Main) {
-                            launchBrowser(it)
+                            startActivity(PublicTimelineActivity.create(this@MainActivity))
+                            // launchBrowser(it)
                         }
                     })
                 }

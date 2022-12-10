@@ -10,6 +10,12 @@ import io.ktor.client.plugins.logging.Logging
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
+val defaultJson = Json {
+    isLenient = true
+    ignoreUnknownKeys = true
+    prettyPrint = true // TODO
+}
+
 fun Api.Companion.create(domain: String): Api {
     val ktorfit = Ktorfit.Builder()
         .baseUrl(domain)
@@ -24,13 +30,7 @@ fun Api.Companion.create(domain: String): Api {
                 }
             }
             install(ContentNegotiation) {
-                json(
-                    Json {
-                        isLenient = true
-                        ignoreUnknownKeys = true
-                        prettyPrint = true // TODO
-                    }
-                )
+                json(defaultJson)
             }
         }
         .build()
