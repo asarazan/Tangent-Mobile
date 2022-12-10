@@ -16,7 +16,8 @@ import social.tangent.mobile.fakes.urls
 fun PreviewableImage(
     url: String,
     modifier: Modifier = Modifier,
-    @DrawableRes fallback: Int = R.drawable.sarazan, ) {
+    @DrawableRes fallback: Int = R.drawable.sarazan
+) {
     if (LocalInspectionMode.current) {
         Image(painter = painterResource(id = fallback), contentDescription = null, modifier = modifier)
     } else {
@@ -27,8 +28,8 @@ fun PreviewableImage(
 @Composable
 fun Avatar(
     status: Status,
-    modifier: Modifier = Modifier)
-{
+    modifier: Modifier = Modifier
+) {
     val actual = status.reblog ?: status
     val url = actual.account.avatar
     PreviewableImage(url, modifier = modifier)

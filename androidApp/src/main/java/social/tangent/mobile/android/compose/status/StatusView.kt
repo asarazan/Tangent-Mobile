@@ -21,7 +21,7 @@ fun StatusView(status: Status) {
         Column {
             BoostHeader(status = status)
             Row(modifier = Modifier.height(256.dp)) {
-                Avatar(status,modifier = Modifier.width(256.dp))
+                Avatar(status, modifier = Modifier.width(256.dp))
                 Text(text = status.account.displayName)
             }
         }
@@ -31,7 +31,8 @@ fun StatusView(status: Status) {
 @Preview(
     showBackground = true,
     widthDp = 540,
-    heightDp = 960)
+    heightDp = 960
+)
 @Composable
 fun PreviewStatusView() {
     MyApplicationTheme {

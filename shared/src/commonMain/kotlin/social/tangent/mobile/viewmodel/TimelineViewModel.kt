@@ -23,7 +23,7 @@ class TimelineViewModel(scope: CoroutineScope) :
     }
 
     override suspend fun reduce(event: Event, currentState: State): State {
-        return when(event) {
+        return when (event) {
             is Event.Add -> {
                 currentState.copy(
                     loading = false,

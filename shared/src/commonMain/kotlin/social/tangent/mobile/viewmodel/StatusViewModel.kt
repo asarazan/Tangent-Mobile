@@ -16,7 +16,7 @@ class StatusViewModel(scope: CoroutineScope) :
     override fun initialState() = State(null)
 
     override suspend fun reduce(event: Event, currentState: State): State {
-        return when(event) {
+        return when (event) {
             is Event.SetStatus -> {
                 currentState.copy(status = event.status)
             }
