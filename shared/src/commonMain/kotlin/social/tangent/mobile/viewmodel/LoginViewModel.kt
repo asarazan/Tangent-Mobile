@@ -47,8 +47,8 @@ class LoginViewModel(scope: CoroutineScope) :
         // print(asJson)
 
         val url = "${mastodon.domain}/oauth/authorize" +
-            "?client_id=${mastodon.app.clientId}" +
-            "&scope=${mastodon.token.scope}" +
+            "?client_id=${mastodon.app?.clientId}" +
+            "&scope=${mastodon.token?.scope}" +
             "&redirect_uri=${Mastodon.redirect}" +
             "&response_type=code"
         onReady(url)

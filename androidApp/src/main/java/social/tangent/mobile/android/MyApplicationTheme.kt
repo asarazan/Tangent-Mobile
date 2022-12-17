@@ -2,7 +2,11 @@ package social.tangent.mobile.android
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Shapes
+import androidx.compose.material.Typography
+import androidx.compose.material.darkColors
+import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
@@ -21,14 +25,14 @@ fun MyApplicationTheme(
             primary = Color(0xFFBB86FC),
             primaryVariant = Color(0xFF3700B3),
             secondary = Color(0xFF03DAC5),
-            background = Color(0xFF2E3C8B)
+            background = Color(0xFF0A2235)
         )
     } else {
         lightColors(
             primary = Color(0xFF6200EE),
             primaryVariant = Color(0xFF3700B3),
             secondary = Color(0xFF03DAC5),
-            background = Color(0xFFC0C0C0)
+            background = Color(0xFFFFFFFF)
         )
     }
     val typography = Typography(

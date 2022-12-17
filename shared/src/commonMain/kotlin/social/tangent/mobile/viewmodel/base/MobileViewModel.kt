@@ -34,7 +34,7 @@ abstract class MobileViewModel<S, E, SE>(
 
     final override var state: S
         get() = stateFlow.value
-        private set(value) {
+        protected set(value) {
             _stateFlow.value = value
         }
 

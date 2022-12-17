@@ -2,6 +2,7 @@ package social.tangent.mobile.android.compose.status
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
+import androidx.compose.material.icons.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalInspectionMode
@@ -18,8 +19,13 @@ fun PreviewableImage(
     modifier: Modifier = Modifier,
     @DrawableRes fallback: Int = R.drawable.sarazan
 ) {
+    Icons.Rounded
     if (LocalInspectionMode.current) {
-        Image(painter = painterResource(id = fallback), contentDescription = null, modifier = modifier)
+        Image(
+            painter = painterResource(id = fallback),
+            contentDescription = null,
+            modifier = modifier
+        )
     } else {
         // AsyncImage(url, contentDescription = null)
     }
