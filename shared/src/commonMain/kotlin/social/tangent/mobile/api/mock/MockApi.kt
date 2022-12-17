@@ -9,11 +9,13 @@ import social.tangent.mobile.api.entities.Instance
 import social.tangent.mobile.api.entities.Status
 import social.tangent.mobile.api.entities.Token
 
-class MockApi : Api, KoinComponent {
+class MockApi(val delay: Int = 0) : Api, KoinComponent {
 
     companion object {
-        val timeline by lazy { Json.decodeFromString<List<Status>>(mockTimeline) }
+        val timeline: List<Status> by lazy { Json.decodeFromString(mockTimeline) }
         val fakeStatus by lazy { timeline[0] }
+        val longStatus by lazy { timeline[1] }
+        val rtlStatus by lazy { timeline[5] }
     }
 
     override suspend fun getInstance(domain: String?): Instance {

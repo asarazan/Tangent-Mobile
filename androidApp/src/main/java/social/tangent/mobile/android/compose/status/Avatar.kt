@@ -2,9 +2,11 @@ package social.tangent.mobile.android.compose.status
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,7 +26,7 @@ fun PreviewableImage(
         Image(
             painter = painterResource(id = fallback),
             contentDescription = null,
-            modifier = modifier
+            modifier = modifier.clip(CircleShape)
         )
     } else {
         // AsyncImage(url, contentDescription = null)
