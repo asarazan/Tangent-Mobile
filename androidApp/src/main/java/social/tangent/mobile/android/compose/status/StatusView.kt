@@ -32,9 +32,11 @@ fun StatusView(
     Column {
         BoostHeader(status = status)
         Row(horizontalArrangement = Arrangement.SpaceBetween) {
-            Column(modifier = Modifier
-                .width(72.dp)
-                .padding(end = 8.dp, bottom = 8.dp)) {
+            Column(
+                modifier = Modifier
+                    .width(72.dp)
+                    .padding(end = 8.dp, bottom = 8.dp)
+            ) {
                 Avatar(status = status)
             }
             Column {
@@ -52,8 +54,10 @@ fun StatusView(
 fun PreviewStatusView() {
     MyApplicationTheme(darkTheme = false) {
         Surface(color = MaterialTheme.colors.background) {
-            StatusView(PreviewModel(mockState),
-                mockStatus.copy(reblogged = true, favourited = true))
+            StatusView(
+                PreviewModel(mockState),
+                mockStatus.copy(reblogged = true, favourited = true)
+            )
         }
     }
 }
@@ -63,8 +67,10 @@ fun PreviewStatusView() {
 fun PreviewStatusViewDark() {
     MyApplicationTheme(darkTheme = true) {
         Surface(color = MaterialTheme.colors.background) {
-            StatusView(PreviewModel(mockState),
-                mockStatus.copy(reblogged = true, favourited = true))
+            StatusView(
+                PreviewModel(mockState),
+                mockStatus.copy(reblogged = true, favourited = true)
+            )
         }
     }
 }

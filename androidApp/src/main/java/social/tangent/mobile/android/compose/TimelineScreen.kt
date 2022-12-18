@@ -37,7 +37,6 @@ fun TimelineScreen(
     }
 }
 
-
 @Preview(widthDp = 540, heightDp = 2_000)
 @Composable
 fun PreviewTimeline() {

@@ -12,8 +12,10 @@ import social.tangent.mobile.sdk.extensions.createMockTimeline
 @OptIn(DelicateCoroutinesApi::class) // temporary
 fun initKoinAndroid(appModule: Module) {
     val app = initKoin(appModule)
-    app.modules(module {
-        single { GlobalScope.async { Mastodon.createMockTimeline() } } // temporary
-    })
+    app.modules(
+        module {
+            single { GlobalScope.async { Mastodon.createMockTimeline() } } // temporary
+        }
+    )
     // TODO
 }

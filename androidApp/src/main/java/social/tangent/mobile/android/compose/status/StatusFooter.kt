@@ -39,13 +39,16 @@ fun StatusFooter(
         verticalAlignment = Alignment.CenterVertically
     ) {
         FooterButton(id = R.drawable.comment_regular) {}
-        FooterButton(id = R.drawable.retweet_solid,
-            color = if (status.reblogged == true) Color.Green else MaterialTheme.colors.onBackground) {
+        FooterButton(
+            id = R.drawable.retweet_solid,
+            color = if (status.reblogged == true) Color.Green else MaterialTheme.colors.onBackground
+        ) {
             vm.send(Reblog(status, !(status.reblogged ?: false)))
         }
         FooterButton(
             id = if (status.favourited == true) R.drawable.heart_solid else R.drawable.heart_regular,
-            color = if (status.favourited == true) Color.Red else MaterialTheme.colors.onBackground) {
+            color = if (status.favourited == true) Color.Red else MaterialTheme.colors.onBackground
+        ) {
             vm.send(Fave(status, !(status.favourited ?: false)))
         }
         // LottieAnimation(composition = lottieHeart)
@@ -57,8 +60,8 @@ fun StatusFooter(
 fun FooterButton(
     @DrawableRes id: Int,
     color: Color = MaterialTheme.colors.onBackground,
-    onClick: () -> Unit = {})
-{
+    onClick: () -> Unit = {}
+) {
     IconButton(onClick = onClick) {
         Image(
             modifier = Modifier
@@ -66,7 +69,7 @@ fun FooterButton(
                 .padding(12.dp),
             painter = painterResource(id),
             colorFilter = ColorFilter.tint(color),
-            contentDescription = null,
+            contentDescription = null
         )
     }
 }
@@ -96,11 +99,13 @@ fun PreviewDark() {
 fun PreviewWithActive() {
     MyApplicationTheme(darkTheme = false) {
         Surface {
-            StatusFooter(PreviewModel(mockState),
+            StatusFooter(
+                PreviewModel(mockState),
                 status = mockStatus.copy(
                     favourited = true,
                     reblogged = true
-                ))
+                )
+            )
         }
     }
 }
@@ -110,11 +115,13 @@ fun PreviewWithActive() {
 fun PreviewDarkWithActive() {
     MyApplicationTheme(darkTheme = true) {
         Surface {
-            StatusFooter(PreviewModel(mockState),
+            StatusFooter(
+                PreviewModel(mockState),
                 status = mockStatus.copy(
                     favourited = true,
                     reblogged = true
-                ))
+                )
+            )
         }
     }
 }

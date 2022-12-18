@@ -46,8 +46,8 @@ class TimelineViewModel(scope: CoroutineScope) :
     )
 
     sealed class Event {
-        class Fave(val status: Status, val faved: Boolean): Event()
-        class Reblog(val status: Status, val reblogged: Boolean): Event()
+        class Fave(val status: Status, val faved: Boolean) : Event()
+        class Reblog(val status: Status, val reblogged: Boolean) : Event()
     }
     sealed class Effect
 

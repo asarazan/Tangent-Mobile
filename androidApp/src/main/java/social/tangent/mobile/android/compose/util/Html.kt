@@ -17,7 +17,7 @@ import kotlin.math.max
 
 private const val SPACING_FIX = 3f
 
-fun String.trimPTags(): String = trim()//.removePrefix("<p>").removeSuffix("</p>")
+fun String.trimPTags(): String = trim() // .removePrefix("<p>").removeSuffix("</p>")
 
 @Composable
 fun Html(
@@ -44,7 +44,8 @@ fun Html(
                 setTextColor(textColor.toArgb())
                 setGravity(gravity)
             }
-        })
+        }
+    )
 }
 
 fun spToPx(sp: Int, context: Context): Float =

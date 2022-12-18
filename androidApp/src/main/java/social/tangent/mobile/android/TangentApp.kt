@@ -9,6 +9,7 @@ import coil.decode.GifDecoder
 import coil.decode.ImageDecoderDecoder
 import coil.decode.SvgDecoder
 import coil.decode.VideoFrameDecoder
+import coil.util.DebugLogger
 import org.koin.dsl.module
 
 // gross hack.
@@ -21,6 +22,7 @@ class TangentApp : Application() {
     override fun onCreate() {
         super.onCreate()
         imageLoader = ImageLoader.Builder(this@TangentApp)
+            .logger(DebugLogger())
             .components {
                 if (Build.VERSION.SDK_INT >= 28) {
                     add(ImageDecoderDecoder.Factory())
