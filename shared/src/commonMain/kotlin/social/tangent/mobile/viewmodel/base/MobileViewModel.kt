@@ -21,7 +21,7 @@ abstract class MobileViewModel<S, E, SE>(
      * cancel the scope before the viewmodel gets destroyed/deinited to prevent
      * memory leaks and runaway coroutines.
      */
-    private val scope: CoroutineScope
+    protected val scope: CoroutineScope
 ) : SharedViewModel<S, E, SE> {
     companion object {}
 

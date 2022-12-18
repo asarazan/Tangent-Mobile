@@ -21,7 +21,7 @@ class TimelineViewModel(scope: CoroutineScope) :
 
     private val mastodon by inject<Deferred<Mastodon>>()
 
-    override fun initialState() = State(listOf(), true)
+    override fun initialState() = State(listOf(), loading = true, refreshing = false)
 
     init {
         scope.launch {
@@ -37,17 +37,23 @@ class TimelineViewModel(scope: CoroutineScope) :
             is Event.Reblog -> currentState.copy(
                 statuses = currentState.statuses.replace(mastodon.await().reblog(event.status, event.reblogged))
             )
+            Event.Refresh -> {
+                scope.launch { fetch() }
+                currentState.copy(refreshing = true)
+            }
         }
     }
 
     data class State(
         val statuses: List<Status>,
-        val loading: Boolean = false
+        val loading: Boolean = true,
+        val refreshing: Boolean = false,
     )
 
     sealed class Event {
         class Fave(val status: Status, val faved: Boolean) : Event()
         class Reblog(val status: Status, val reblogged: Boolean) : Event()
+        object Refresh : Event()
     }
     sealed class Effect
 
@@ -55,6 +61,7 @@ class TimelineViewModel(scope: CoroutineScope) :
         val timeline = mastodon.await().api.getPublicTimeline()
         this.state = state.copy(
             loading = false,
+            refreshing = false,
             statuses = state.statuses + timeline
         )
     }

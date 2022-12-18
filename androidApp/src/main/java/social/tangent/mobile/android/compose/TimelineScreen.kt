@@ -9,8 +9,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -25,32 +29,37 @@ import social.tangent.mobile.api.mock.MockApi
 import social.tangent.mobile.viewmodel.AndroidTimelineViewModel
 import social.tangent.mobile.viewmodel.SharedTimelineViewModel
 import social.tangent.mobile.viewmodel.TimelineViewModel
+import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Refresh
 import social.tangent.mobile.viewmodel.base.PreviewModel
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun TimelineScreen(
     vm: SharedTimelineViewModel = viewModel<AndroidTimelineViewModel>()
 ) {
     val state by vm.stateFlow.collectAsState()
+    val pullRefreshState = rememberPullRefreshState(state.refreshing, { vm.send(Refresh) })
     Surface(color = MaterialTheme.colors.background) {
-        if (state.loading) {
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier.fillMaxSize()) {
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier.fillMaxSize().pullRefresh(pullRefreshState)
+        ) {
+            if (state.loading) {
                 CircularProgressIndicator(
                     modifier = Modifier.size(64.dp)
                 )
-            }
-        } else {
-            LazyColumn(
-                modifier = Modifier.background(MaterialTheme.colors.background),
-                contentPadding = PaddingValues(8.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                items(state.statuses, key = { it.id }) {
-                    StatusView(vm, it)
+            } else {
+                LazyColumn(
+                    modifier = Modifier.background(MaterialTheme.colors.background),
+                    contentPadding = PaddingValues(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    items(state.statuses, key = { it.id }) {
+                        StatusView(vm, it)
+                    }
                 }
             }
+            PullRefreshIndicator(state.refreshing, pullRefreshState, Modifier.align(Alignment.TopCenter))
         }
     }
 }
