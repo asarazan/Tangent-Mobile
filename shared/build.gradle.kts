@@ -6,7 +6,7 @@ plugins {
     kotlin("plugin.serialization") version "1.7.20"
     id("com.android.library")
     id("com.google.devtools.ksp") version "1.7.20-1.0.7"
-    id("org.jmailen.kotlinter")
+    // id("org.jmailen.kotlinter")
 }
 
 kotlin {
