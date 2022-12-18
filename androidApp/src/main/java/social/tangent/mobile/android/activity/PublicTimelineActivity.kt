@@ -32,7 +32,7 @@ class PublicTimelineActivity : ComponentActivity(), KoinComponent {
 
         setContent {
             MyApplicationTheme {
-                Surface(Modifier.fillMaxSize()) {
+                Surface(modifier = Modifier.fillMaxSize()) {
                     TimelineScreen()
                 }
             }

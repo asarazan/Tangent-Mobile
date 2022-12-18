@@ -1,5 +1,6 @@
 package social.tangent.mobile.api.mock
 
+import kotlinx.coroutines.delay
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import org.koin.core.component.KoinComponent
@@ -9,7 +10,7 @@ import social.tangent.mobile.api.entities.Instance
 import social.tangent.mobile.api.entities.Status
 import social.tangent.mobile.api.entities.Token
 
-class MockApi(val delay: Int = 0) : Api, KoinComponent {
+class MockApi(val delay: Long = 0) : Api, KoinComponent {
 
     companion object {
         val timeline: List<Status> by lazy { Json.decodeFromString(mockTimeline) }
@@ -49,6 +50,7 @@ class MockApi(val delay: Int = 0) : Api, KoinComponent {
         sinceId: String?,
         limit: Int?
     ): List<Status> {
+        if (delay > 0L) delay(delay)
         return timeline
     }
 }

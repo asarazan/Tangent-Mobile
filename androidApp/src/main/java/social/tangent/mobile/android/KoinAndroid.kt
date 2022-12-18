@@ -14,7 +14,7 @@ fun initKoinAndroid(appModule: Module) {
     val app = initKoin(appModule)
     app.modules(
         module {
-            single { GlobalScope.async { Mastodon.createMockTimeline() } } // temporary
+            single { GlobalScope.async { Mastodon.createMockTimeline(1000L) } } // temporary
         }
     )
     // TODO
