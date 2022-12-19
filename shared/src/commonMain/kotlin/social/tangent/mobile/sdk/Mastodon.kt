@@ -49,10 +49,11 @@ class Mastodon(val api: Api, val domain: String, val app: Application? = null, v
             app!!.clientId!!,
             app.clientSecret!!,
             redirect,
-            "code",
+            "authorization_code",
             code
         )
         val account = api.verifyAccountCredentials("Bearer ${token.accessToken}")
+        println("Account: ${account.acct}")
         // TODO disk store for account storage...
     }
 

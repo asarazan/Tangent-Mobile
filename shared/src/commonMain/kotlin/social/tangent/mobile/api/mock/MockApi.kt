@@ -5,6 +5,7 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import org.koin.core.component.KoinComponent
 import social.tangent.mobile.api.Api
+import social.tangent.mobile.api.entities.Account
 import social.tangent.mobile.api.entities.Application
 import social.tangent.mobile.api.entities.Instance
 import social.tangent.mobile.api.entities.Status
@@ -52,6 +53,10 @@ class MockApi(val delay: Long = 0) : Api, KoinComponent {
     ): List<Status> {
         if (delay > 0L) delay(delay)
         return timeline
+    }
+
+    override suspend fun verifyAccountCredentials(authentication: String): Account {
+        TODO()
     }
 }
 

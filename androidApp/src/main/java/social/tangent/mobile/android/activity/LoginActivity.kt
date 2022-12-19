@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 import social.tangent.mobile.android.MyApplicationTheme
 import social.tangent.mobile.android.compose.LoginScreen
 import social.tangent.mobile.viewmodel.AndroidLoginViewModel
-import social.tangent.mobile.viewmodel.LoginViewModel.Event.ProvideToken
+import social.tangent.mobile.viewmodel.LoginViewModel.Event.ProvideOauthCode
 
 class LoginActivity : ComponentActivity() {
     companion object {
@@ -53,7 +53,7 @@ class LoginActivity : ComponentActivity() {
         super.onNewIntent(intent)
         val code = intent?.data?.getQueryParameter("code")
         if (code != null) {
-            viewModel.send(ProvideToken(code))
+            viewModel.send(ProvideOauthCode(code))
         }
     }
 

@@ -3,7 +3,6 @@ package social.tangent.mobile.viewmodel
 import kotlinx.coroutines.CoroutineScope
 import org.koin.core.component.KoinComponent
 import social.tangent.mobile.sdk.Mastodon
-import social.tangent.mobile.viewmodel.LoginViewModel.Event.ProvideToken
 import social.tangent.mobile.viewmodel.LoginViewModel.Event.SelectInstance
 import social.tangent.mobile.viewmodel.LoginViewModel.Event.SetTextEvent
 import social.tangent.mobile.viewmodel.base.MobileViewModel
@@ -28,15 +27,15 @@ class LoginViewModel(scope: CoroutineScope) :
                 onSelect(event.onReady)
                 currentState
             }
-            is ProvideToken -> {
-                onToken(event.token)
+            is Event.ProvideOauthCode -> {
+                onCode(event.code)
                 currentState.copy(loading = true)
             }
         }
     }
 
-    private suspend fun onToken(token: String) {
-        val account = mastodon!!.api.verifyAccountCredentials()
+    private suspend fun onCode(code: String) {
+        mastodon!!.provideCode(code)
     }
 
     private suspend fun onSelect(onReady: (String) -> Unit) {
@@ -73,7 +72,7 @@ class LoginViewModel(scope: CoroutineScope) :
     sealed class Event {
         class SetTextEvent(val text: String) : Event()
         class SelectInstance(val onReady: (String) -> Unit) : Event()
-        class ProvideToken(val token: String): Event()
+        class ProvideOauthCode(val code: String): Event()
     }
     sealed class Effect
 }
