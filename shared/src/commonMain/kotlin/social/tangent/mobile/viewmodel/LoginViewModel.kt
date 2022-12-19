@@ -8,8 +8,6 @@ import social.tangent.mobile.viewmodel.LoginViewModel.Event.SetTextEvent
 import social.tangent.mobile.viewmodel.base.MobileViewModel
 import social.tangent.mobile.viewmodel.base.SharedViewModel
 
-var debugMastodon: Mastodon? = null
-
 typealias SharedLoginViewModel = SharedViewModel<LoginViewModel.State, LoginViewModel.Event, LoginViewModel.Effect>
 
 class LoginViewModel(scope: CoroutineScope) :
@@ -49,13 +47,9 @@ class LoginViewModel(scope: CoroutineScope) :
         if (!host.endsWith("/")) {
             host = "$host/"
         }
-        println("Connect to host $host")
 
+        println("Connect to host $host")
         mastodon = Mastodon.create(host)
-        debugMastodon = mastodon!!
-        // val timeline = Timeline(mastodon.api.getPublicTimeline(true, limit = 200))
-        // val asJson = defaultJson.encodeToString(timeline)
-        // print(asJson)
 
         val url = "${mastodon!!.domain}/oauth/authorize" +
             "?client_id=${mastodon!!.app?.clientId}" +

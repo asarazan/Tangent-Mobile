@@ -36,7 +36,8 @@ class Mastodon(val api: Api, val domain: String, val app: Application? = null, v
                 app.clientId!!,
                 app.clientSecret!!,
                 redirect,
-                "client_credentials"
+                "client_credentials",
+                scope = scopes
             )
             CachedCredentials.set(CachedCredentials(domain, app, token))
             return Mastodon(api, domain, app, token)
@@ -50,7 +51,8 @@ class Mastodon(val api: Api, val domain: String, val app: Application? = null, v
             app.clientSecret!!,
             redirect,
             "authorization_code",
-            code
+            code,
+            scopes
         )
         val account = api.verifyAccountCredentials("Bearer ${token.accessToken}")
         println("Account: ${account.acct}")

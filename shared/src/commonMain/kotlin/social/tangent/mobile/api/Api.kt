@@ -32,9 +32,10 @@ interface Api {
         @Header("domain") domain: String,
         @Field("client_id") clientId: String,
         @Field("client_secret") clientSecret: String,
-        @Field("redirect_uri") redirectUri: String,
+        @Field("redirect_uri", encoded = true) redirectUri: String,
         @Field("grant_type") grantType: String,
-        @Field("code") code: String? = null
+        @Field("code") code: String? = null,
+        @Field("scope", encoded = true) scope: String? = null
     ): Token
 
     @GET("api/v1/timelines/public")
@@ -47,6 +48,6 @@ interface Api {
 
     @GET("api/v1/accounts/verify_credentials")
     suspend fun verifyAccountCredentials(
-        @Header("Authentication") authentication: String
+        @Header("Authorization") authentication: String
     ): Account
 }

@@ -40,7 +40,8 @@ class MockApi(val delay: Long = 0) : Api, KoinComponent {
         clientSecret: String,
         redirectUri: String,
         grantType: String,
-        code: String?
+        code: String?,
+        scope: String?
     ): Token {
         TODO()
     }
