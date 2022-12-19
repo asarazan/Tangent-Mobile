@@ -2,8 +2,10 @@ package social.tangent.mobile.viewmodel
 
 import kotlinx.coroutines.CoroutineScope
 import org.koin.core.component.KoinComponent
-import social.tangent.mobile.api.entities.Status
 import social.tangent.mobile.sdk.Mastodon
+import social.tangent.mobile.viewmodel.LoginViewModel.Event.ProvideToken
+import social.tangent.mobile.viewmodel.LoginViewModel.Event.SelectInstance
+import social.tangent.mobile.viewmodel.LoginViewModel.Event.SetTextEvent
 import social.tangent.mobile.viewmodel.base.MobileViewModel
 import social.tangent.mobile.viewmodel.base.SharedViewModel
 
@@ -15,16 +17,26 @@ class LoginViewModel(scope: CoroutineScope) :
     MobileViewModel<LoginViewModel.State, LoginViewModel.Event, LoginViewModel.Effect>(scope),
     KoinComponent {
 
-    override fun initialState() = State("")
+    var mastodon: Mastodon? = null
+
+    override fun initialState() = State()
 
     override suspend fun reduce(event: Event, currentState: State): State {
         return when (event) {
-            is Event.SetTextEvent -> currentState.copy(text = event.text)
-            is Event.SelectInstance -> {
+            is SetTextEvent -> currentState.copy(text = event.text)
+            is SelectInstance -> {
                 onSelect(event.onReady)
                 currentState
             }
+            is ProvideToken -> {
+                onToken(event.token)
+                currentState.copy(loading = true)
+            }
         }
+    }
+
+    private suspend fun onToken(token: String) {
+        val account = mastodon!!.api.verifyAccountCredentials()
     }
 
     private suspend fun onSelect(onReady: (String) -> Unit) {
@@ -40,31 +52,28 @@ class LoginViewModel(scope: CoroutineScope) :
         }
         println("Connect to host $host")
 
-        val mastodon = Mastodon.create(host)
-        debugMastodon = mastodon
+        mastodon = Mastodon.create(host)
+        debugMastodon = mastodon!!
         // val timeline = Timeline(mastodon.api.getPublicTimeline(true, limit = 200))
         // val asJson = defaultJson.encodeToString(timeline)
         // print(asJson)
 
-        val url = "${mastodon.domain}/oauth/authorize" +
-            "?client_id=${mastodon.app?.clientId}" +
-            "&scope=${mastodon.token?.scope}" +
+        val url = "${mastodon!!.domain}/oauth/authorize" +
+            "?client_id=${mastodon!!.app?.clientId}" +
+            "&scope=${mastodon!!.token?.scope}" +
             "&redirect_uri=${Mastodon.redirect}" +
             "&response_type=code"
         onReady(url)
     }
 
-    @kotlinx.serialization.Serializable
-    data class Timeline(
-        val statuses: List<Status>
-    )
-
     data class State(
-        val text: String = ""
+        val text: String = "",
+        val loading: Boolean = false
     )
     sealed class Event {
         class SetTextEvent(val text: String) : Event()
         class SelectInstance(val onReady: (String) -> Unit) : Event()
+        class ProvideToken(val token: String): Event()
     }
     sealed class Effect
 }

@@ -10,15 +10,13 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".activity.LoginActivity"
-            android:exported="true">
+            android:exported="true"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data
-                    android:host="tangent.social"
-                    android:path="/redirect"
-                    android:scheme="tangentsocial" />
+                <data android:scheme="tangentsocial"/>
             </intent-filter>
         </activity>
         <activity

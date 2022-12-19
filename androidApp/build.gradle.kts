@@ -32,14 +32,6 @@ android {
     }
 }
 
-// I don't know why gradle fails to fetch the latest versions of these...
-configurations.all {
-    resolutionStrategy {
-        force("androidx.collection:collection:1.1.0")
-        force("androidx.exifinterface:exifinterface:1.3.2")
-    }
-}
-
 dependencies {
     implementation(project(":shared"))
     implementation("androidx.activity:activity-compose:1.6.1")

@@ -1,6 +1,7 @@
 package social.tangent.mobile.api
 
 import de.jensklingenberg.ktorfit.http.*
+import social.tangent.mobile.api.entities.Account
 import social.tangent.mobile.api.entities.Application
 import social.tangent.mobile.api.entities.Instance
 import social.tangent.mobile.api.entities.Status
@@ -43,4 +44,9 @@ interface Api {
         @Query("since_id") sinceId: String? = null,
         @Query("limit") limit: Int? = null
     ): List<Status>
+
+    @GET("api/v1/accounts/verify_credentials")
+    suspend fun verifyAccountCredentials(
+        @Header("Authentication") authentication: String
+    ): Account
 }

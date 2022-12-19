@@ -43,6 +43,19 @@ class Mastodon(val api: Api, val domain: String, val app: Application? = null, v
         }
     }
 
+    suspend fun provideCode(code: String) {
+        val token = api.fetchOAuthToken(
+            domain,
+            app!!.clientId!!,
+            app.clientSecret!!,
+            redirect,
+            "code",
+            code
+        )
+        val account = api.verifyAccountCredentials("Bearer ${token.accessToken}")
+        // TODO disk store for account storage...
+    }
+
     suspend fun fave(status: Status, faved: Boolean): Status {
         // TODO api.
         return status.copy(
