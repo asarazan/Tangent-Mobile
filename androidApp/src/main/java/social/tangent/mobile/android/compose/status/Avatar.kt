@@ -20,7 +20,6 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import social.tangent.mobile.android.MyApplicationTheme
 import social.tangent.mobile.android.R
-import social.tangent.mobile.android.imageLoader
 import social.tangent.mobile.api.entities.Status
 import social.tangent.mobile.api.mock.MockApi
 
@@ -43,7 +42,6 @@ fun PreviewableImage(
                 .crossfade(true)
                 .build(),
             contentDescription = null,
-            imageLoader = imageLoader,
             modifier = modifier.fillMaxSize().clip(CircleShape)
         )
     }

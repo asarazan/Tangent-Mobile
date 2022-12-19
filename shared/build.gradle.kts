@@ -46,6 +46,7 @@ kotlin {
                 api("io.insert-koin:koin-core:$koin_version")
                 api("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
                 implementation("de.jensklingenberg.ktorfit:ktorfit-lib:$ktorfitVersion")
+                api("com.russhwolf:multiplatform-settings:1.0.0-RC")
             }
         }
         val commonTest by getting {

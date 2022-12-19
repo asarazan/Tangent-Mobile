@@ -8,18 +8,23 @@ import social.tangent.mobile.api.create
 import social.tangent.mobile.api.entities.Application
 import social.tangent.mobile.api.entities.Status
 import social.tangent.mobile.api.entities.Token
+import social.tangent.mobile.sdk.credentials.CachedCredentials
 
 class Mastodon(val api: Api, val domain: String, val app: Application? = null, val token: Token? = null) {
 
     companion object : KoinComponent {
-        val publicDefault = GlobalScope.async { create("https://mastodon.social") }
+        val publicDefault = GlobalScope.async { create("https://mastodon.social/") }
 
         const val client = "Tangent"
         const val redirect = "tangentsocial://tangent.social/redirect"
         const val scopes = "read write follow push"
 
         suspend fun create(domain: String): Mastodon {
+            val cached = CachedCredentials.get(domain)
             val api = Api.create(domain)
+            if (cached != null) {
+                return Mastodon(api, cached.domain, cached.app, cached.token)
+            }
             val app = api.authenticateApp(
                 domain = domain,
                 clientName = client,
@@ -33,6 +38,7 @@ class Mastodon(val api: Api, val domain: String, val app: Application? = null, v
                 redirect,
                 "client_credentials"
             )
+            CachedCredentials.set(CachedCredentials(domain, app, token))
             return Mastodon(api, domain, app, token)
         }
     }

@@ -1,6 +1,7 @@
 package social.tangent.mobile.android.compose
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
@@ -16,6 +18,7 @@ import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -38,11 +41,23 @@ fun TimelineScreen(
     vm: SharedTimelineViewModel = viewModel<AndroidTimelineViewModel>()
 ) {
     val state by vm.stateFlow.collectAsState()
+    val effect by vm.sideEffectFlow.collectAsState(initial = null)
+    val listState = rememberLazyListState()
     val pullRefreshState = rememberPullRefreshState(state.refreshing, { vm.send(Refresh) })
+    
+    when (effect) {
+        TimelineViewModel.Effect.FeedRefreshed -> LaunchedEffect("rescroll") {
+            listState.animateScrollBy(-10f)
+        }
+        else -> {}
+    }
+    
     Surface(color = MaterialTheme.colors.background) {
         Box(
             contentAlignment = Alignment.Center,
-            modifier = Modifier.fillMaxSize().pullRefresh(pullRefreshState)
+            modifier = Modifier
+                .fillMaxSize()
+                .pullRefresh(pullRefreshState)
         ) {
             if (state.loading) {
                 CircularProgressIndicator(
@@ -50,6 +65,7 @@ fun TimelineScreen(
                 )
             } else {
                 LazyColumn(
+                    state = listState,
                     modifier = Modifier.background(MaterialTheme.colors.background),
                     contentPadding = PaddingValues(8.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
