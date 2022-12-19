@@ -1,5 +1,6 @@
 package social.tangent.mobile.android.compose
 
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.foundation.layout.Arrangement
@@ -41,17 +42,9 @@ fun TimelineScreen(
     vm: SharedTimelineViewModel = viewModel<AndroidTimelineViewModel>()
 ) {
     val state by vm.stateFlow.collectAsState()
-    val effect by vm.sideEffectFlow.collectAsState(initial = null)
     val listState = rememberLazyListState()
     val pullRefreshState = rememberPullRefreshState(state.refreshing, { vm.send(Refresh) })
-    
-    when (effect) {
-        TimelineViewModel.Effect.FeedRefreshed -> LaunchedEffect("rescroll") {
-            listState.animateScrollBy(-10f)
-        }
-        else -> {}
-    }
-    
+
     Surface(color = MaterialTheme.colors.background) {
         Box(
             contentAlignment = Alignment.Center,
@@ -77,6 +70,12 @@ fun TimelineScreen(
             }
             PullRefreshIndicator(state.refreshing, pullRefreshState, Modifier.align(Alignment.TopCenter))
         }
+    }
+
+    // nudge up a bit when the list changes.
+    val firstId = state.statuses.getOrNull(0)?.id
+    LaunchedEffect(firstId) {
+        listState.animateScrollBy(-64f, tween(500))
     }
 }
 

@@ -55,12 +55,9 @@ class TimelineViewModel(scope: CoroutineScope) :
         class Reblog(val status: Status, val reblogged: Boolean) : Event()
         object Refresh : Event()
     }
-    sealed class Effect {
-        object FeedRefreshed : Effect()
-    }
+    sealed class Effect
 
     private suspend fun fetch() {
-        val isRefetch = state.statuses.isNotEmpty()
         val mastodon = mastodon.await()
         val timeline = mastodon.api.getPublicTimeline()
         this.state = state.copy(
@@ -68,6 +65,5 @@ class TimelineViewModel(scope: CoroutineScope) :
             refreshing = false,
             statuses = timeline
         )
-        if (isRefetch) sendSideEffect(Effect.FeedRefreshed)
     }
 }

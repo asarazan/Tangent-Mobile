@@ -13,7 +13,7 @@ import social.tangent.mobile.sdk.credentials.CachedCredentials
 class Mastodon(val api: Api, val domain: String, val app: Application? = null, val token: Token? = null) {
 
     companion object : KoinComponent {
-        val publicDefault = GlobalScope.async { create("https://mastodon.social/") }
+        val publicDefault = GlobalScope.async { create("https://mastodon.gamedev.place/") }
 
         const val client = "Tangent"
         const val redirect = "tangentsocial://tangent.social/redirect"
