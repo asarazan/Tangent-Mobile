@@ -28,8 +28,8 @@ class LoginActivity : ComponentActivity() {
                 ) {
                     LoginScreen(onSelect = {
                         lifecycleScope.launch(Dispatchers.Main) {
-                            startActivity(PublicTimelineActivity.create(this@LoginActivity))
-                            // launchBrowser(it)
+                            // startActivity(PublicTimelineActivity.create(this@LoginActivity))
+                            launchBrowser(it)
                         }
                     })
                 }
