@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import social.tangent.mobile.android.MyApplicationTheme
@@ -40,8 +41,8 @@ fun StatusView(
                 Avatar(status = status)
             }
             Column {
-                Text(text = status.account.displayName, fontWeight = FontWeight.Bold)
-                Text(text = status.account.acct, fontWeight = FontWeight.Bold, modifier = Modifier.padding(bottom = 8.dp).alpha(0.4f))
+                Text(text = status.account.displayName, fontWeight = FontWeight.Bold, overflow = TextOverflow.Ellipsis, modifier = Modifier.fillMaxWidth())
+                Text(text = status.account.acct, overflow = TextOverflow.Ellipsis, modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp).alpha(0.4f))
                 Html(text = status.content.trimPTags(), modifier = Modifier.padding(bottom = 8.dp).fillMaxWidth())
                 StatusFooter(vm, status = status)
             }
