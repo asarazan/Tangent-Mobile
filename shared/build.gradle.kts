@@ -6,6 +6,7 @@ plugins {
     kotlin("plugin.serialization") version "1.7.20"
     id("com.android.library")
     id("com.google.devtools.ksp") version "1.7.20-1.0.7"
+    // id("org.jmailen.kotlinter")
 }
 
 kotlin {
@@ -24,13 +25,13 @@ kotlin {
             baseName = "shared"
         }
     }
-    
+
     sourceSets {
         val ktor_version = "2.1.3"
-        val koin_version= "3.2.2"
-        val koin_android_version= "3.3.0"
-        val koin_android_compose_version= "3.3.0"
-        val koin_ktor= "3.2.2"
+        val koin_version = "3.2.2"
+        val koin_android_version = "3.3.0"
+        val koin_android_compose_version = "3.3.0"
+        val koin_ktor = "3.2.2"
 
         val commonMain by getting {
             dependencies {
@@ -39,12 +40,13 @@ kotlin {
                 implementation("io.ktor:ktor-client-content-negotiation:$ktor_version")
                 implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
                 implementation("io.ktor:ktor-client-logging:$ktor_version")
+                implementation("io.ktor:ktor-client-auth:$ktor_version")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-                implementation("co.touchlab:kermit:1.1.3") //Add latest version
-                implementation("io.insert-koin:koin-core:$koin_version")
-                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
-
+                implementation("co.touchlab:kermit:1.1.3") // Add latest version
+                api("io.insert-koin:koin-core:$koin_version")
+                api("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
                 implementation("de.jensklingenberg.ktorfit:ktorfit-lib:$ktorfitVersion")
+                api("com.russhwolf:multiplatform-settings:1.0.0-RC")
             }
         }
         val commonTest by getting {
@@ -55,13 +57,15 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
+                api("androidx.browser:browser:1.4.0")
                 implementation("io.ktor:ktor-client-okhttp:$ktor_version")
-                implementation("io.insert-koin:koin-android:$koin_android_version")
+                api("io.insert-koin:koin-android:$koin_android_version")
                 implementation("io.insert-koin:koin-android-compat:$koin_android_version")
                 implementation("io.insert-koin:koin-androidx-workmanager:$koin_android_version")
                 implementation("io.insert-koin:koin-androidx-navigation:$koin_android_version")
                 implementation("io.insert-koin:koin-androidx-compose:$koin_android_compose_version")
                 implementation("io.insert-koin:koin-ktor:$koin_ktor")
+                api("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1")
             }
         }
         val androidTest by getting
@@ -91,10 +95,10 @@ kotlin {
 
 android {
     namespace = "social.tangent.mobile"
-    compileSdk = 32
+    compileSdk = 33
     defaultConfig {
         minSdk = 24
-        targetSdk = 32
+        targetSdk = 33
     }
 }
 

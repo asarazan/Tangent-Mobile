@@ -1,0 +1,13 @@
+package social.tangent.mobile.android.activity
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        // startActivity(PublicTimelineActivity.createDemo(this))
+        startActivity(LoginActivity.create(this))
+        finish()
+    }
+}

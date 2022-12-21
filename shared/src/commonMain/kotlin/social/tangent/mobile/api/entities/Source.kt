@@ -5,21 +5,8 @@
 *****************************************************/
 package social.tangent.mobile.api.entities
 
-import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.descriptors.PrimitiveKind
-import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
-import kotlinx.serialization.descriptors.SerialDescriptor
-import kotlinx.serialization.encoding.Decoder
-import kotlinx.serialization.encoding.Encoder
-import kotlinx.serialization.json.JsonContentPolymorphicSerializer
-import kotlinx.serialization.json.JsonElement
-import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.JsonPrimitive
-import kotlinx.serialization.json.jsonObject
-
-import social.tangent.mobile.api.entities.Field
 
 /**
  * Represents display or publishing preferences of user's own account.
@@ -29,62 +16,69 @@ import social.tangent.mobile.api.entities.Field
 @Serializable
 data class Source(
 
-  /**
-   * Description: Profile bio.
-   * Type: String
-   * Version history: Added in 1.5.0
-   */
-  val note: String,
+    /**
+     * Description: Profile bio.
+     * Type: String
+     * Version history: Added in 1.5.0
+     */
+    val note: String,
 
-  /**
-   * Description: Metadata about the account.
-   * Type: Array of Field
-   * Version history: Added in 2.4.0
-   */
-  val fields: List<Field>,
+    /**
+     * Description: Metadata about the account.
+     * Type: Array of Field
+     * Version history: Added in 2.4.0
+     */
+    val fields: List<Field>,
 
-  /**
-   * Description: The default post privacy to be used for new statuses.
-   * Type: String (Enumerable, oneOf)
-   * public = Public post
-   * unlisted = Unlisted post
-   * private = Followers-only post
-   * direct = Direct post
-   * Version history: Added in 1.5.0
-   */
-  val privacy: Privacy? = null,
+    /**
+     * Description: The default post privacy to be used for new statuses.
+     * Type: String (Enumerable, oneOf)
+     * public = Public post
+     * unlisted = Unlisted post
+     * private = Followers-only post
+     * direct = Direct post
+     * Version history: Added in 1.5.0
+     */
+    val privacy: Privacy? = null,
 
-  /**
-   * Description: Whether new statuses should be marked sensitive by default.
-   * Type: Boolean
-   * Version history: Added in 1.5.0
-   */
-  val sensitive: Boolean? = null,
+    /**
+     * Description: Whether new statuses should be marked sensitive by default.
+     * Type: Boolean
+     * Version history: Added in 1.5.0
+     */
+    val sensitive: Boolean? = null,
 
-  /**
-   * Description: The default posting language for new statuses.
-   * Type: String (ISO 639-1 language two-letter code)
-   * Version history: Added in 2.4.2
-   */
-  val language: String? = null,
+    /**
+     * Description: The default posting language for new statuses.
+     * Type: String (ISO 639-1 language two-letter code)
+     * Version history: Added in 2.4.2
+     */
+    val language: String? = null,
 
-  /**
-   * Description: The number of pending follow requests.
-   * Type: Number
-   * Version history: Added in 3.0.0.
-   * @precision long
-   */
-  @SerialName("follow_requests_count")
-  val followRequestsCount: Long? = null
+    /**
+     * Description: The number of pending follow requests.
+     * Type: Number
+     * Version history: Added in 3.0.0.
+     * @precision long
+     */
+    @SerialName("follow_requests_count")
+    val followRequestsCount: Long? = null
 ) {
 
-  @Serializable
-  enum class Privacy(
-    val serialName: String
-  ) {
-    @SerialName("public") PUBLIC("public"),
-    @SerialName("unlisted") UNLISTED("unlisted"),
-    @SerialName("private") PRIVATE("private"),
-    @SerialName("direct") DIRECT("direct");
-  }
+    @Serializable
+    enum class Privacy(
+        val serialName: String
+    ) {
+        @SerialName("public")
+        PUBLIC("public"),
+
+        @SerialName("unlisted")
+        UNLISTED("unlisted"),
+
+        @SerialName("private")
+        PRIVATE("private"),
+
+        @SerialName("direct")
+        DIRECT("direct");
+    }
 }
