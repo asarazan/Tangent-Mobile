@@ -7,7 +7,8 @@
         android:name=".TangentApp"
         android:allowBackup="false"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".activity.HomeActivity"
             android:exported="false">
@@ -29,10 +30,10 @@
         </activity>
         <activity
             android:name=".activity.MainActivity"
-            android:exported="true" >
+            android:exported="true"
+            android:label="Tangent">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

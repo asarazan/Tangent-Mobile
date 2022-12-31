@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ScaffoldState
@@ -27,13 +26,15 @@ import kotlinx.coroutines.launch
 import social.tangent.mobile.android.MyApplicationTheme
 import social.tangent.mobile.android.R
 import social.tangent.mobile.android.compose.HomeScreen
+import social.tangent.mobile.android.compose.util.MyDivider
 import social.tangent.mobile.viewmodel.HomeViewModel
 import social.tangent.mobile.viewmodel.base.PreviewModel
 
 @Composable
 fun HomeTopBarNew(scaffold: ScaffoldState, modifier: Modifier = Modifier) {
     Column(
-        modifier = modifier.statusBarsPadding()
+        modifier = modifier
+            .statusBarsPadding()
             .fillMaxWidth()
     ) {
         Box(
@@ -51,10 +52,7 @@ fun HomeTopBarNew(scaffold: ScaffoldState, modifier: Modifier = Modifier) {
             )
             // Spacer(modifier = Modifier.fillMaxWidth(0.5f))
         }
-        Divider(
-            color = MaterialTheme.colors.onBackground,
-            modifier = Modifier.height(0.5.dp)
-        )
+        MyDivider()
     }
 }
 
@@ -79,10 +77,7 @@ fun HomeTopBar(scaffold: ScaffoldState) {
             },
             modifier = Modifier.statusBarsPadding()
         )
-        Divider(
-            color = MaterialTheme.colors.onBackground,
-            modifier = Modifier.height(0.5.dp)
-        )
+        MyDivider()
     }
 }
 

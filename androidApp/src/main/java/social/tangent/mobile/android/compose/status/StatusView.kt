@@ -30,7 +30,8 @@ fun StatusView(
     vm: SharedTimelineViewModel,
     status: Status
 ) {
-    Column {
+    val actual = status.reblog ?: status
+    Column(modifier = Modifier.padding(8.dp)) {
         BoostHeader(status = status)
         Row(horizontalArrangement = Arrangement.SpaceBetween) {
             Column(
@@ -38,12 +39,12 @@ fun StatusView(
                     .width(72.dp)
                     .padding(end = 8.dp, bottom = 8.dp)
             ) {
-                Avatar(status = status)
+                Avatar(account = actual.account)
             }
             Column {
-                Text(text = status.account.displayName, fontWeight = FontWeight.Bold, overflow = TextOverflow.Ellipsis, modifier = Modifier.fillMaxWidth())
-                Text(text = status.account.acct, overflow = TextOverflow.Ellipsis, modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp).alpha(0.4f))
-                Html(text = status.content.trimPTags(), modifier = Modifier.padding(bottom = 8.dp).fillMaxWidth())
+                Text(text = actual.account.displayName, fontWeight = FontWeight.Bold, overflow = TextOverflow.Ellipsis, modifier = Modifier.fillMaxWidth())
+                Text(text = actual.account.acct, overflow = TextOverflow.Ellipsis, modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp).alpha(0.4f))
+                Html(text = actual.content.trimPTags(), modifier = Modifier.padding(bottom = 8.dp).fillMaxWidth())
                 StatusFooter(vm, status = status)
             }
         }
@@ -63,18 +64,7 @@ fun PreviewStatusViewDark() {
     }
 }
 
-@Preview(widthDp = 540)
-@Composable
-fun PreviewStatusReblog() {
-    MyApplicationTheme(darkTheme = true) {
-        Surface(color = MaterialTheme.colors.background) {
-            StatusView(
-                PreviewModel(mockState),
-                MockApi.reblogStatus
-            )
-        }
-    }
-}
+
 
 @Preview(widthDp = 540)
 @Composable

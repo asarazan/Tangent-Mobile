@@ -20,7 +20,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import social.tangent.mobile.android.MyApplicationTheme
 import social.tangent.mobile.android.R
-import social.tangent.mobile.api.entities.Status
+import social.tangent.mobile.api.entities.Account
 import social.tangent.mobile.api.mock.MockApi
 
 @Composable
@@ -49,11 +49,10 @@ fun PreviewableImage(
 
 @Composable
 fun Avatar(
-    status: Status,
+    account: Account,
     modifier: Modifier = Modifier
 ) {
-    val actual = status.reblog ?: status
-    val url = actual.account.avatar
+    val url = account.avatar
     Box(modifier = modifier.fillMaxWidth().aspectRatio(1f).clip(CircleShape)) {
         Box(modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.onBackground.copy(alpha = 0.1f)))
         PreviewableImage(url)
@@ -65,6 +64,6 @@ fun Avatar(
 @Composable
 fun TryImage() {
     MyApplicationTheme(darkTheme = true) {
-        Avatar(MockApi.fakeStatus)
+        Avatar(MockApi.fakeStatus.account)
     }
 }

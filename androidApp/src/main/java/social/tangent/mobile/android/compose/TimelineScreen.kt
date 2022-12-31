@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.animateScrollBy
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -28,6 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import social.tangent.mobile.android.MyApplicationTheme
 import social.tangent.mobile.android.compose.status.StatusView
+import social.tangent.mobile.android.compose.util.MyDivider
 import social.tangent.mobile.api.mock.MockApi
 import social.tangent.mobile.viewmodel.SharedTimelineViewModel
 import social.tangent.mobile.viewmodel.TimelineViewModel
@@ -56,11 +56,11 @@ fun TimelineScreen(vm: SharedTimelineViewModel) {
                 LazyColumn(
                     state = listState,
                     modifier = Modifier.background(MaterialTheme.colors.background),
-                    contentPadding = PaddingValues(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     items(state.statuses, key = { it.id }) {
                         StatusView(vm, it)
+                        MyDivider()
                     }
                 }
             }
