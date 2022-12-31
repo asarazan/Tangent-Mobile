@@ -59,6 +59,16 @@ class MockApi(val delay: Long = 0) : Api, KoinComponent {
     override suspend fun verifyAccountCredentials(authentication: String): Account {
         TODO()
     }
+
+    override suspend fun getHomeTimeline(
+        authentication: String,
+        maxId: String?,
+        sinceId: String?,
+        minId: String?,
+        limit: Int?
+    ): List<Status> {
+        TODO("Not yet implemented")
+    }
 }
 
 private val mockTimeline = """

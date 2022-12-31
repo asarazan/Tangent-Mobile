@@ -12,7 +12,7 @@ import social.tangent.mobile.api.entities.Application
 import social.tangent.mobile.api.entities.Token
 
 @kotlinx.serialization.Serializable
-data class CachedCredentials(
+data class ServerCredentials(
     val domain: String,
     val app: Application,
     val token: Token
@@ -24,7 +24,7 @@ data class CachedCredentials(
 
         private fun key(domain: String): String = "__creds_${domain}".lowercase()
 
-        fun get(domain: String): CachedCredentials? {
+        fun get(domain: String): ServerCredentials? {
             val json: String? = settings[key(domain)]
             if (json != null) {
                 return Json.decodeFromString(json)
@@ -32,7 +32,7 @@ data class CachedCredentials(
             return null
         }
 
-        fun set(credentials: CachedCredentials) {
+        fun set(credentials: ServerCredentials) {
             settings[key(credentials.domain)] = Json.encodeToString(credentials)
         }
     }

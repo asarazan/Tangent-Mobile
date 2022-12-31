@@ -16,7 +16,7 @@ val defaultJson = Json {
     prettyPrint = true // TODO
 }
 
-fun Api.Companion.create(domain: String): Api {
+fun Api.Companion.server(domain: String): Api {
     val ktorfit = Ktorfit.Builder()
         .baseUrl(domain)
         .httpClient {

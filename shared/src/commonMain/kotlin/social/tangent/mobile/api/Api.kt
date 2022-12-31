@@ -46,6 +46,15 @@ interface Api {
         @Query("limit") limit: Int? = null
     ): List<Status>
 
+    @GET("api/v1/timelines/home")
+    suspend fun getHomeTimeline(
+        @Header("Authorization") authentication: String,
+        @Query("max_id") maxId: String? = null,
+        @Query("since_id") sinceId: String? = null,
+        @Query("min_id") minId: String? = null,
+        @Query("limit") limit: Int? = null
+    ): List<Status>
+
     @GET("api/v1/accounts/verify_credentials")
     suspend fun verifyAccountCredentials(
         @Header("Authorization") authentication: String

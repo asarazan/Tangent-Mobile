@@ -8,32 +8,35 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import org.koin.core.component.KoinComponent
 import social.tangent.mobile.android.MyApplicationTheme
 import social.tangent.mobile.android.compose.TimelineScreen
-import kotlin.properties.Delegates
+import social.tangent.mobile.sdk.Mastodon
+import social.tangent.mobile.sdk.storage.MastodonStorage
+import social.tangent.mobile.viewmodel.AndroidTimelineViewModel
+import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Init
 
-class PublicTimelineActivity : ComponentActivity(), KoinComponent {
+class HomeTimelineActivity : ComponentActivity(), KoinComponent {
     companion object {
-        fun create(c: Context): Intent {
-            return Intent(c, PublicTimelineActivity::class.java)
-        }
-        fun createDemo(c: Context): Intent {
-            return Intent(c, PublicTimelineActivity::class.java)
-                .putExtra("demo", true)
+        fun create(c: Context, id: String): Intent {
+            return Intent(c, HomeTimelineActivity::class.java)
+                .putExtra("id", id)
         }
     }
 
-    private var demo by Delegates.notNull<Boolean>()
+    private lateinit var mastodon: Mastodon
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        demo = intent.getBooleanExtra("demo", false)
-
+        val id = intent.getStringExtra("id")!!
+        mastodon = MastodonStorage.get(id)!!
         setContent {
+            val vm = viewModel<AndroidTimelineViewModel>()
+            vm.send(Init(mastodon))
             MyApplicationTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {
-                    TimelineScreen()
+                    TimelineScreen(vm)
                 }
             }
         }

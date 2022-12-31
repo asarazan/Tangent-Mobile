@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.PublicTimelineActivity"
+            android:name=".activity.HomeTimelineActivity"
             android:exported="false" >
         </activity>
         <activity

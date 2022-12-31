@@ -15,8 +15,7 @@ import com.russhwolf.settings.SharedPreferencesSettings
 import org.koin.core.KoinApplication
 import org.koin.core.module.Module
 import org.koin.dsl.module
-import social.tangent.mobile.initKoin
-import social.tangent.mobile.sdk.Mastodon
+import social.tangent.mobile.koin.initKoin
 
 @SuppressLint("ObsoleteSdkInt")
 fun initKoinAndroid(appModule: Module): KoinApplication {
@@ -24,7 +23,6 @@ fun initKoinAndroid(appModule: Module): KoinApplication {
         appModule,
         module {
             // single { GlobalScope.async { Mastodon.createMockTimeline(1000L) } } // temporary
-            single { Mastodon.publicDefault }
             single<Settings.Factory> {
                 SharedPreferencesSettings.Factory(get())
             }
@@ -50,6 +48,7 @@ fun initKoinAndroid(appModule: Module): KoinApplication {
                 }
                 .build()
             }
+
         }
     )
 }

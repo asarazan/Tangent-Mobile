@@ -1,4 +1,4 @@
-package social.tangent.mobile
+package social.tangent.mobile.koin
 
 import com.russhwolf.settings.Settings
 import org.koin.core.KoinApplication
@@ -11,9 +11,7 @@ fun initKoin(vararg appModules: Module): KoinApplication {
     return startKoin {
         modules(mods + module {
             single {
-                val factory = get<Settings.Factory>()
-                val settings = factory.create()
-                settings
+                get<Settings.Factory>().create()
             }
         })
     }

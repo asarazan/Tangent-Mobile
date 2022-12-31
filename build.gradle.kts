@@ -1,5 +1,5 @@
 plugins {
-    val androidPlugin = "7.3.1"
+    val androidPlugin = "7.4.0-rc02"
     val kotlinPlugin = "1.7.20"
     // trick: for the same plugin versions in all sub-modules
     id("com.android.application").version(androidPlugin).apply(false)

@@ -19,6 +19,8 @@ import kotlinx.coroutines.launch
 import social.tangent.mobile.android.MyApplicationTheme
 import social.tangent.mobile.android.compose.LoginScreen
 import social.tangent.mobile.viewmodel.AndroidLoginViewModel
+import social.tangent.mobile.viewmodel.LoginViewModel
+import social.tangent.mobile.viewmodel.LoginViewModel.Effect.Complete
 import social.tangent.mobile.viewmodel.LoginViewModel.Event.ProvideOauthCode
 
 class LoginActivity : ComponentActivity() {
@@ -33,17 +35,14 @@ class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = viewModels<AndroidLoginViewModel>().value
+        lifecycleScope.launch { listen() }
         setContent {
             MyApplicationTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    LoginScreen(viewModel, onSelect = {
-                        lifecycleScope.launch(Dispatchers.Main) {
-                            launchBrowser(it)
-                        }
-                    })
+                    LoginScreen(viewModel)
                 }
             }
         }
@@ -54,6 +53,21 @@ class LoginActivity : ComponentActivity() {
         val code = intent?.data?.getQueryParameter("code")
         if (code != null) {
             viewModel.send(ProvideOauthCode(code))
+        }
+    }
+
+    private suspend fun listen() {
+        viewModel.sideEffectFlow.collect {
+            when (it) {
+                is LoginViewModel.Effect.GoToUrl -> {
+                    lifecycleScope.launch(Dispatchers.Main) {
+                        launchBrowser(it.url)
+                    }
+                }
+                is Complete -> {
+                    startActivity(HomeTimelineActivity.create(this, it.mastodon.id))
+                }
+            }
         }
     }
 

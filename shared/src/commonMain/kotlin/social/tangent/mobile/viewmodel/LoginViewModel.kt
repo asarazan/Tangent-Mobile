@@ -3,6 +3,11 @@ package social.tangent.mobile.viewmodel
 import kotlinx.coroutines.CoroutineScope
 import org.koin.core.component.KoinComponent
 import social.tangent.mobile.sdk.Mastodon
+import social.tangent.mobile.sdk.MastodonServer
+import social.tangent.mobile.sdk.storage.MastodonStorage
+import social.tangent.mobile.viewmodel.LoginViewModel.Effect.Complete
+import social.tangent.mobile.viewmodel.LoginViewModel.Effect.GoToUrl
+import social.tangent.mobile.viewmodel.LoginViewModel.Event.ProvideOauthCode
 import social.tangent.mobile.viewmodel.LoginViewModel.Event.SelectInstance
 import social.tangent.mobile.viewmodel.LoginViewModel.Event.SetTextEvent
 import social.tangent.mobile.viewmodel.base.MobileViewModel
@@ -14,7 +19,7 @@ class LoginViewModel(scope: CoroutineScope) :
     MobileViewModel<LoginViewModel.State, LoginViewModel.Event, LoginViewModel.Effect>(scope),
     KoinComponent {
 
-    var mastodon: Mastodon? = null
+    var server: MastodonServer? = null
 
     override fun initialState() = State()
 
@@ -22,10 +27,10 @@ class LoginViewModel(scope: CoroutineScope) :
         return when (event) {
             is SetTextEvent -> currentState.copy(text = event.text)
             is SelectInstance -> {
-                onSelect(event.onReady)
+                onSelect()
                 currentState
             }
-            is Event.ProvideOauthCode -> {
+            is ProvideOauthCode -> {
                 onCode(event.code)
                 currentState.copy(loading = true)
             }
@@ -33,10 +38,12 @@ class LoginViewModel(scope: CoroutineScope) :
     }
 
     private suspend fun onCode(code: String) {
-        mastodon!!.provideCode(code)
+        val mastodon = server!!.authenticate(code)
+        MastodonStorage.set(mastodon)
+        sendSideEffect(Complete(mastodon))
     }
 
-    private suspend fun onSelect(onReady: (String) -> Unit) {
+    private suspend fun onSelect() {
         var host = state.text
         if (host.isEmpty()) {
             host = "https://mastodon.social/"
@@ -49,14 +56,14 @@ class LoginViewModel(scope: CoroutineScope) :
         }
 
         println("Connect to host $host")
-        mastodon = Mastodon.create(host)
+        server = MastodonServer.acquire(host)
 
-        val url = "${mastodon!!.domain}/oauth/authorize" +
-            "?client_id=${mastodon!!.app?.clientId}" +
-            "&scope=${mastodon!!.token?.scope}" +
-            "&redirect_uri=${Mastodon.redirect}" +
+        val url = "${server!!.domain}/oauth/authorize" +
+            "?client_id=${server!!.app.clientId}" +
+            "&scope=${server!!.token.scope}" +
+            "&redirect_uri=${MastodonServer.redirect}" +
             "&response_type=code"
-        onReady(url)
+        sendSideEffect(GoToUrl(url))
     }
 
     data class State(
@@ -64,9 +71,12 @@ class LoginViewModel(scope: CoroutineScope) :
         val loading: Boolean = false
     )
     sealed class Event {
+        object SelectInstance : Event()
         class SetTextEvent(val text: String) : Event()
-        class SelectInstance(val onReady: (String) -> Unit) : Event()
         class ProvideOauthCode(val code: String): Event()
     }
-    sealed class Effect
+    sealed class Effect {
+        class GoToUrl(val url: String) : Effect()
+        class Complete(val mastodon: Mastodon) : Effect()
+    }
 }

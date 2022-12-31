@@ -34,10 +34,7 @@ import social.tangent.mobile.viewmodel.SharedLoginViewModel
 import social.tangent.mobile.viewmodel.base.PreviewModel
 
 @Composable
-fun LoginScreen(
-    vm: SharedLoginViewModel = viewModel<AndroidLoginViewModel>(),
-    onSelect: (String) -> Unit = {}
-) {
+fun LoginScreen(vm: SharedLoginViewModel = viewModel<AndroidLoginViewModel>()) {
     val state by vm.stateFlow.collectAsState()
     if (state.loading) {
         Box(contentAlignment = Alignment.Center) {
@@ -64,14 +61,14 @@ fun LoginScreen(
             modifier = Modifier
                 .height(64.dp)
                 .fillMaxWidth(0.8f),
-            onClick = { vm.send(SelectInstance(onSelect)) }
+            onClick = { vm.send(SelectInstance) }
         ) {
             Text("Select Instance")
         }
         Spacer(modifier = Modifier.height(16.dp))
         TextButton(onClick = {
             vm.send(SetTextEvent("https://mastodon.gamedev.place/"))
-            vm.send(SelectInstance(onSelect))
+            vm.send(SelectInstance)
         }) {
             Text("(debug w/ gamedev)")
         }

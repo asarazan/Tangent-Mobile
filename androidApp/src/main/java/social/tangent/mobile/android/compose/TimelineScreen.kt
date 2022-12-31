@@ -26,11 +26,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import social.tangent.mobile.android.MyApplicationTheme
 import social.tangent.mobile.android.compose.status.StatusView
 import social.tangent.mobile.api.mock.MockApi
-import social.tangent.mobile.viewmodel.AndroidTimelineViewModel
 import social.tangent.mobile.viewmodel.SharedTimelineViewModel
 import social.tangent.mobile.viewmodel.TimelineViewModel
 import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Refresh
@@ -38,9 +36,7 @@ import social.tangent.mobile.viewmodel.base.PreviewModel
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun TimelineScreen(
-    vm: SharedTimelineViewModel = viewModel<AndroidTimelineViewModel>()
-) {
+fun TimelineScreen(vm: SharedTimelineViewModel) {
     val state by vm.stateFlow.collectAsState()
     val listState = rememberLazyListState()
     val pullRefreshState = rememberPullRefreshState(state.refreshing, { vm.send(Refresh) })
