@@ -8,6 +8,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
+import androidx.core.view.WindowCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import org.koin.core.component.KoinComponent
 import social.tangent.mobile.android.MyApplicationTheme
@@ -33,6 +34,7 @@ class HomeActivity : ComponentActivity(), KoinComponent {
         super.onCreate(savedInstanceState)
         val id = intent.getStringExtra("id")!!
         val mastodon = MastodonStorage.get(id)!!
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             val vm = viewModel<AndroidHomeViewModel>()
             vm.send(Init(mastodon))

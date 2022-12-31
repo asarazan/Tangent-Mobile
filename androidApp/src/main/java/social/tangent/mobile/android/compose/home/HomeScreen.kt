@@ -6,14 +6,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import social.tangent.mobile.android.MyApplicationTheme
 import social.tangent.mobile.android.compose.home.HomeBottomBar
+import social.tangent.mobile.android.compose.home.HomeDrawer
 import social.tangent.mobile.android.compose.home.HomeTopBar
 import social.tangent.mobile.viewmodel.AndroidTimelineViewModel
 import social.tangent.mobile.viewmodel.HomeViewModel
@@ -25,9 +28,13 @@ import social.tangent.mobile.viewmodel.base.PreviewModel
 fun HomeScreen(vm: SharedHomeViewModel) {
     val state by vm.stateFlow.collectAsState()
     val mastodon = state.mastodon
+    val scaffold = rememberScaffoldState()
     Scaffold(
-        topBar = { HomeTopBar() },
+        scaffoldState = scaffold,
+        topBar = { HomeTopBar(scaffold) },
         bottomBar = { HomeBottomBar() },
+        drawerContent = { HomeDrawer() },
+        drawerShape = RectangleShape,
         modifier = Modifier.fillMaxSize())
     {
         contentPadding ->
