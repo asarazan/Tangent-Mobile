@@ -11,7 +11,7 @@ class MainActivity : ComponentActivity() {
         if (mastodons.isEmpty()) {
             startActivity(LoginActivity.create(this))
         } else {
-            startActivity(HomeTimelineActivity.create(this, mastodons[0].id))
+            startActivity(HomeActivity.create(this))
         }
         finish()
     }

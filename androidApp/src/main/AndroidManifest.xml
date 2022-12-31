@@ -9,6 +9,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".activity.HomeActivity"
+            android:exported="false">
+        </activity>
+        <activity
             android:name=".activity.LoginActivity"
             android:exported="true"
             android:launchMode="singleTop">

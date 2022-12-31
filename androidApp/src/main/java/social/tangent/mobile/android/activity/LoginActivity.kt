@@ -65,7 +65,7 @@ class LoginActivity : ComponentActivity() {
                     }
                 }
                 is Complete -> {
-                    startActivity(HomeTimelineActivity.create(this, it.mastodon.id))
+                    startActivity(Intent(this, MainActivity::class.java))
                 }
             }
         }
