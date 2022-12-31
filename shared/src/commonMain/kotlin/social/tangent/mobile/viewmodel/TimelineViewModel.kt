@@ -2,6 +2,8 @@ package social.tangent.mobile.viewmodel
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import org.koin.core.component.KoinComponent
 import social.tangent.mobile.api.entities.Status
 import social.tangent.mobile.sdk.Mastodon
@@ -65,6 +67,8 @@ class TimelineViewModel(scope: CoroutineScope) :
 
     private suspend fun fetch() {
         val timeline = mastodon.timeline.head()
+        val json = Json.encodeToString(timeline)
+        println(json)
         this.state = state.copy(
             loading = false,
             refreshing = false,

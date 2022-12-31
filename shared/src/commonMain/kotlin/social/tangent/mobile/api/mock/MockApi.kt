@@ -18,6 +18,7 @@ class MockApi(val delay: Long = 0) : Api, KoinComponent {
         val fakeStatus by lazy { timeline[0] }
         val longStatus by lazy { timeline[1] }
         val rtlStatus by lazy { timeline[5] }
+        val reblogStatus by lazy { Json.decodeFromString<Status>(reblog) }
     }
 
     override suspend fun getInstance(domain: String?): Instance {
@@ -71,6 +72,127 @@ class MockApi(val delay: Long = 0) : Api, KoinComponent {
     }
 }
 
+private val reblog = """{
+        "id": "109610793176616268",
+        "uri": "https://hachyderm.io/users/mekkaokereke/statuses/109610792452680639/activity",
+        "created_at": "2022-12-31T23:06:01Z",
+        "account": {
+            "id": "109387287352822029",
+            "username": "mekkaokereke",
+            "acct": "mekkaokereke@hachyderm.io",
+            "url": "https://hachyderm.io/@mekkaokereke",
+            "display_name": "mekka okereke :verified:",
+            "note": "<p>Building Digital Ecosystems at Google, but opinions my own. he/him. Black Lives Matter.</p>",
+            "avatar": "https://cdn.masto.host/mastodongamedevplace/cache/accounts/avatars/109/387/287/352/822/029/original/af48c59c06515de6.png",
+            "avatar_static": "https://cdn.masto.host/mastodongamedevplace/cache/accounts/avatars/109/387/287/352/822/029/original/af48c59c06515de6.png",
+            "header": "https://cdn.masto.host/mastodongamedevplace/cache/accounts/headers/109/387/287/352/822/029/original/e2868091682b9125.png",
+            "header_static": "https://cdn.masto.host/mastodongamedevplace/cache/accounts/headers/109/387/287/352/822/029/original/e2868091682b9125.png",
+            "locked": false,
+            "emojis": [
+                {
+                    "shortcode": "verified",
+                    "url": "https://cdn.masto.host/mastodongamedevplace/cache/custom_emojis/images/000/156/268/original/506eb59c6265bd23.png",
+                    "static_url": "https://cdn.masto.host/mastodongamedevplace/cache/custom_emojis/images/000/156/268/static/506eb59c6265bd23.png",
+                    "visible_in_picker": true
+                }
+            ],
+            "discoverable": false,
+            "created_at": "2022-11-22T00:00:00Z",
+            "last_status_at": "2022-12-31",
+            "statuses_count": 958,
+            "followers_count": 11740,
+            "following_count": 767,
+            "fields": [
+                {
+                    "name": "Blog",
+                    "value": "<a href=\"https://mekka-tech.com\" rel=\"nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"\">mekka-tech.com</span><span class=\"invisible\"></span></a>",
+                    "verified_at": "2022-12-27T07:19:43.878Z"
+                }
+            ],
+            "bot": false
+        },
+        "content": "",
+        "visibility": "public",
+        "sensitive": false,
+        "spoiler_text": "",
+        "media_attachments": [],
+        "mentions": [],
+        "tags": [],
+        "emojis": [],
+        "reblogs_count": 0,
+        "favourites_count": 0,
+        "replies_count": 0,
+        "reblog": {
+            "id": "109610695851268213",
+            "uri": "https://hachyderm.io/users/inthehands/statuses/109610695801359097",
+            "created_at": "2022-12-31T22:41:26Z",
+            "account": {
+                "id": "109320263930687952",
+                "username": "inthehands",
+                "acct": "inthehands@hachyderm.io",
+                "url": "https://hachyderm.io/@inthehands",
+                "display_name": "Paul Cantrell",
+                "note": "<p>Composer, pianist, programmer, professor, rabble rouser, redhead</p><p>Computer Science at <a href=\"https://www.macalester.edu/mscs/\" rel=\"nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://www.</span><span class=\"\">macalester.edu/mscs/</span><span class=\"invisible\"></span></a><br>(Student projects: <a href=\"https://devgarden.macalester.edu\" rel=\"nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"\">devgarden.macalester.edu</span><span class=\"invisible\"></span></a>)<br>Artistic Director of <a href=\"https://newruckus.org\" rel=\"nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"\">newruckus.org</span><span class=\"invisible\"></span></a><br>Freelance software dev, often with <a href=\"https://bustout.com\" rel=\"nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"\">bustout.com</span><span class=\"invisible\"></span></a><br>Musical troublemaker <a href=\"https://innig.net/music/\" rel=\"nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"\">innig.net/music/</span><span class=\"invisible\"></span></a></p><p>Minneapolis, MN<br>Born &amp; raised in Ft. Collins, CO<br>he/him or they/them</p><p>The heart is the toughest part of the body.<br>Tenderness is in the hands.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;— Carolyn Forché</p>",
+                "avatar": "https://cdn.masto.host/mastodongamedevplace/cache/accounts/avatars/109/320/263/930/687/952/original/e30b97e2ebae41da.png",
+                "avatar_static": "https://cdn.masto.host/mastodongamedevplace/cache/accounts/avatars/109/320/263/930/687/952/original/e30b97e2ebae41da.png",
+                "header": "https://cdn.masto.host/mastodongamedevplace/cache/accounts/headers/109/320/263/930/687/952/original/997c54cb8e5e3037.jpeg",
+                "header_static": "https://cdn.masto.host/mastodongamedevplace/cache/accounts/headers/109/320/263/930/687/952/original/997c54cb8e5e3037.jpeg",
+                "locked": false,
+                "emojis": [],
+                "discoverable": true,
+                "created_at": "2022-11-10T00:00:00Z",
+                "last_status_at": "2022-12-31",
+                "statuses_count": 1944,
+                "followers_count": 779,
+                "following_count": 327,
+                "fields": [
+                    {
+                        "name": "Personal site",
+                        "value": "<a href=\"https://innig.net\" rel=\"nofollow noopener noreferrer\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"\">innig.net</span><span class=\"invisible\"></span></a>",
+                        "verified_at": "2022-12-17T12:28:24.210Z"
+                    }
+                ],
+                "bot": false
+            },
+            "content": "<p><span class=\"h-card\"><a href=\"https://mastodon.art/@secretsloth\" class=\"u-url mention\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">@<span>secretsloth</span></a></span> <span class=\"h-card\"><a href=\"https://hachyderm.io/@mekkaokereke\" class=\"u-url mention\" rel=\"nofollow noopener noreferrer\" target=\"_blank\">@<span>mekkaokereke</span></a></span> People nationally don’t quite realize that this is one of Ilhan Omar’s big strengths: she’s run a hell of a turnout operation here in MSP. She lifts other Dem candidates up and down the ballot. This is one reason why there was a concerted effort to primary her this year, why right-wing ${'$'} found its way to her allegedly Dem opponent. Nearly worked, too.</p>",
+            "visibility": "unlisted",
+            "sensitive": true,
+            "spoiler_text": "US elections, voter suppression, demographics",
+            "media_attachments": [],
+            "mentions": [
+                {
+                    "id": "109329469170766145",
+                    "username": "secretsloth",
+                    "acct": "secretsloth@mastodon.art",
+                    "url": "https://mastodon.art/@secretsloth"
+                },
+                {
+                    "id": "109387287352822029",
+                    "username": "mekkaokereke",
+                    "acct": "mekkaokereke@hachyderm.io",
+                    "url": "https://hachyderm.io/@mekkaokereke"
+                }
+            ],
+            "tags": [],
+            "emojis": [],
+            "reblogs_count": 1,
+            "favourites_count": 0,
+            "replies_count": 1,
+            "url": "https://hachyderm.io/@inthehands/109610695801359097",
+            "in_reply_to_id": "109610645089116149",
+            "in_reply_to_account_id": "109329469170766145",
+            "language": "en",
+            "favourited": false,
+            "reblogged": false,
+            "muted": false,
+            "bookmarked": false
+        },
+        "favourited": false,
+        "reblogged": false,
+        "muted": false,
+        "bookmarked": false
+    }"""
+private val mockTimelineNew = ""
 private val mockTimeline = """
     [
             {

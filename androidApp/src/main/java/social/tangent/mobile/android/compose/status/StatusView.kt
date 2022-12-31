@@ -52,8 +52,8 @@ fun StatusView(
 
 @Preview(widthDp = 540)
 @Composable
-fun PreviewStatusView() {
-    MyApplicationTheme(darkTheme = false) {
+fun PreviewStatusViewDark() {
+    MyApplicationTheme(darkTheme = true) {
         Surface(color = MaterialTheme.colors.background) {
             StatusView(
                 PreviewModel(mockState),
@@ -65,12 +65,12 @@ fun PreviewStatusView() {
 
 @Preview(widthDp = 540)
 @Composable
-fun PreviewStatusViewDark() {
+fun PreviewStatusReblog() {
     MyApplicationTheme(darkTheme = true) {
         Surface(color = MaterialTheme.colors.background) {
             StatusView(
                 PreviewModel(mockState),
-                mockStatus.copy(reblogged = true, favourited = true)
+                MockApi.reblogStatus
             )
         }
     }
