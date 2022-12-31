@@ -17,7 +17,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import social.tangent.mobile.android.MyApplicationTheme
 import social.tangent.mobile.android.compose.home.HomeBottomBar
 import social.tangent.mobile.android.compose.home.HomeDrawer
-import social.tangent.mobile.android.compose.home.HomeTopBar
+import social.tangent.mobile.android.compose.home.HomeTopBarNew
 import social.tangent.mobile.viewmodel.AndroidTimelineViewModel
 import social.tangent.mobile.viewmodel.HomeViewModel
 import social.tangent.mobile.viewmodel.SharedHomeViewModel
@@ -31,7 +31,7 @@ fun HomeScreen(vm: SharedHomeViewModel) {
     val scaffold = rememberScaffoldState()
     Scaffold(
         scaffoldState = scaffold,
-        topBar = { HomeTopBar(scaffold) },
+        topBar = { HomeTopBarNew(scaffold) },
         bottomBar = { HomeBottomBar() },
         drawerContent = { HomeDrawer() },
         drawerShape = RectangleShape,
