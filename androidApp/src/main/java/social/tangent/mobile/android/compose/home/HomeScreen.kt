@@ -16,7 +16,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import social.tangent.mobile.android.MyApplicationTheme
 import social.tangent.mobile.android.compose.home.HomeBottomBar
-import social.tangent.mobile.android.compose.home.HomeDrawer
 import social.tangent.mobile.android.compose.home.HomeTopBarNew
 import social.tangent.mobile.viewmodel.AndroidTimelineViewModel
 import social.tangent.mobile.viewmodel.HomeViewModel
@@ -33,7 +32,7 @@ fun HomeScreen(vm: SharedHomeViewModel) {
         scaffoldState = scaffold,
         topBar = { HomeTopBarNew(scaffold) },
         bottomBar = { HomeBottomBar() },
-        drawerContent = { HomeDrawer() },
+        // drawerContent = { HomeDrawer() },
         drawerShape = RectangleShape,
         modifier = Modifier.fillMaxSize())
     {

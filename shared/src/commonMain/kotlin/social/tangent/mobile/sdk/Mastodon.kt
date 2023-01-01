@@ -18,24 +18,12 @@ class Mastodon(
     internal fun bearer(): String = "Bearer ${token.accessToken}"
 
     suspend fun fave(status: Status, faved: Boolean): Status {
-        // TODO api.
-        return status.copy(
-            favourited = faved,
-            favouritesCount = status.favouritesCount + 1
-        )
+        return if (faved) api.favourite(bearer(), status.id) else api.unfavourite(bearer(), id)
     }
 
     suspend fun reblog(status: Status, reblogged: Boolean): Status {
-        // TODO api.
-        return status.copy(
-            reblogged = reblogged,
-            reblogsCount = status.reblogsCount + 1
-        )
+        return if (reblogged) api.reblog(bearer(), status.id) else api.unreblog(bearer(), id)
     }
 
-    companion object {
-        fun all() {
-
-        }
-    }
+    companion object {}
 }

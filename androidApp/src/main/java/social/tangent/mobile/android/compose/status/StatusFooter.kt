@@ -32,7 +32,6 @@ fun StatusFooter(
     status: Status,
     modifier: Modifier = Modifier
 ) {
-    // val lottieHeart by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.favorite_heart))
     Row(
         modifier = modifier.fillMaxWidth(1f),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -51,7 +50,6 @@ fun StatusFooter(
         ) {
             vm.send(Fave(status, !(status.favourited ?: false)))
         }
-        // LottieAnimation(composition = lottieHeart)
         FooterButton(id = R.drawable.share_from_square) {}
     }
 }

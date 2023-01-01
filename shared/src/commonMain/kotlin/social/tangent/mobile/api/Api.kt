@@ -59,4 +59,28 @@ interface Api {
     suspend fun verifyAccountCredentials(
         @Header("Authorization") authentication: String
     ): Account
+
+    @POST("/api/v1/statuses/{id}/favourite")
+    suspend fun favourite(
+        @Header("Authorization") authentication: String,
+        @Path("id") id: String
+    ): Status
+
+    @POST("/api/v1/statuses/{id}/unfavourite")
+    suspend fun unfavourite(
+        @Header("Authorization") authentication: String,
+        @Path("id") id: String
+    ): Status
+
+    @POST("/api/v1/statuses/{id}/reblog")
+    suspend fun reblog(
+        @Header("Authorization") authentication: String,
+        @Path("id") id: String
+    ): Status
+
+    @POST("/api/v1/statuses/{id}/unreblog")
+    suspend fun unreblog(
+        @Header("Authorization") authentication: String,
+        @Path("id") id: String
+    ): Status
 }

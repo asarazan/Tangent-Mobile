@@ -70,6 +70,22 @@ class MockApi(val delay: Long = 0) : Api, KoinComponent {
     ): List<Status> {
         TODO("Not yet implemented")
     }
+
+    override suspend fun favourite(authentication: String, id: String): Status {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun unfavourite(authentication: String, id: String): Status {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun reblog(authentication: String, id: String): Status {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun unreblog(authentication: String, id: String): Status {
+        TODO("Not yet implemented")
+    }
 }
 
 private val reblog = """{
