@@ -1,0 +1,16 @@
+CREATE TABLE Status(
+    id TEXT PRIMARY KEY,
+    account_id TEXT,
+    date TEXT, -- YYYY-MM-DD HH:MM:SS.SSS
+    is_last INTEGER AS Boolean DEFAULT 0,
+    json BLOB -- Status.kt
+);
+
+CREATE INDEX timeline_account ON Status(account_id);
+CREATE INDEX timeline_sep ON Status(is_last);
+
+insert:
+INSERT OR REPLACE INTO Status(id, account_id, date, is_last, json)
+VALUES (?, ?, ?, ?, ?);
+
+

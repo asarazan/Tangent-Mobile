@@ -68,7 +68,6 @@ class TimelineViewModel(scope: CoroutineScope) :
     private suspend fun fetch() {
         val timeline = mastodon.timeline.head()
         val json = Json.encodeToString(timeline)
-        println(json)
         this.state = state.copy(
             loading = false,
             refreshing = false,

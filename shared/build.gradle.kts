@@ -6,6 +6,7 @@ plugins {
     kotlin("plugin.serialization") version "1.7.20"
     id("com.android.library")
     id("com.google.devtools.ksp") version "1.7.20-1.0.7"
+    id("com.squareup.sqldelight") version "1.5.4"
     // id("org.jmailen.kotlinter")
 }
 
@@ -47,6 +48,7 @@ kotlin {
                 api("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
                 implementation("de.jensklingenberg.ktorfit:ktorfit-lib:$ktorfitVersion")
                 api("com.russhwolf:multiplatform-settings:1.0.0-RC")
+                implementation("com.squareup.sqldelight:coroutines-extensions:1.5.4")
             }
         }
         val commonTest by getting {
@@ -66,6 +68,7 @@ kotlin {
                 implementation("io.insert-koin:koin-androidx-compose:$koin_android_compose_version")
                 implementation("io.insert-koin:koin-ktor:$koin_ktor")
                 api("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1")
+                implementation("com.squareup.sqldelight:android-driver:1.5.4")
             }
         }
         val androidTest by getting
@@ -79,6 +82,7 @@ kotlin {
             iosSimulatorArm64Main.dependsOn(this)
             dependencies {
                 implementation("io.ktor:ktor-client-darwin:$ktor_version")
+                implementation("com.squareup.sqldelight:native-driver:1.5.4")
             }
         }
         val iosX64Test by getting
@@ -98,7 +102,6 @@ android {
     compileSdk = 33
     defaultConfig {
         minSdk = 24
-        targetSdk = 33
     }
 }
 
@@ -107,4 +110,10 @@ dependencies {
     add("kspAndroid", "de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfitVersion")
     add("kspIosX64", "de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfitVersion")
     add("kspIosSimulatorArm64", "de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfitVersion")
+}
+
+sqldelight {
+    database("TangentStorage") {
+        packageName = "social.tangent.mobile"
+    }
 }
