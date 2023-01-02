@@ -3,6 +3,7 @@ package social.tangent.mobile.android.compose
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
@@ -28,9 +29,10 @@ fun HomeScreen(vm: SharedHomeViewModel) {
     val state by vm.stateFlow.collectAsState()
     val mastodon = state.mastodon
     val scaffold = rememberScaffoldState()
+    val listState = rememberLazyListState()
     Scaffold(
         scaffoldState = scaffold,
-        topBar = { HomeTopBarNew(scaffold) },
+        topBar = { HomeTopBarNew(scaffold, listState = listState) },
         bottomBar = { HomeBottomBar() },
         // drawerContent = { HomeDrawer() },
         drawerShape = RectangleShape,
@@ -46,7 +48,7 @@ fun HomeScreen(vm: SharedHomeViewModel) {
             } else {
                 val tlvm = viewModel<AndroidTimelineViewModel>()
                 tlvm.send(Init(mastodon))
-                TimelineScreen(vm = tlvm)
+                TimelineScreen(vm = tlvm, listState = listState)
             }
         }
     }

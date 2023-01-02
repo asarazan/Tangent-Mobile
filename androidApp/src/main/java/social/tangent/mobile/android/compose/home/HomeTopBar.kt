@@ -7,7 +7,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Surface
@@ -31,7 +33,12 @@ import social.tangent.mobile.viewmodel.HomeViewModel
 import social.tangent.mobile.viewmodel.base.PreviewModel
 
 @Composable
-fun HomeTopBarNew(scaffold: ScaffoldState, modifier: Modifier = Modifier) {
+fun HomeTopBarNew(
+    scaffold: ScaffoldState,
+    modifier: Modifier = Modifier,
+    listState: LazyListState? = null,
+) {
+    val scope = rememberCoroutineScope()
     Column(
         modifier = modifier
             .statusBarsPadding()
@@ -45,11 +52,17 @@ fun HomeTopBarNew(scaffold: ScaffoldState, modifier: Modifier = Modifier) {
             contentAlignment = Alignment.Center
         ) {
             // Spacer(modifier = Modifier.fillMaxWidth(0.5f))
-            Icon(
-                painterResource(id = R.drawable.logo),
-                "Logo",
-                tint = MaterialTheme.colors.onBackground,
-            )
+            IconButton(onClick = {
+                scope.launch {
+                    listState?.animateScrollToItem(0)
+                }
+            }) {
+                Icon(
+                    painterResource(id = R.drawable.logo),
+                    "Logo",
+                    tint = MaterialTheme.colors.onBackground,
+                )
+            }
             // Spacer(modifier = Modifier.fillMaxWidth(0.5f))
         }
         MyDivider()

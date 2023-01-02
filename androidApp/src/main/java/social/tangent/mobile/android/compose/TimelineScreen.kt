@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.CircularProgressIndicator
@@ -36,9 +37,11 @@ import social.tangent.mobile.viewmodel.base.PreviewModel
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun TimelineScreen(vm: SharedTimelineViewModel) {
+fun TimelineScreen(
+    vm: SharedTimelineViewModel,
+    listState: LazyListState = rememberLazyListState()
+) {
     val state by vm.stateFlow.collectAsState()
-    val listState = rememberLazyListState()
     val pullRefreshState = rememberPullRefreshState(state.refreshing, { vm.send(Refresh) })
 
     Surface(color = MaterialTheme.colors.background) {
