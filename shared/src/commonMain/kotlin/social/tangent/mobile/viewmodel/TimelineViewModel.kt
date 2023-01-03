@@ -1,13 +1,13 @@
 package social.tangent.mobile.viewmodel
 
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import org.koin.core.component.KoinComponent
 import social.tangent.mobile.api.entities.Status
+import social.tangent.mobile.data.tweets.TimelineContent
+import social.tangent.mobile.data.tweets.TimelineStorage
 import social.tangent.mobile.sdk.Mastodon
-import social.tangent.mobile.sdk.extensions.replace
 import social.tangent.mobile.viewmodel.TimelineViewModel.Effect
 import social.tangent.mobile.viewmodel.TimelineViewModel.Event
 import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Fave
@@ -17,6 +17,7 @@ import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Refresh
 import social.tangent.mobile.viewmodel.TimelineViewModel.State
 import social.tangent.mobile.viewmodel.base.MobileViewModel
 import social.tangent.mobile.viewmodel.base.SharedViewModel
+import kotlin.random.Random
 
 typealias SharedTimelineViewModel = SharedViewModel<State, Event, Effect>
 
@@ -24,7 +25,7 @@ class TimelineViewModel(scope: CoroutineScope) :
     MobileViewModel<State, Event, Effect>(scope), KoinComponent {
 
     private var init = false
-    private lateinit var mastodon: Mastodon
+    private lateinit var storage: TimelineStorage
 
     override fun initialState() = State(listOf(), loading = true, refreshing = false)
 
@@ -33,21 +34,42 @@ class TimelineViewModel(scope: CoroutineScope) :
             is Init -> {
                 if (!init) {
                     init = true
-                    mastodon = event.mastodon
-                    scope.launch { fetch() }
+                    storage = TimelineStorage.create(event.mastodon, scope)
+                    init()
                 }
                 currentState
             }
             is Fave -> currentState.copy(
-                statuses = currentState.statuses.replace(mastodon.fave(event.status, event.faved))
+                // statuses = currentState.statuses.replace(mastodon.fave(event.status, event.faved))
             )
             is Reblog -> currentState.copy(
-                statuses = currentState.statuses.replace(mastodon.reblog(event.status, event.reblogged))
+                // statuses = currentState.statuses.replace(mastodon.reblog(event.status, event.reblogged))
             )
-            Refresh -> {
-                scope.launch { fetch() }
-                currentState.copy(refreshing = true)
+            is Refresh -> {
+                scope.launch { storage.fetch() }
+                currentState
             }
+        }
+    }
+
+    private fun init() {
+        scope.launch {
+            storage.timeline.collectLatest { timeline ->
+                state = state.copy(
+                    loading = false,
+                    statuses = timeline.content
+                        .filterIsInstance<TimelineContent.StatusContent>()
+                        .map { it.status }
+                )
+            }
+        }
+        scope.launch {
+            storage.isLoading.collectLatest {
+                state = state.copy(refreshing = it)
+            }
+        }
+        scope.launch {
+            storage.fetch()
         }
     }
 
@@ -61,17 +83,8 @@ class TimelineViewModel(scope: CoroutineScope) :
         class Fave(val status: Status, val faved: Boolean) : Event()
         class Reblog(val status: Status, val reblogged: Boolean) : Event()
         class Init(val mastodon: Mastodon) : Event()
-        object Refresh : Event()
+        class Refresh(val id: Long = Random.nextLong()) : Event()
     }
     sealed class Effect
-
-    private suspend fun fetch() {
-        val timeline = mastodon.timeline.head()
-        val json = Json.encodeToString(timeline)
-        this.state = state.copy(
-            loading = false,
-            refreshing = false,
-            statuses = timeline
-        )
-    }
 }
+

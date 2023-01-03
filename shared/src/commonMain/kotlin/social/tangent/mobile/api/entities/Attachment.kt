@@ -102,6 +102,9 @@ data class Attachment(
         VIDEO("video"),
 
         @SerialName("gifv")
-        GIFV("gifv");
+        GIFV("gifv"),
+
+        @SerialName("unknown")
+        UNKNOWN("unknown");
     }
 }

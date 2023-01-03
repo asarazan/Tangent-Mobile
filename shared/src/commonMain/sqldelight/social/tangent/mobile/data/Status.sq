@@ -1,16 +1,20 @@
-CREATE TABLE Status(
+import social.tangent.mobile.api.entities.Status;
+
+CREATE TABLE DbStatus(
     id TEXT PRIMARY KEY,
-    account_id TEXT,
-    date TEXT, -- YYYY-MM-DD HH:MM:SS.SSS
-    is_last INTEGER AS Boolean DEFAULT 0,
-    json BLOB -- Status.kt
+    account_id TEXT NOT NULL,
+    date TEXT NOT NULL, -- YYYY-MM-DD HH:MM:SS.SSS
+    is_last INTEGER AS Boolean DEFAULT 0 NOT NULL,
+    json TEXT AS Status NOT NULL
 );
 
-CREATE INDEX timeline_account ON Status(account_id);
-CREATE INDEX timeline_sep ON Status(is_last);
+CREATE INDEX timeline_account ON DbStatus(account_id);
+CREATE INDEX timeline_sep ON DbStatus(is_last);
 
 insert:
-INSERT OR REPLACE INTO Status(id, account_id, date, is_last, json)
+INSERT OR REPLACE INTO DbStatus(id, account_id, date, is_last, json)
 VALUES (?, ?, ?, ?, ?);
 
-
+selectAll:
+SELECT json, is_last FROM DbStatus
+ORDER BY date DESC;

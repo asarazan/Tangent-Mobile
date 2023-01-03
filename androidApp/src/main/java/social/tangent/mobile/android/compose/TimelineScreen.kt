@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import social.tangent.mobile.android.MyApplicationTheme
 import social.tangent.mobile.android.compose.status.StatusView
 import social.tangent.mobile.android.compose.util.MyDivider
+import social.tangent.mobile.android.compose.util.scrollbar
 import social.tangent.mobile.api.mock.MockApi
 import social.tangent.mobile.viewmodel.SharedTimelineViewModel
 import social.tangent.mobile.viewmodel.TimelineViewModel
@@ -42,7 +43,9 @@ fun TimelineScreen(
     listState: LazyListState = rememberLazyListState()
 ) {
     val state by vm.stateFlow.collectAsState()
-    val pullRefreshState = rememberPullRefreshState(state.refreshing, { vm.send(Refresh) })
+    val pullRefreshState = rememberPullRefreshState(state.refreshing, {
+        vm.send(Refresh())
+    })
 
     Surface(color = MaterialTheme.colors.background) {
         Box(
@@ -58,7 +61,8 @@ fun TimelineScreen(
             } else {
                 LazyColumn(
                     state = listState,
-                    modifier = Modifier.background(MaterialTheme.colors.background),
+                    modifier = Modifier.background(MaterialTheme.colors.background)
+                        .scrollbar(listState, false, ),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     items(state.statuses, key = { it.id }) {

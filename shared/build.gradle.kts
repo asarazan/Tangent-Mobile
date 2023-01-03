@@ -113,7 +113,7 @@ dependencies {
 }
 
 sqldelight {
-    database("TangentStorage") {
+    database("TangentDatabase") {
         packageName = "social.tangent.mobile"
     }
 }
