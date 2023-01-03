@@ -62,7 +62,7 @@ fun TimelineScreen(
                 LazyColumn(
                     state = listState,
                     modifier = Modifier.background(MaterialTheme.colors.background)
-                        .scrollbar(listState, false, ),
+                        .scrollbar(listState, false, fixedKnobRatio = 0.05f),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     items(state.statuses, key = { it.id }) {
