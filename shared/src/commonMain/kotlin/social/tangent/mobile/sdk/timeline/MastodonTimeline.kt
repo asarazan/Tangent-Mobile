@@ -8,9 +8,11 @@ class MastodonTimeline(val mastodon: Mastodon) {
     val api get() = mastodon.api
     val token get() = mastodon.token
 
-    suspend fun head(): List<Status> {
+    suspend fun fetch(fromId: String? = null): List<Status> {
         return mastodon.api.getHomeTimeline(
-            mastodon.bearer()
+            authentication = mastodon.bearer(),
+            maxId = fromId,
+            limit = 40
         )
     }
 }

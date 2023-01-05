@@ -2,19 +2,29 @@ import social.tangent.mobile.api.entities.Status;
 
 CREATE TABLE DbStatus(
     id TEXT PRIMARY KEY,
+    json TEXT AS Status NOT NULL,
     account_id TEXT NOT NULL,
     date TEXT NOT NULL, -- YYYY-MM-DD HH:MM:SS.SSS
-    is_last INTEGER AS Boolean DEFAULT 0 NOT NULL,
-    json TEXT AS Status NOT NULL
+    load_more INTEGER AS Boolean DEFAULT 0 NOT NULL
 );
 
 CREATE INDEX timeline_account ON DbStatus(account_id);
-CREATE INDEX timeline_sep ON DbStatus(is_last);
+CREATE INDEX timeline_sep ON DbStatus(load_more);
 
 insert:
-INSERT OR REPLACE INTO DbStatus(id, account_id, date, is_last, json)
+INSERT OR REPLACE INTO DbStatus(id, json, account_id, date, load_more)
 VALUES (?, ?, ?, ?, ?);
 
 selectAll:
-SELECT json, is_last FROM DbStatus
+SELECT json, load_more FROM DbStatus
 ORDER BY date DESC;
+
+checkExists:
+SELECT id FROM DbStatus
+WHERE id = ?
+LIMIT 1;
+
+clearLoadMore:
+UPDATE DbStatus
+SET load_more = 0
+WHERE id = ?;

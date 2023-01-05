@@ -27,10 +27,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import social.tangent.mobile.android.MyApplicationTheme
+import social.tangent.mobile.android.compose.status.LoadMoreView
 import social.tangent.mobile.android.compose.status.StatusView
 import social.tangent.mobile.android.compose.util.MyDivider
 import social.tangent.mobile.android.compose.util.scrollbar
 import social.tangent.mobile.api.mock.MockApi
+import social.tangent.mobile.data.tweets.TimelineContent.StatusContent
 import social.tangent.mobile.viewmodel.SharedTimelineViewModel
 import social.tangent.mobile.viewmodel.TimelineViewModel
 import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Refresh
@@ -44,7 +46,7 @@ fun TimelineScreen(
 ) {
     val state by vm.stateFlow.collectAsState()
     val pullRefreshState = rememberPullRefreshState(state.refreshing, {
-        vm.send(Refresh())
+        vm.send(Refresh)
     })
 
     Surface(color = MaterialTheme.colors.background) {
@@ -61,12 +63,21 @@ fun TimelineScreen(
             } else {
                 LazyColumn(
                     state = listState,
-                    modifier = Modifier.background(MaterialTheme.colors.background)
+                    modifier = Modifier
+                        .background(MaterialTheme.colors.background)
                         .scrollbar(listState, false, fixedKnobRatio = 0.05f),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
-                    items(state.statuses, key = { it.id }) {
-                        StatusView(vm, it)
+                    items(state.content, key = { it.id }) {
+                        when (it) {
+                            is StatusContent -> {
+                                StatusView(vm, it.status)
+                                if (it.loadMore) {
+                                    MyDivider()
+                                    LoadMoreView(vm = vm, lastStatus = it.status)
+                                }
+                            }
+                        }
                         MyDivider()
                     }
                 }
@@ -76,7 +87,7 @@ fun TimelineScreen(
     }
 
     // nudge up a bit when the list changes.
-    val firstId = state.statuses.getOrNull(0)?.id
+    val firstId = state.content.getOrNull(0)?.id
     LaunchedEffect(firstId) {
         listState.animateScrollBy(-64f, tween(500))
     }

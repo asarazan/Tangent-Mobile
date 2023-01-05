@@ -17,7 +17,6 @@ import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Refresh
 import social.tangent.mobile.viewmodel.TimelineViewModel.State
 import social.tangent.mobile.viewmodel.base.MobileViewModel
 import social.tangent.mobile.viewmodel.base.SharedViewModel
-import kotlin.random.Random
 
 typealias SharedTimelineViewModel = SharedViewModel<State, Event, Effect>
 
@@ -45,6 +44,10 @@ class TimelineViewModel(scope: CoroutineScope) :
             is Reblog -> currentState.copy(
                 // statuses = currentState.statuses.replace(mastodon.reblog(event.status, event.reblogged))
             )
+            is Event.LoadMore -> {
+                scope.launch { storage.fetch(event.lastStatus) }
+                currentState
+            }
             is Refresh -> {
                 scope.launch { storage.fetch() }
                 currentState
@@ -57,9 +60,7 @@ class TimelineViewModel(scope: CoroutineScope) :
             storage.timeline.collectLatest { timeline ->
                 state = state.copy(
                     loading = false,
-                    statuses = timeline.content
-                        .filterIsInstance<TimelineContent.StatusContent>()
-                        .map { it.status }
+                    content = timeline.content
                 )
             }
         }
@@ -74,7 +75,7 @@ class TimelineViewModel(scope: CoroutineScope) :
     }
 
     data class State(
-        val statuses: List<Status>,
+        val content: List<TimelineContent>,
         val loading: Boolean = true,
         val refreshing: Boolean = false,
     )
@@ -83,7 +84,8 @@ class TimelineViewModel(scope: CoroutineScope) :
         class Fave(val status: Status, val faved: Boolean) : Event()
         class Reblog(val status: Status, val reblogged: Boolean) : Event()
         class Init(val mastodon: Mastodon) : Event()
-        class Refresh(val id: Long = Random.nextLong()) : Event()
+        class LoadMore(val lastStatus: Status) : Event()
+        object Refresh : Event()
     }
     sealed class Effect
 }

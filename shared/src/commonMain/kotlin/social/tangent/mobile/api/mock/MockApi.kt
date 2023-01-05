@@ -10,14 +10,19 @@ import social.tangent.mobile.api.entities.Application
 import social.tangent.mobile.api.entities.Instance
 import social.tangent.mobile.api.entities.Status
 import social.tangent.mobile.api.entities.Token
+import social.tangent.mobile.data.tweets.TimelineContent.StatusContent
 
 class MockApi(val delay: Long = 0) : Api, KoinComponent {
 
     companion object {
-        val timeline: List<Status> by lazy { Json.decodeFromString(mockTimeline) }
-        val fakeStatus by lazy { timeline[0] }
-        val longStatus by lazy { timeline[1] }
-        val rtlStatus by lazy { timeline[5] }
+        val timeline by lazy {
+            Json.decodeFromString<List<Status>>(mockTimeline).map {
+                StatusContent(it.id, it, false)
+            }
+        }
+        val fakeStatus by lazy { timeline[0].status }
+        val longStatus by lazy { timeline[1].status }
+        val rtlStatus by lazy { timeline[5].status }
         val reblogStatus by lazy { Json.decodeFromString<Status>(reblog) }
     }
 
@@ -54,7 +59,7 @@ class MockApi(val delay: Long = 0) : Api, KoinComponent {
         limit: Int?
     ): List<Status> {
         if (delay > 0L) delay(delay)
-        return timeline
+        return timeline.map { it.status }
     }
 
     override suspend fun verifyAccountCredentials(authentication: String): Account {
