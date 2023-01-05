@@ -11,7 +11,6 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -19,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import social.tangent.mobile.android.MyApplicationTheme
 import social.tangent.mobile.android.compose.util.Html
 import social.tangent.mobile.android.compose.util.trimPTags
+import social.tangent.mobile.android.onBackgroundFaint
 import social.tangent.mobile.api.entities.Status
 import social.tangent.mobile.api.mock.MockApi
 import social.tangent.mobile.viewmodel.SharedTimelineViewModel
@@ -43,7 +43,11 @@ fun StatusView(
             }
             Column {
                 Text(text = actual.account.displayName, fontWeight = FontWeight.Bold, overflow = TextOverflow.Ellipsis, modifier = Modifier.fillMaxWidth())
-                Text(text = actual.account.acct, overflow = TextOverflow.Ellipsis, modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp).alpha(0.4f))
+                Text(text = actual.account.acct,
+                    color = MaterialTheme.colors.onBackgroundFaint,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
+                )
                 Html(text = actual.content.trimPTags(), modifier = Modifier.padding(bottom = 8.dp).fillMaxWidth())
                 StatusFooter(vm, status = status)
             }

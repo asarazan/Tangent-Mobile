@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import social.tangent.mobile.android.MyApplicationTheme
 import social.tangent.mobile.android.R
+import social.tangent.mobile.android.onBackgroundFaint
 import social.tangent.mobile.api.entities.Status
 import social.tangent.mobile.viewmodel.SharedTimelineViewModel
 import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Fave
@@ -40,13 +41,13 @@ fun StatusFooter(
         FooterButton(id = R.drawable.comment_regular) {}
         FooterButton(
             id = R.drawable.retweet_solid,
-            color = if (status.reblogged == true) Color.Green else MaterialTheme.colors.onBackground
+            color = if (status.reblogged == true) Color.Green else MaterialTheme.colors.onBackgroundFaint
         ) {
             vm.send(Reblog(status, !(status.reblogged ?: false)))
         }
         FooterButton(
             id = if (status.favourited == true) R.drawable.heart_solid else R.drawable.heart_regular,
-            color = if (status.favourited == true) Color.Red else MaterialTheme.colors.onBackground
+            color = if (status.favourited == true) Color.Red else MaterialTheme.colors.onBackgroundFaint
         ) {
             vm.send(Fave(status, !(status.favourited ?: false)))
         }
@@ -57,7 +58,7 @@ fun StatusFooter(
 @Composable
 fun FooterButton(
     @DrawableRes id: Int,
-    color: Color = MaterialTheme.colors.onBackground,
+    color: Color = MaterialTheme.colors.onBackgroundFaint,
     onClick: () -> Unit = {}
 ) {
     IconButton(onClick = onClick) {
