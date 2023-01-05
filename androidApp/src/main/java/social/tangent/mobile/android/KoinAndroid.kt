@@ -2,9 +2,7 @@ package social.tangent.mobile.android
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.os.Build
 import coil.ImageLoader
-import coil.decode.GifDecoder
 import coil.decode.ImageDecoderDecoder
 import coil.decode.SvgDecoder
 import coil.decode.VideoFrameDecoder
@@ -33,11 +31,7 @@ fun initKoinAndroid(appModule: Module): KoinApplication {
             single { ImageLoader.Builder(get())
                 // .logger(DebugLogger())
                 .components {
-                    if (Build.VERSION.SDK_INT >= 28) {
-                        add(ImageDecoderDecoder.Factory())
-                    } else {
-                        add(GifDecoder.Factory())
-                    }
+                    add(ImageDecoderDecoder.Factory())
                     add(SvgDecoder.Factory())
                     add(VideoFrameDecoder.Factory())
                 }.memoryCache {

@@ -7,6 +7,7 @@ import org.koin.core.component.KoinComponent
 import social.tangent.mobile.api.Api
 import social.tangent.mobile.api.entities.Account
 import social.tangent.mobile.api.entities.Application
+import social.tangent.mobile.api.entities.Attachment
 import social.tangent.mobile.api.entities.Instance
 import social.tangent.mobile.api.entities.Status
 import social.tangent.mobile.api.entities.Token
@@ -24,6 +25,15 @@ class MockApi(val delay: Long = 0) : Api, KoinComponent {
         val longStatus by lazy { timeline[1].status }
         val rtlStatus by lazy { timeline[5].status }
         val reblogStatus by lazy { Json.decodeFromString<Status>(reblog) }
+        val singleAttachment = listOf(
+            Attachment(
+                id = "foo",
+                type = Attachment.Type.IMAGE,
+                url = "foo",
+                previewUrl = "bar",
+                description = "hi"
+            )
+        )
     }
 
     override suspend fun getInstance(domain: String?): Instance {

@@ -49,6 +49,9 @@ fun StatusView(
                     modifier = Modifier.fillMaxWidth()
                 )
                 Html(text = actual.content.trimPTags(), modifier = Modifier.fillMaxWidth())
+                if (status.mediaAttachments.isNotEmpty()) {
+                    StatusAttachments(vm, status.mediaAttachments)
+                }
                 StatusFooter(vm, status = status)
             }
         }
