@@ -12,7 +12,7 @@ class MastodonTimeline(val mastodon: Mastodon) {
         return mastodon.api.getHomeTimeline(
             authentication = mastodon.bearer(),
             maxId = fromId,
-            limit = 40
+            limit = 20
         )
     }
 }

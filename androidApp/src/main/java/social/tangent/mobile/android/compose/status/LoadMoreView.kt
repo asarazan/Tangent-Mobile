@@ -26,7 +26,7 @@ fun LoadMoreView(
         onClick = { vm.send(LoadMore(lastStatus)) },
         modifier = Modifier
             .fillMaxWidth()
-            .height(128.dp)) {
+            .height(64.dp)) {
         Text(text = "Load More...", style = MaterialTheme.typography.h6)
     }
 }

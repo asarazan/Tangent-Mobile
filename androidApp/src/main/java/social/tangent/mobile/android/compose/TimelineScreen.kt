@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ExperimentalMaterialApi
@@ -70,7 +71,7 @@ fun TimelineScreen(
                         when (it) {
                             is StatusContent -> {
                                 StatusView(vm, it.status)
-                                if (it.loadMore) {
+                                if (it.loadMore || it == state.content.lastOrNull()) {
                                     MyDivider()
                                     LoadMoreView(vm = vm, lastStatus = it.status)
                                 }
