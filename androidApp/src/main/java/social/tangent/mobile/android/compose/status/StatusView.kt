@@ -31,7 +31,7 @@ fun StatusView(
     status: Status
 ) {
     val actual = status.reblog ?: status
-    Column(modifier = Modifier.padding(8.dp)) {
+    Column(modifier = Modifier.padding(start = 8.dp, end = 8.dp, top = 8.dp)) {
         BoostHeader(status = status)
         Row(horizontalArrangement = Arrangement.SpaceBetween) {
             Column(
@@ -46,9 +46,9 @@ fun StatusView(
                 Text(text = actual.account.acct,
                     color = MaterialTheme.colors.onBackgroundFaint,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
+                    modifier = Modifier.fillMaxWidth()
                 )
-                Html(text = actual.content.trimPTags(), modifier = Modifier.padding(bottom = 8.dp).fillMaxWidth())
+                Html(text = actual.content.trimPTags(), modifier = Modifier.fillMaxWidth())
                 StatusFooter(vm, status = status)
             }
         }

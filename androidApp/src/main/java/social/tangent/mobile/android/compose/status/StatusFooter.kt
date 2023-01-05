@@ -65,7 +65,7 @@ fun FooterButton(
         Image(
             modifier = Modifier
                 .height(48.dp)
-                .padding(12.dp),
+                .padding(14.dp),
             painter = painterResource(id),
             colorFilter = ColorFilter.tint(color),
             contentDescription = null
@@ -77,7 +77,7 @@ fun FooterButton(
 @Composable
 fun Preview() {
     MyApplicationTheme(darkTheme = false) {
-        Surface {
+        Surface(color = MaterialTheme.colors.background) {
             StatusFooter(PreviewModel(mockState), mockStatus)
         }
     }
@@ -87,7 +87,7 @@ fun Preview() {
 @Composable
 fun PreviewDark() {
     MyApplicationTheme(darkTheme = true) {
-        Surface {
+        Surface(color = MaterialTheme.colors.background) {
             StatusFooter(PreviewModel(mockState), mockStatus)
         }
     }
@@ -97,7 +97,7 @@ fun PreviewDark() {
 @Composable
 fun PreviewWithActive() {
     MyApplicationTheme(darkTheme = false) {
-        Surface {
+        Surface(color = MaterialTheme.colors.background) {
             StatusFooter(
                 PreviewModel(mockState),
                 status = mockStatus.copy(

@@ -3,7 +3,6 @@ package social.tangent.mobile.android.compose
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.animateScrollBy
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
@@ -66,7 +65,6 @@ fun TimelineScreen(
                     modifier = Modifier
                         .background(MaterialTheme.colors.background)
                         .scrollbar(listState, false, fixedKnobRatio = 0.05f),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     items(state.content, key = { it.id }) {
                         when (it) {
