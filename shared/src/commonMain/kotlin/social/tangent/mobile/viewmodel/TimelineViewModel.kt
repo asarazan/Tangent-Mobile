@@ -8,6 +8,7 @@ import social.tangent.mobile.api.entities.Status
 import social.tangent.mobile.data.tweets.StatusContent
 import social.tangent.mobile.data.tweets.TimelineStorage
 import social.tangent.mobile.sdk.Mastodon
+import social.tangent.mobile.sdk.extensions.replace
 import social.tangent.mobile.viewmodel.TimelineViewModel.Effect
 import social.tangent.mobile.viewmodel.TimelineViewModel.Event
 import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Fave
@@ -43,13 +44,21 @@ class TimelineViewModel(scope: CoroutineScope) :
                 scope.launch {
                     storage.fave(event.status, event.faved)
                 }
-                currentState
+                currentState.copy(
+                    content = currentState.content.replace(event.status.copy(
+                        favourited = event.faved
+                    ))
+                )
             }
             is Reblog -> {
                 scope.launch {
                     storage.reblog(event.status, event.reblogged)
                 }
-                currentState
+                currentState.copy(
+                    content = currentState.content.replace(event.status.copy(
+                        reblogged = event.reblogged
+                    ))
+                )
             }
             is Event.LoadMore -> {
                 scope.launch { storage.fetch(event.lastStatus) }
