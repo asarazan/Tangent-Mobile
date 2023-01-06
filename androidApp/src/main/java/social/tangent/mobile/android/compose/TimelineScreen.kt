@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ExperimentalMaterialApi
@@ -32,7 +31,6 @@ import social.tangent.mobile.android.compose.status.StatusView
 import social.tangent.mobile.android.compose.util.MyDivider
 import social.tangent.mobile.android.compose.util.scrollbar
 import social.tangent.mobile.api.mock.MockApi
-import social.tangent.mobile.data.tweets.TimelineContent.StatusContent
 import social.tangent.mobile.viewmodel.SharedTimelineViewModel
 import social.tangent.mobile.viewmodel.TimelineViewModel
 import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Refresh
@@ -68,14 +66,10 @@ fun TimelineScreen(
                         .scrollbar(listState, false, fixedKnobRatio = 0.05f),
                 ) {
                     items(state.content, key = { it.id }) {
-                        when (it) {
-                            is StatusContent -> {
-                                StatusView(vm, it.status)
-                                if (it.loadMore || it == state.content.lastOrNull()) {
-                                    MyDivider()
-                                    LoadMoreView(vm = vm, lastStatus = it.status)
-                                }
-                            }
+                        StatusView(vm, it.status)
+                        if (it.loadMore || it == state.content.lastOrNull()) {
+                            MyDivider()
+                            LoadMoreView(vm = vm, lastStatus = it.status)
                         }
                         MyDivider()
                     }

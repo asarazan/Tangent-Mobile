@@ -31,6 +31,8 @@ class TimelineStorage(
     val isLoading: StateFlow<Boolean>
         get() = _isLoading
 
+    val api get() = mastodon.api
+
     private val _isLoading = MutableStateFlow(false)
 
     private val raw = db.statusQueries.selectAll(::timelineMapper)
@@ -57,7 +59,26 @@ class TimelineStorage(
         _isLoading.emit(false)
     }
 
-    private fun insert(statuses: List<Status>, clearLoadMore: String?) {
+    suspend fun fave(status: Status, faved: Boolean) {
+        val preview = status.copy(favourited = faved)
+        insert(preview)
+        val result = if (faved) api.favourite(mastodon.bearer(), status.id) else api.unfavourite(mastodon.bearer(), status.id)
+        insert(result)
+    }
+
+    suspend fun reblog(status: Status, reblogged: Boolean) {
+        val preview = status.copy(reblogged = reblogged)
+        insert(preview)
+        if (reblogged) api.reblog(mastodon.bearer(), status.id) else api.unreblog(mastodon.bearer(), status.id)
+        // we don't insert the single result
+        // because the broader timeline would not return it
+    }
+
+    private fun insert(status: Status) {
+        insert(listOf(status))
+    }
+
+    private fun insert(statuses: List<Status>, clearLoadMore: String? = null) {
         if (statuses.isEmpty()) return
         statuses.first().let { latestIdSeen = maxOf(latestIdSeen, it.id) }
         val needsPlaceholder = !hasSeenId(statuses.last().id)

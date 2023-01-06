@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import social.tangent.mobile.api.entities.Status
-import social.tangent.mobile.data.tweets.TimelineContent
+import social.tangent.mobile.data.tweets.StatusContent
 import social.tangent.mobile.data.tweets.TimelineStorage
 import social.tangent.mobile.sdk.Mastodon
 import social.tangent.mobile.viewmodel.TimelineViewModel.Effect
@@ -25,6 +25,7 @@ class TimelineViewModel(scope: CoroutineScope) :
 
     private var init = false
     private lateinit var storage: TimelineStorage
+    private val mastodon get() = storage.mastodon
 
     override fun initialState() = State(listOf(), loading = true, refreshing = false)
 
@@ -38,12 +39,18 @@ class TimelineViewModel(scope: CoroutineScope) :
                 }
                 currentState
             }
-            is Fave -> currentState.copy(
-                // statuses = currentState.statuses.replace(mastodon.fave(event.status, event.faved))
-            )
-            is Reblog -> currentState.copy(
-                // statuses = currentState.statuses.replace(mastodon.reblog(event.status, event.reblogged))
-            )
+            is Fave -> {
+                scope.launch {
+                    storage.fave(event.status, event.faved)
+                }
+                currentState
+            }
+            is Reblog -> {
+                scope.launch {
+                    storage.reblog(event.status, event.reblogged)
+                }
+                currentState
+            }
             is Event.LoadMore -> {
                 scope.launch { storage.fetch(event.lastStatus) }
                 currentState
@@ -75,7 +82,7 @@ class TimelineViewModel(scope: CoroutineScope) :
     }
 
     data class State(
-        val content: List<TimelineContent>,
+        val content: List<StatusContent>,
         val loading: Boolean = true,
         val refreshing: Boolean = false,
     )

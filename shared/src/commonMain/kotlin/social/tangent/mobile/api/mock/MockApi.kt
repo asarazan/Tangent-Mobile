@@ -11,7 +11,7 @@ import social.tangent.mobile.api.entities.Attachment
 import social.tangent.mobile.api.entities.Instance
 import social.tangent.mobile.api.entities.Status
 import social.tangent.mobile.api.entities.Token
-import social.tangent.mobile.data.tweets.TimelineContent.StatusContent
+import social.tangent.mobile.data.tweets.StatusContent
 
 class MockApi(val delay: Long = 0) : Api, KoinComponent {
 
