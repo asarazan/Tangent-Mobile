@@ -5,6 +5,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.CornerRadius
@@ -13,6 +14,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import java.util.Collections
 
 /**
  * Renders a scrollbar.
@@ -68,10 +70,15 @@ fun Modifier.scrollbar(
     fadeInAnimationDurationMs: Int = 150,
     fadeOutAnimationDurationMs: Int = 500,
     fadeOutAnimationDelayMs: Int = 1000,
+    averageSizeSmoothing: Int = 10,
+    minimumKnobRatio: Float? = 0.05f // percent
 ): Modifier {
     check(thickness > 0.dp) { "Thickness must be a positive integer." }
     check(fixedKnobRatio == null || fixedKnobRatio < 1f) {
         "A fixed knob ratio must be smaller than 1."
+    }
+    check(minimumKnobRatio == null || minimumKnobRatio < 1f) {
+        "A minimum knob ratio must be smaller than 1."
     }
     check(knobCornerRadius >= 0.dp) { "Knob corner radius must be greater than or equal to 0." }
     check(trackCornerRadius >= 0.dp) { "Track corner radius must be greater than or equal to 0." }
@@ -111,8 +118,26 @@ fun Modifier.scrollbar(
         animationSpec = tween(delayMillis = animationDelayMs, durationMillis = animationDurationMs)
     )
 
+    val sizeMap = remember {
+        mutableMapOf<String, Float>()
+    }
+
+    val smoothing = remember {
+        mutableListOf<Float>()
+    }
+
     return drawWithContent {
         drawContent()
+
+        state.layoutInfo.visibleItemsInfo.forEach {
+            val id = "${it.key}"
+            sizeMap[id] = it.size.toFloat()
+        }
+
+        while (smoothing.count() >= averageSizeSmoothing) {
+            Collections.rotate(smoothing, -1)
+            smoothing.removeLast()
+        }
 
         state.layoutInfo.visibleItemsInfo.firstOrNull()?.let { firstVisibleItem ->
             if (state.isScrollInProgress || alpha > 0f) {
@@ -125,31 +150,39 @@ fun Modifier.scrollbar(
                         size.height
                     } - padding.toPx() * 2
 
-                // The size of the first visible item. We use this to estimate how many items can fit in the
-                // viewport. Of course, this works perfectly when all items have the same size. When they
-                // don't, the scrollbar knob size will grow and shrink as we scroll.
-                val firstItemSize = firstVisibleItem.size
+                // This is our best heuristic for an accurate total content height / item size.
+                // It just calculates the average of all items it's seen thus far.
+                var averageSize = sizeMap.values.average().toFloat()
+
+                // Sampling the size over multiple ticks should help slow the erratic size changes.
+                while (smoothing.count() < averageSizeSmoothing) {
+                    smoothing.add(averageSize)
+                }
+                averageSize = smoothing.average().toFloat()
 
                 // The *estimated* size of the entire scrollable composable, as if it's all on screen at
                 // once. It is estimated because it's possible that the size of the first visible item does
                 // not represent the size of other items. This will cause the scrollbar knob size to grow
                 // and shrink as we scroll, if the item sizes are not uniform.
-                val estimatedFullListSize = firstItemSize * state.layoutInfo.totalItemsCount
+                val estimatedFullListSize = averageSize * state.layoutInfo.totalItemsCount
 
                 // The difference in position between the first pixels visible in our viewport as we scroll
                 // and the top of the fully-populated scrollable composable, if it were to show all the
                 // items at once. At first, the value is 0 since we start all the way to the top (or start
                 // edge). As we scroll down (or towards the end), this number will grow.
                 val viewportOffsetInFullListSpace =
-                    state.firstVisibleItemIndex * firstItemSize + state.firstVisibleItemScrollOffset
+                    state.firstVisibleItemIndex * averageSize + state.firstVisibleItemScrollOffset
 
                 // Where we should render the knob in our composable.
                 val knobPosition =
                     (viewportSize / estimatedFullListSize) * viewportOffsetInFullListSpace + padding.toPx()
                 // How large should the knob be.
-                val knobSize =
+                var knobSize =
                     fixedKnobRatio?.let { it * viewportSize }
                         ?: (viewportSize * viewportSize) / estimatedFullListSize
+                if (minimumKnobRatio != null) {
+                    knobSize = knobSize.coerceAtLeast(minimumKnobRatio * viewportSize)
+                }
 
                 // Draw the track
                 drawRoundRect(

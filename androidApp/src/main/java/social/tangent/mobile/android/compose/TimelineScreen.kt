@@ -63,7 +63,7 @@ fun TimelineScreen(
                     state = listState,
                     modifier = Modifier
                         .background(MaterialTheme.colors.background)
-                        .scrollbar(listState, false, fixedKnobRatio = 0.05f),
+                        .scrollbar(listState, false),
                 ) {
                     items(state.content, key = { it.id }) {
                         StatusView(vm, it.status)
