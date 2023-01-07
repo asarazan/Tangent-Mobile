@@ -1,4 +1,4 @@
-package social.tangent.mobile.android.compose.status
+package social.tangent.mobile.android.compose.status.attachments
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -9,21 +9,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import social.tangent.mobile.android.MyApplicationTheme
-import social.tangent.mobile.android.compose.status.attachments.BiImage
-import social.tangent.mobile.android.compose.status.attachments.MonoImage
-import social.tangent.mobile.android.compose.status.attachments.QuadImage
-import social.tangent.mobile.android.compose.status.attachments.TriImage
+import social.tangent.mobile.android.compose.status.StatusView
+import social.tangent.mobile.android.compose.status.mockState
 import social.tangent.mobile.android.compose.util.MyDivider
 import social.tangent.mobile.api.entities.Attachment
 import social.tangent.mobile.api.mock.MockApi
-import social.tangent.mobile.viewmodel.SharedTimelineViewModel
 import social.tangent.mobile.viewmodel.base.PreviewModel
 
 @Composable
 fun StatusAttachments(
-    vm: SharedTimelineViewModel,
     attachments: List<Attachment>,
-    modifier: Modifier = Modifier)
+    modifier: Modifier = Modifier
+)
 {
     when (attachments.count()) {
         0 -> { /* nothing */ }

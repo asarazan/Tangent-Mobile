@@ -17,6 +17,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import social.tangent.mobile.android.MyApplicationTheme
+import social.tangent.mobile.android.compose.status.attachments.StatusAttachments
 import social.tangent.mobile.android.compose.util.Html
 import social.tangent.mobile.android.compose.util.trimPTags
 import social.tangent.mobile.android.onBackgroundFaint
@@ -43,16 +44,15 @@ fun StatusView(
                 Avatar(account = actual.account)
             }
             Column {
-                Text(text = actual.account.displayName, fontWeight = FontWeight.Bold, overflow = TextOverflow.Ellipsis, modifier = Modifier.fillMaxWidth())
-                Text(text = actual.account.acct,
+                Text(text = actual.account.displayName, fontWeight = FontWeight.Bold, overflow = TextOverflow.Ellipsis)
+                Text(text = "${actual.account.acct} • ${status.formatTime()}",
                     color = MaterialTheme.colors.onBackgroundFaint,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.fillMaxWidth()
+                    overflow = TextOverflow.Ellipsis
                 )
                 Html(text = actual.content.trimPTags(), modifier = Modifier.fillMaxWidth())
                 if (status.mediaAttachments.isNotEmpty()) {
                     Box(modifier = Modifier.padding(top = 8.dp)) {
-                        StatusAttachments(vm, status.mediaAttachments)
+                        StatusAttachments(status.mediaAttachments)
                     }
                 }
                 StatusFooter(vm, status = status)
