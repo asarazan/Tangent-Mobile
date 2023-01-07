@@ -24,7 +24,7 @@ import social.tangent.mobile.api.entities.Account
 import social.tangent.mobile.api.mock.MockApi
 
 @Composable
-fun PreviewableImage(
+private fun _PreviewableImage(
     url: String,
     modifier: Modifier = Modifier,
     @DrawableRes fallback: Int = R.drawable.sarazan
@@ -55,7 +55,7 @@ fun Avatar(
     val url = account.avatar
     Box(modifier = modifier.fillMaxWidth().aspectRatio(1f).clip(CircleShape)) {
         Box(modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.onBackground.copy(alpha = 0.1f)))
-        PreviewableImage(url)
+        _PreviewableImage(url)
     }
     // TODO secondary...
 }

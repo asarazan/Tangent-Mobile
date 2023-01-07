@@ -1,6 +1,7 @@
 package social.tangent.mobile.android.compose.status
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -50,7 +51,9 @@ fun StatusView(
                 )
                 Html(text = actual.content.trimPTags(), modifier = Modifier.fillMaxWidth())
                 if (status.mediaAttachments.isNotEmpty()) {
-                    StatusAttachments(vm, status.mediaAttachments)
+                    Box(modifier = Modifier.padding(top = 8.dp)) {
+                        StatusAttachments(vm, status.mediaAttachments)
+                    }
                 }
                 StatusFooter(vm, status = status)
             }
