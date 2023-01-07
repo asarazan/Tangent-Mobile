@@ -1,6 +1,7 @@
 package social.tangent.mobile.android.compose.util
 
 import android.content.Context
+import android.text.method.LinkMovementMethod
 import android.util.TypedValue
 import android.view.Gravity
 import android.widget.TextView
@@ -40,6 +41,7 @@ fun Html(
             }
             TextView(context).apply {
                 textSize = textStyle.fontSize.value
+                movementMethod = LinkMovementMethod.getInstance()
                 setLineSpacing(extraSpacing, 1f)
                 setTextColor(textColor.toArgb())
                 setGravity(gravity)

@@ -47,7 +47,8 @@ fun StatusView(
                 Text(text = actual.account.displayName, fontWeight = FontWeight.Bold, overflow = TextOverflow.Ellipsis)
                 Text(text = "${actual.account.acct} • ${status.formatTime()}",
                     color = MaterialTheme.colors.onBackgroundFaint,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
+                    softWrap = false
                 )
                 Html(text = actual.content.trimPTags(), modifier = Modifier.fillMaxWidth())
                 if (status.mediaAttachments.isNotEmpty()) {
