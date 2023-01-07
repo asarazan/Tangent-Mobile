@@ -29,6 +29,7 @@ import social.tangent.mobile.android.MyApplicationTheme
 import social.tangent.mobile.android.compose.status.LoadMoreView
 import social.tangent.mobile.android.compose.status.StatusView
 import social.tangent.mobile.android.compose.util.MyDivider
+import social.tangent.mobile.android.compose.util.rememberScroll
 import social.tangent.mobile.android.compose.util.scrollbar
 import social.tangent.mobile.api.mock.MockApi
 import social.tangent.mobile.viewmodel.SharedTimelineViewModel
@@ -63,7 +64,8 @@ fun TimelineScreen(
                     state = listState,
                     modifier = Modifier
                         .background(MaterialTheme.colors.background)
-                        .scrollbar(listState, false),
+                        .scrollbar(listState, false)
+                        .rememberScroll("home", listState)
                 ) {
                     items(state.content, key = { it.id }) {
                         StatusView(vm, it.status)

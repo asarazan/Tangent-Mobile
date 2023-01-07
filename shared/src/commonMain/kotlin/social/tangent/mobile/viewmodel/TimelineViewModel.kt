@@ -9,12 +9,15 @@ import social.tangent.mobile.data.tweets.StatusContent
 import social.tangent.mobile.data.tweets.TimelineStorage
 import social.tangent.mobile.sdk.Mastodon
 import social.tangent.mobile.sdk.extensions.replace
+import social.tangent.mobile.storage.persistStringOrNull
 import social.tangent.mobile.viewmodel.TimelineViewModel.Effect
 import social.tangent.mobile.viewmodel.TimelineViewModel.Event
 import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Fave
 import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Init
+import social.tangent.mobile.viewmodel.TimelineViewModel.Event.LoadMore
 import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Reblog
 import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Refresh
+import social.tangent.mobile.viewmodel.TimelineViewModel.Event.ScrollSettled
 import social.tangent.mobile.viewmodel.TimelineViewModel.State
 import social.tangent.mobile.viewmodel.base.MobileViewModel
 import social.tangent.mobile.viewmodel.base.SharedViewModel
@@ -26,7 +29,8 @@ class TimelineViewModel(scope: CoroutineScope) :
 
     private var init = false
     private lateinit var storage: TimelineStorage
-    private val mastodon get() = storage.mastodon
+
+    private var storedPosition by persistStringOrNull("stored_position_home")
 
     override fun initialState() = State(listOf(), loading = true, refreshing = false)
 
@@ -60,8 +64,12 @@ class TimelineViewModel(scope: CoroutineScope) :
                     ))
                 )
             }
-            is Event.LoadMore -> {
+            is LoadMore -> {
                 scope.launch { storage.fetch(event.lastStatus) }
+                currentState
+            }
+            is ScrollSettled -> {
+                // TODO
                 currentState
             }
             is Refresh -> {
@@ -97,12 +105,15 @@ class TimelineViewModel(scope: CoroutineScope) :
     )
 
     sealed class Event {
-        class Fave(val status: Status, val faved: Boolean) : Event()
-        class Reblog(val status: Status, val reblogged: Boolean) : Event()
-        class Init(val mastodon: Mastodon) : Event()
-        class LoadMore(val lastStatus: Status) : Event()
+        data class Fave(val status: Status, val faved: Boolean) : Event()
+        data class Reblog(val status: Status, val reblogged: Boolean) : Event()
+        data class Init(val mastodon: Mastodon) : Event()
+        data class LoadMore(val lastStatus: Status) : Event()
+        data class ScrollSettled(val index: Int, val offset: Int) : Event()
         object Refresh : Event()
     }
-    sealed class Effect
+    sealed class Effect {
+        data class ScrollRequested(val index: Int, val offset: Int, val animated: Boolean) : Effect()
+    }
 }
 

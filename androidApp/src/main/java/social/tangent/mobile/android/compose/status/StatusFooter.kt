@@ -33,6 +33,8 @@ fun StatusFooter(
     status: Status,
     modifier: Modifier = Modifier
 ) {
+    val faved = status.favourited?:false || status.reblog?.favourited?:false
+    val reblogged = status.reblogged?:false || status.reblog?.reblogged?:false
     Row(
         modifier = modifier.fillMaxWidth(1f),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -41,15 +43,15 @@ fun StatusFooter(
         FooterButton(id = R.drawable.comment_regular) {}
         FooterButton(
             id = R.drawable.retweet_solid,
-            color = if (status.reblogged == true) Color.Green else MaterialTheme.colors.onBackgroundFaint
+            color = if (reblogged) Color.Green else MaterialTheme.colors.onBackgroundFaint
         ) {
-            vm.send(Reblog(status, !(status.reblogged ?: false)))
+            vm.send(Reblog(status, !reblogged))
         }
         FooterButton(
-            id = if (status.favourited == true) R.drawable.heart_solid else R.drawable.heart_regular,
-            color = if (status.favourited == true) Color.Red else MaterialTheme.colors.onBackgroundFaint
+            id = if (faved) R.drawable.heart_solid else R.drawable.heart_regular,
+            color = if (faved) Color.Red else MaterialTheme.colors.onBackgroundFaint
         ) {
-            vm.send(Fave(status, !(status.favourited ?: false)))
+            vm.send(Fave(status, !faved))
         }
         FooterButton(id = R.drawable.share_from_square) {}
     }
