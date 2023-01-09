@@ -41,7 +41,7 @@ fun PreviewableImage(
             model = ImageRequest.Builder(LocalContext.current)
                 .data(url)
                 .crossfade(true)
-                .placeholder(BitmapDrawable(placeholder))
+                .placeholder(placeholder?.let { BitmapDrawable(it) })
                 .build(),
             contentDescription = null,
             contentScale = ContentScale.Crop,

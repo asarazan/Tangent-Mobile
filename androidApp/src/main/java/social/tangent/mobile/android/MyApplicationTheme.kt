@@ -30,6 +30,9 @@ import social.tangent.mobile.viewmodel.base.PreviewModel
 val Colors.onBackgroundFaint: Color
     get() = if (isLight) Color(0xFFAAAAAA) else Color(0xFF7A8690)
 
+val Colors.url: Color
+    get() = Color(0xFF6FC1B7)
+
 @Composable
 fun MyApplicationTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),

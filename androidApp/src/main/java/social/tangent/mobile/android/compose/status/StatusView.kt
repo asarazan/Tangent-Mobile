@@ -1,10 +1,13 @@
 package social.tangent.mobile.android.compose.status
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.MaterialTheme
@@ -19,10 +22,12 @@ import androidx.compose.ui.unit.dp
 import social.tangent.mobile.android.MyApplicationTheme
 import social.tangent.mobile.android.compose.status.attachments.StatusAttachments
 import social.tangent.mobile.android.compose.util.Html
+import social.tangent.mobile.android.compose.util.RoundedBorder
 import social.tangent.mobile.android.compose.util.trimPTags
 import social.tangent.mobile.android.onBackgroundFaint
 import social.tangent.mobile.api.entities.Status
 import social.tangent.mobile.api.mock.MockApi
+import social.tangent.mobile.launchWebView
 import social.tangent.mobile.viewmodel.SharedTimelineViewModel
 import social.tangent.mobile.viewmodel.TimelineViewModel
 import social.tangent.mobile.viewmodel.base.PreviewModel
@@ -54,6 +59,20 @@ fun StatusView(
                 if (status.mediaAttachments.isNotEmpty()) {
                     Box(modifier = Modifier.padding(top = 8.dp)) {
                         StatusAttachments(status.mediaAttachments)
+                    }
+                }
+                if (status.card != null) {
+                    Spacer(modifier = Modifier.height(4.dp))
+                    RoundedBorder(
+                        thickness = 1.dp,
+                        backgroundColor = MaterialTheme.colors.background,
+                        color = MaterialTheme.colors.onBackgroundFaint,
+                        corner = 8.dp,
+                        modifier = Modifier.clickable {
+                            launchWebView(status.card!!.url)
+                        })
+                    {
+                        CardView(card = status.card!!)
                     }
                 }
                 StatusFooter(vm, status = status)

@@ -8,6 +8,6 @@ class IOSPlatform : Platform {
 
 actual fun getPlatform(): Platform = IOSPlatform()
 
-actual fun launchWebView(url: String) {
+actual fun launchWebView(url: String, useSystemBrowser: Boolean) {
     // TODO
 }

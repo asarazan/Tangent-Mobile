@@ -6,4 +6,4 @@ interface Platform {
 
 expect fun getPlatform(): Platform
 
-expect fun launchWebView(url: String)
+expect fun launchWebView(url: String, useSystemBrowser: Boolean = true)
