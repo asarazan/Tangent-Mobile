@@ -6,17 +6,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 import com.wolt.blurhashkt.BlurHashDecoder
 import social.tangent.mobile.android.R
 
 private const val width = 540
 private const val height = 260
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun PreviewableImage(
     url: String,
@@ -36,15 +36,21 @@ fun PreviewableImage(
                 BitmapDrawable(BlurHashDecoder.decode(it, width, height))
             }
         }
-        AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(url)
-                // .crossfade(true)
-                .placeholder(bmp)
-                .build(),
+        GlideImage(
+            model = url,
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = modifier
         )
+        // AsyncImage(
+        //     model = ImageRequest.Builder(LocalContext.current)
+        //         .data(url)
+        //         // .crossfade(true)
+        //         .placeholder(bmp)
+        //         .build(),
+        //     contentDescription = null,
+        //     contentScale = ContentScale.Crop,
+        //     modifier = modifier
+        // )
     }
 }

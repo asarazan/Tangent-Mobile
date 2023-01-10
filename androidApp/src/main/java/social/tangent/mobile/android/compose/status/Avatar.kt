@@ -12,17 +12,17 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 import social.tangent.mobile.android.MyApplicationTheme
 import social.tangent.mobile.android.R
 import social.tangent.mobile.api.entities.Account
 import social.tangent.mobile.api.mock.MockApi
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 private fun _PreviewableImage(
     url: String,
@@ -36,14 +36,19 @@ private fun _PreviewableImage(
             modifier = modifier.fillMaxSize().clip(CircleShape)
         )
     } else {
-        AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(url)
-                .crossfade(true)
-                .build(),
+        GlideImage(
+            model = url,
             contentDescription = null,
             modifier = modifier.fillMaxSize().clip(CircleShape)
         )
+        // AsyncImage(
+        //     model = ImageRequest.Builder(LocalContext.current)
+        //         .data(url)
+        //         .crossfade(true)
+        //         .build(),
+        //     contentDescription = null,
+        //     modifier = modifier.fillMaxSize().clip(CircleShape)
+        // )
     }
 }
 

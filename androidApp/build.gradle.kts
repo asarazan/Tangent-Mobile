@@ -80,4 +80,5 @@ dependencies {
     implementation("io.coil-kt:coil-svg:2.2.2")
     implementation("io.coil-kt:coil-video:2.2.2")
     implementation("jp.wasabeef:takt:2.1.1")
+    implementation("com.github.bumptech.glide:compose:1.0.0-alpha.1")
 }
