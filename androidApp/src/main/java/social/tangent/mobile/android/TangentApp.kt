@@ -5,6 +5,8 @@ import android.app.Application
 import android.content.Context
 import coil.ImageLoader
 import coil.ImageLoaderFactory
+import jp.wasabeef.takt.Seat
+import jp.wasabeef.takt.Takt
 import org.koin.core.KoinApplication
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
@@ -31,6 +33,8 @@ class TangentApp : Application(), KoinComponent, ImageLoaderFactory {
             val db = createDatabase(id, DriverFactory(this))
             println("Created database!!! ${db}")
         }
+
+        Takt.stock(this).seat(Seat.BOTTOM_LEFT)
     }
 
     @SuppressLint("ObsoleteSdkInt")

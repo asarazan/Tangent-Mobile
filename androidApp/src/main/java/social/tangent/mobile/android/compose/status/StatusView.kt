@@ -27,9 +27,10 @@ import social.tangent.mobile.android.compose.util.trimPTags
 import social.tangent.mobile.android.onBackgroundFaint
 import social.tangent.mobile.api.entities.Status
 import social.tangent.mobile.api.mock.MockApi
+import social.tangent.mobile.api.mock.mockState
+import social.tangent.mobile.api.mock.mockStatus
 import social.tangent.mobile.launchWebView
 import social.tangent.mobile.viewmodel.SharedTimelineViewModel
-import social.tangent.mobile.viewmodel.TimelineViewModel
 import social.tangent.mobile.viewmodel.base.PreviewModel
 
 @Composable
@@ -56,12 +57,12 @@ fun StatusView(
                     softWrap = false
                 )
                 Html(text = actual.content.trimPTags(), modifier = Modifier.fillMaxWidth())
-                if (status.mediaAttachments.isNotEmpty()) {
+                val attachments = status.reblog?.mediaAttachments ?: status.mediaAttachments
+                if (attachments.isNotEmpty()) {
                     Box(modifier = Modifier.padding(top = 8.dp)) {
-                        StatusAttachments(status.mediaAttachments)
+                        StatusAttachments(attachments)
                     }
-                }
-                if (status.card != null) {
+                } else if (status.card != null) {
                     Spacer(modifier = Modifier.height(4.dp))
                     RoundedBorder(
                         thickness = 1.dp,
@@ -114,11 +115,4 @@ fun PreviewStatusViewTall() {
             StatusView(PreviewModel(mockState), MockApi.longStatus)
         }
     }
-}
-
-val mockState by lazy {
-    TimelineViewModel.State(MockApi.timeline)
-}
-val mockStatus by lazy {
-    MockApi.fakeStatus
 }

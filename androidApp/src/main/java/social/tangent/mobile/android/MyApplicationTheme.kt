@@ -23,8 +23,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowCompat
 import social.tangent.mobile.android.compose.status.StatusView
-import social.tangent.mobile.android.compose.status.mockState
-import social.tangent.mobile.android.compose.status.mockStatus
+import social.tangent.mobile.api.mock.mockState
+import social.tangent.mobile.api.mock.mockStatus
 import social.tangent.mobile.viewmodel.base.PreviewModel
 
 val Colors.onBackgroundFaint: Color

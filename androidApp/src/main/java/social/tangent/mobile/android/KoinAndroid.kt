@@ -36,12 +36,12 @@ fun initKoinAndroid(appModule: Module): KoinApplication {
                     add(VideoFrameDecoder.Factory())
                 }.memoryCache {
                     MemoryCache.Builder(get())
-                        .maxSizePercent(0.25)
+                        .maxSizePercent(0.5)
                         .build()
                 }.diskCache {
                     DiskCache.Builder()
                         .directory(get<Context>().cacheDir.resolve("image_cache"))
-                        .maxSizePercent(0.02)
+                        .maxSizePercent(0.01)
                         .build()
                 }
                 .build()

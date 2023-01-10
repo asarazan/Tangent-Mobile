@@ -1,7 +1,6 @@
 package social.tangent.mobile.android.compose.home
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,12 +10,7 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Surface
-import androidx.compose.material.TopAppBar
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -27,14 +21,12 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import social.tangent.mobile.android.MyApplicationTheme
 import social.tangent.mobile.android.R
-import social.tangent.mobile.android.compose.HomeScreen
 import social.tangent.mobile.android.compose.util.MyDivider
 import social.tangent.mobile.viewmodel.HomeViewModel
 import social.tangent.mobile.viewmodel.base.PreviewModel
 
 @Composable
-fun HomeTopBarNew(
-    scaffold: ScaffoldState,
+fun HomeTopBar(
     modifier: Modifier = Modifier,
     listState: LazyListState? = null,
 ) {
@@ -70,46 +62,11 @@ fun HomeTopBarNew(
 }
 
 @Composable
-fun HomeTopBar(scaffold: ScaffoldState) {
-    val scope = rememberCoroutineScope()
-    val drawer = scaffold.drawerState
-    Column {
-        TopAppBar(
-            title = { Icon(painterResource(id = R.drawable.logo), "Logo") },
-            backgroundColor = MaterialTheme.colors.background,
-            navigationIcon = {
-                Icon(
-                    Icons.Default.Menu,
-                    "Menu Drawer",
-                    modifier = Modifier.clickable(onClick = {
-                        scope.launch {
-                            if (drawer.isOpen) drawer.close() else drawer.open()
-                        }
-                    })
-                )
-            },
-            modifier = Modifier.statusBarsPadding()
-        )
-        MyDivider()
-    }
-}
-
-@Composable
-@Preview(widthDp = 540)
-fun PreviewTopBar() {
-    MyApplicationTheme(darkTheme = true) {
-        Surface {
-            HomeTopBar(rememberScaffoldState())
-        }
-    }
-}
-
-@Composable
 @Preview(widthDp = 540)
 fun PreviewTopBaNew() {
     MyApplicationTheme(darkTheme = true) {
         Surface {
-            HomeTopBarNew(rememberScaffoldState())
+            HomeTopBar()
         }
     }
 }

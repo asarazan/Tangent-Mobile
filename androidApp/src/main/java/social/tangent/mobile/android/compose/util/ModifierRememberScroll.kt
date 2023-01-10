@@ -15,8 +15,8 @@ fun Modifier.rememberScroll(key: String, state: LazyListState): Modifier = compo
     }
     if (!scrollState.initialized) {
         scrollState.initialized = true
-        val index = settings.getIntOrNull("__rememberScroll_index_${key}")
-        val offset = settings.getIntOrNull("__rememberScroll_offset_${key}")
+        val index = remember { settings.getIntOrNull("__rememberScroll_index_${key}") }
+        val offset = remember { settings.getIntOrNull("__rememberScroll_offset_${key}") }
         if (index != null && offset != null) {
             LaunchedEffect(state) {
                 state.scrollToItem(index, offset)
@@ -24,10 +24,12 @@ fun Modifier.rememberScroll(key: String, state: LazyListState): Modifier = compo
         }
     }
 
-    if (scrollState.isScrolling && !state.isScrollInProgress) {
+    val shouldSave = scrollState.isScrolling && !state.isScrollInProgress
+    if (shouldSave) {
         LaunchedEffect(state) {
-            settings.putInt("__rememberScroll_index_${key}", state.firstVisibleItemIndex)
-            settings.putInt("__rememberScroll_offset_${key}", state.firstVisibleItemScrollOffset)
+            val it = Pair(state.firstVisibleItemIndex, state.firstVisibleItemScrollOffset)
+            settings.putInt("__rememberScroll_index_${key}", it.first)
+            settings.putInt("__rememberScroll_offset_${key}", it.second)
         }
     }
     scrollState.isScrolling = state.isScrollInProgress

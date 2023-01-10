@@ -26,8 +26,39 @@ android {
         }
     }
     buildTypes {
-        getByName("release") {
+        getByName("debug") {
+            // Enables code shrinking, obfuscation, and optimization for only
+            // your project's release build type.
             isMinifyEnabled = false
+
+            // Enables resource shrinking, which is performed by the
+            // Android Gradle plugin.
+            isShrinkResources = false
+
+            // Includes the default ProGuard rules files that are packaged with
+            // the Android Gradle plugin. To learn more, go to the section about
+            // R8 configuration files.
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+        getByName("release") {
+            // Enables code shrinking, obfuscation, and optimization for only
+            // your project's release build type.
+            isMinifyEnabled = true
+
+            // Enables resource shrinking, which is performed by the
+            // Android Gradle plugin.
+            isShrinkResources = true
+
+            // Includes the default ProGuard rules files that are packaged with
+            // the Android Gradle plugin. To learn more, go to the section about
+            // R8 configuration files.
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
             signingConfig = signingConfigs.getByName("debug")
         }
     }
@@ -48,4 +79,5 @@ dependencies {
     implementation("io.coil-kt:coil-gif:2.2.2")
     implementation("io.coil-kt:coil-svg:2.2.2")
     implementation("io.coil-kt:coil-video:2.2.2")
+    implementation("jp.wasabeef:takt:2.1.1")
 }

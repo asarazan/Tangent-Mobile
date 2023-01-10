@@ -1,4 +1,4 @@
-package social.tangent.mobile.android.compose
+package social.tangent.mobile.android.compose.home
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,13 +11,13 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import social.tangent.mobile.android.MyApplicationTheme
-import social.tangent.mobile.android.compose.home.HomeBottomBar
-import social.tangent.mobile.android.compose.home.HomeTopBarNew
+import social.tangent.mobile.android.compose.TimelineScreen
 import social.tangent.mobile.viewmodel.AndroidTimelineViewModel
 import social.tangent.mobile.viewmodel.HomeViewModel
 import social.tangent.mobile.viewmodel.SharedHomeViewModel
@@ -27,12 +27,12 @@ import social.tangent.mobile.viewmodel.base.PreviewModel
 @Composable
 fun HomeScreen(vm: SharedHomeViewModel) {
     val state by vm.stateFlow.collectAsState()
-    val mastodon = state.mastodon
+    val mastodon = remember { state.mastodon }
     val scaffold = rememberScaffoldState()
     val listState = rememberLazyListState()
     Scaffold(
         scaffoldState = scaffold,
-        topBar = { HomeTopBarNew(scaffold, listState = listState) },
+        topBar = { HomeTopBar(listState = listState) },
         bottomBar = { HomeBottomBar() },
         // drawerContent = { HomeDrawer() },
         drawerShape = RectangleShape,

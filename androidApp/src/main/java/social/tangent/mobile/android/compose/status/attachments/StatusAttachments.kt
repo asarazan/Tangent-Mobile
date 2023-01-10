@@ -10,10 +10,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import social.tangent.mobile.android.MyApplicationTheme
 import social.tangent.mobile.android.compose.status.StatusView
-import social.tangent.mobile.android.compose.status.mockState
 import social.tangent.mobile.android.compose.util.MyDivider
 import social.tangent.mobile.api.entities.Attachment
 import social.tangent.mobile.api.mock.MockApi
+import social.tangent.mobile.api.mock.mockState
 import social.tangent.mobile.viewmodel.base.PreviewModel
 
 @Composable

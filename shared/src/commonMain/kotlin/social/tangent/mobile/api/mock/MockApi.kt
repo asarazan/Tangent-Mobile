@@ -12,6 +12,7 @@ import social.tangent.mobile.api.entities.Instance
 import social.tangent.mobile.api.entities.Status
 import social.tangent.mobile.api.entities.Token
 import social.tangent.mobile.data.tweets.StatusContent
+import social.tangent.mobile.viewmodel.TimelineViewModel
 
 class MockApi(val delay: Long = 0) : Api, KoinComponent {
 
@@ -101,6 +102,13 @@ class MockApi(val delay: Long = 0) : Api, KoinComponent {
     override suspend fun unreblog(authentication: String, id: String): Status {
         TODO("Not yet implemented")
     }
+}
+
+val mockState by lazy {
+    TimelineViewModel.State(MockApi.timeline)
+}
+val mockStatus by lazy {
+    MockApi.fakeStatus
 }
 
 private val reblog = """{

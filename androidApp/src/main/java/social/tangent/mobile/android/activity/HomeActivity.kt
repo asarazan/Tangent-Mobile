@@ -12,7 +12,7 @@ import androidx.core.view.WindowCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import org.koin.core.component.KoinComponent
 import social.tangent.mobile.android.MyApplicationTheme
-import social.tangent.mobile.android.compose.HomeScreen
+import social.tangent.mobile.android.compose.home.HomeScreen
 import social.tangent.mobile.sdk.storage.MastodonStorage
 import social.tangent.mobile.viewmodel.AndroidHomeViewModel
 import social.tangent.mobile.viewmodel.HomeViewModel.Event.Init

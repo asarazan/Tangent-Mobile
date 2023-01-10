@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import social.tangent.mobile.android.MyApplicationTheme
-import social.tangent.mobile.android.compose.HomeScreen
 import social.tangent.mobile.android.compose.util.MyDivider
 import social.tangent.mobile.viewmodel.HomeViewModel
 import social.tangent.mobile.viewmodel.base.PreviewModel

@@ -70,7 +70,7 @@ fun Modifier.scrollbar(
     fadeInAnimationDurationMs: Int = 150,
     fadeOutAnimationDurationMs: Int = 500,
     fadeOutAnimationDelayMs: Int = 1000,
-    averageSizeSmoothing: Int = 10,
+    averageSizeSmoothing: Int = 1,
     minimumKnobRatio: Float? = 0.05f // percent
 ): Modifier {
     check(thickness > 0.dp) { "Thickness must be a positive integer." }
@@ -179,7 +179,7 @@ fun Modifier.scrollbar(
                 // How large should the knob be.
                 var knobSize =
                     fixedKnobRatio?.let { it * viewportSize }
-                        ?: (viewportSize * viewportSize) / estimatedFullListSize
+                        ?: ((viewportSize * viewportSize) / estimatedFullListSize)
                 if (minimumKnobRatio != null) {
                     knobSize = knobSize.coerceAtLeast(minimumKnobRatio * viewportSize)
                 }
