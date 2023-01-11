@@ -50,9 +50,12 @@ class TimelineViewModel(scope: CoroutineScope) :
                 scope.launch {
                     storage.fave(event.status, event.faved)
                 }
+                var newCount = event.status.favouritesCount
+                if (event.faved) newCount++ else newCount--
                 currentState.copy(
                     content = currentState.content.replace(event.status.copy(
-                        favourited = event.faved
+                        favourited = event.faved,
+                        favouritesCount = newCount
                     ))
                 )
             }
@@ -60,9 +63,12 @@ class TimelineViewModel(scope: CoroutineScope) :
                 scope.launch {
                     storage.reblog(event.status, event.reblogged)
                 }
+                var newCount = event.status.reblogsCount
+                if (event.reblogged) newCount++ else newCount--
                 currentState.copy(
                     content = currentState.content.replace(event.status.copy(
-                        reblogged = event.reblogged
+                        reblogged = event.reblogged,
+                        reblogsCount = newCount
                     ))
                 )
             }
