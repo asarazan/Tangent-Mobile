@@ -7,6 +7,7 @@ import android.net.Uri
 import androidx.browser.customtabs.CustomTabsIntent
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
+import social.tangent.mobile.api.entities.Status
 
 object koiner : KoinComponent
 
@@ -25,4 +26,14 @@ actual fun launchWebView(url: String, useSystemBrowser: Boolean) {
     }
     val chrome = CustomTabsIntent.Builder().build()
     chrome.launchUrl(context, Uri.parse(url))
+}
+
+actual fun shareStatus(status: Status) {
+    val sendIntent: Intent = Intent().apply {
+        action = Intent.ACTION_SEND
+        putExtra(Intent.EXTRA_TEXT, status.url ?: status.uri)
+        type = "text/plain"
+    }
+    val shareIntent = Intent.createChooser(sendIntent, status.account.username)
+    koiner.get<android.content.Context>().startActivity(shareIntent)
 }

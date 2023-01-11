@@ -8,7 +8,8 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.get
 import org.koin.core.component.KoinComponent
 import social.tangent.mobile.android.MyApplicationTheme
 import social.tangent.mobile.android.compose.TimelineScreen
@@ -31,9 +32,9 @@ class HomeTimelineActivity : ComponentActivity(), KoinComponent {
         super.onCreate(savedInstanceState)
         val id = intent.getStringExtra("id")!!
         mastodon = MastodonStorage.get(id)!!
+        val vm = ViewModelProvider(this).get<AndroidTimelineViewModel>()
+        vm.send(Init(mastodon))
         setContent {
-            val vm = viewModel<AndroidTimelineViewModel>()
-            vm.send(Init(mastodon))
             MyApplicationTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {
                     TimelineScreen(vm)
