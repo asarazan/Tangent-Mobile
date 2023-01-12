@@ -24,6 +24,11 @@ SELECT id FROM DbStatus
 WHERE id = ?
 LIMIT 1;
 
+lookup:
+SELECT json FROM DbStatus
+WHERE id = ?
+LIMIT 1;
+
 clearLoadMore:
 UPDATE DbStatus
 SET load_more = 0

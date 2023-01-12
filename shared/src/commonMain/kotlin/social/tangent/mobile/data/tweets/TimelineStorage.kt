@@ -46,6 +46,10 @@ class TimelineStorage(
         get() = settings.getString("__latest_id_${id}", "")
         set(value) = settings.set("__latest_id_${id}", value)
 
+    fun lookup(id: String): Status? {
+        return db.statusQueries.lookup(id).executeAsOneOrNull()
+    }
+
     suspend fun fetch(from: Status) {
         val timeline = mastodon.timeline.fetch(fromId = from.id)
         insert(timeline, from.id)
@@ -60,18 +64,31 @@ class TimelineStorage(
     }
 
     suspend fun fave(status: Status, faved: Boolean) {
-        val preview = status.copy(favourited = faved)
+        val inc = if (faved) 1 else -1
+        val preview = status.copy(
+            favourited = faved,
+            favouritesCount = status.favouritesCount + inc
+        )
         insert(preview)
         val result = if (faved) api.favourite(mastodon.bearer(), status.id) else api.unfavourite(mastodon.bearer(), status.id)
-        insert(result)
+
+        // THIS SUCKS BUT IT DOESN'T RETURN THE PROPER COUNT.
+        insert(result.copy(
+            favouritesCount = preview.favouritesCount
+        ))
     }
 
     suspend fun reblog(status: Status, reblogged: Boolean) {
-        val preview = status.copy(reblogged = reblogged)
+        val inc = if (reblogged) 1 else -1
+        val preview = status.copy(
+            reblogged = reblogged,
+            reblogsCount = status.reblogsCount + inc
+        )
         insert(preview)
         if (reblogged) api.reblog(mastodon.bearer(), status.id) else api.unreblog(mastodon.bearer(), status.id)
         // we don't insert the single result
         // because the broader timeline would not return it
+        // TODO rethink this
     }
 
     private fun insert(status: Status) {

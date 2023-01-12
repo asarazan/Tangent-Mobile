@@ -8,18 +8,13 @@ import social.tangent.mobile.api.entities.Status
 import social.tangent.mobile.data.tweets.StatusContent
 import social.tangent.mobile.data.tweets.TimelineStorage
 import social.tangent.mobile.sdk.Mastodon
-import social.tangent.mobile.sdk.extensions.replace
-import social.tangent.mobile.storage.persistStringOrNull
 import social.tangent.mobile.viewmodel.TimelineViewModel.Effect
-import social.tangent.mobile.viewmodel.TimelineViewModel.Effect.OnShare
 import social.tangent.mobile.viewmodel.TimelineViewModel.Event
 import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Fave
 import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Init
 import social.tangent.mobile.viewmodel.TimelineViewModel.Event.LoadMore
 import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Reblog
 import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Refresh
-import social.tangent.mobile.viewmodel.TimelineViewModel.Event.ScrollSettled
-import social.tangent.mobile.viewmodel.TimelineViewModel.Event.ShareStatus
 import social.tangent.mobile.viewmodel.TimelineViewModel.State
 import social.tangent.mobile.viewmodel.base.MobileViewModel
 import social.tangent.mobile.viewmodel.base.SharedViewModel
@@ -31,8 +26,6 @@ class TimelineViewModel(scope: CoroutineScope) :
 
     private var init = false
     private lateinit var storage: TimelineStorage
-
-    private var storedPosition by persistStringOrNull("stored_position_home")
 
     override fun initialState() = State(listOf(), loading = true, refreshing = false)
 
@@ -50,42 +43,20 @@ class TimelineViewModel(scope: CoroutineScope) :
                 scope.launch {
                     storage.fave(event.status, event.faved)
                 }
-                var newCount = event.status.favouritesCount
-                if (event.faved) newCount++ else newCount--
-                currentState.copy(
-                    content = currentState.content.replace(event.status.copy(
-                        favourited = event.faved,
-                        favouritesCount = newCount
-                    ))
-                )
+                currentState
             }
             is Reblog -> {
                 scope.launch {
                     storage.reblog(event.status, event.reblogged)
                 }
-                var newCount = event.status.reblogsCount
-                if (event.reblogged) newCount++ else newCount--
-                currentState.copy(
-                    content = currentState.content.replace(event.status.copy(
-                        reblogged = event.reblogged,
-                        reblogsCount = newCount
-                    ))
-                )
+                currentState
             }
             is LoadMore -> {
                 scope.launch { storage.fetch(event.lastStatus) }
                 currentState
             }
-            is ScrollSettled -> {
-                // TODO
-                currentState
-            }
             is Refresh -> {
                 scope.launch { storage.fetch() }
-                currentState
-            }
-            is ShareStatus -> {
-                sendSideEffect(OnShare(event.status))
                 currentState
             }
         }
@@ -121,13 +92,10 @@ class TimelineViewModel(scope: CoroutineScope) :
         data class Reblog(val status: Status, val reblogged: Boolean) : Event()
         data class Init(val mastodon: Mastodon) : Event()
         data class LoadMore(val lastStatus: Status) : Event()
-        data class ScrollSettled(val index: Int, val offset: Int) : Event()
-        data class ShareStatus(val status: Status): Event()
         object Refresh : Event()
     }
     sealed class Effect {
-        data class ScrollRequested(val index: Int, val offset: Int, val animated: Boolean) : Effect()
-        data class OnShare(val status: Status) : Effect()
+
     }
 }
 
