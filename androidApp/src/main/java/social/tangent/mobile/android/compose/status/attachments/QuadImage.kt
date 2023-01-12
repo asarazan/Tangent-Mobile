@@ -1,5 +1,6 @@
 package social.tangent.mobile.android.compose.status.attachments
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -14,6 +15,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import social.tangent.mobile.android.compose.images.PreviewableImage
 import social.tangent.mobile.api.entities.Attachment
+import social.tangent.mobile.launchWebView
 
 @Composable
 fun QuadImage(
@@ -30,7 +32,7 @@ fun QuadImage(
                 PreviewableImage(
                     url = it.url,
                     blurhash = it.blurhash,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f).clickable { launchWebView(it.url) }
                 )
                 if (it != attachments[1]) {
                     Spacer(modifier = Modifier.width(4.dp))
@@ -43,7 +45,7 @@ fun QuadImage(
                 PreviewableImage(
                     url = it.url,
                     blurhash = it.blurhash,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f).clickable { launchWebView(it.url) }
                 )
                 if (it != attachments.last()) {
                     Spacer(modifier = Modifier.width(4.dp))
