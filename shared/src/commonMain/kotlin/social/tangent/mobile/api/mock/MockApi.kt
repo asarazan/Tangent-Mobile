@@ -102,6 +102,10 @@ class MockApi(val delay: Long = 0) : Api, KoinComponent {
     override suspend fun unreblog(authentication: String, id: String): Status {
         TODO("Not yet implemented")
     }
+
+    override suspend fun getStatus(authentication: String, id: String): Status {
+        TODO("Not yet implemented")
+    }
 }
 
 val mockState by lazy {

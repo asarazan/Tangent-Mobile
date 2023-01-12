@@ -5,15 +5,17 @@ CREATE TABLE DbStatus(
     json TEXT AS Status NOT NULL,
     account_id TEXT NOT NULL,
     date TEXT NOT NULL, -- YYYY-MM-DD HH:MM:SS.SSS
+    reblogs TEXT,
     load_more INTEGER AS Boolean DEFAULT 0 NOT NULL
 );
 
 CREATE INDEX timeline_account ON DbStatus(account_id);
 CREATE INDEX timeline_sep ON DbStatus(load_more);
+CREATE INDEX timeline_reblogs ON DbStatus(reblogs);
 
 insert:
-INSERT OR REPLACE INTO DbStatus(id, json, account_id, date, load_more)
-VALUES (?, ?, ?, ?, ?);
+INSERT OR REPLACE INTO DbStatus(id, json, account_id, date, reblogs, load_more)
+VALUES (?, ?, ?, ?, ?, ?);
 
 selectAll:
 SELECT json, load_more FROM DbStatus
@@ -24,10 +26,14 @@ SELECT id FROM DbStatus
 WHERE id = ?
 LIMIT 1;
 
-lookup:
+lookupStatus:
 SELECT json FROM DbStatus
 WHERE id = ?
 LIMIT 1;
+
+lookupReblogsOf:
+SELECT json FROM DbStatus
+WHERE reblogs = ?;
 
 clearLoadMore:
 UPDATE DbStatus

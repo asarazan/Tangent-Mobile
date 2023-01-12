@@ -29,6 +29,7 @@ import social.tangent.mobile.api.entities.Status
 import social.tangent.mobile.api.mock.MockApi
 import social.tangent.mobile.api.mock.mockState
 import social.tangent.mobile.api.mock.mockStatus
+import social.tangent.mobile.data.extensions.actionableStatus
 import social.tangent.mobile.launchWebView
 import social.tangent.mobile.viewmodel.SharedTimelineViewModel
 import social.tangent.mobile.viewmodel.base.PreviewModel
@@ -38,26 +39,38 @@ fun StatusView(
     vm: SharedTimelineViewModel,
     status: Status
 ) {
-    val actual = status.reblog ?: status
+    StatusViewInternal(
+        vm = vm,
+        status = status.actionableStatus,
+        outerStatus = status
+    )
+}
+
+@Composable
+private fun StatusViewInternal(
+    vm: SharedTimelineViewModel,
+    status: Status,
+    outerStatus: Status
+) {
     Column(modifier = Modifier.padding(start = 8.dp, end = 8.dp, top = 8.dp)) {
-        BoostHeader(status = status)
+        BoostHeader(status = outerStatus)
         Row(horizontalArrangement = Arrangement.SpaceBetween) {
             Column(
                 modifier = Modifier
                     .width(72.dp)
                     .padding(end = 8.dp, bottom = 8.dp)
             ) {
-                Avatar(account = actual.account)
+                Avatar(account = status.account)
             }
             Column {
-                Text(text = actual.account.displayName, fontWeight = FontWeight.Bold, overflow = TextOverflow.Ellipsis)
-                Text(text = "${actual.account.acct} • ${status.formatTime()}",
+                Text(text = status.account.displayName, fontWeight = FontWeight.Bold, overflow = TextOverflow.Ellipsis)
+                Text(text = "${status.account.acct} • ${status.formatTime()}",
                     color = MaterialTheme.colors.onBackgroundFaint,
                     overflow = TextOverflow.Ellipsis,
                     softWrap = false
                 )
-                Html(text = actual.content.trimPTags(), modifier = Modifier.fillMaxWidth())
-                val attachments = status.reblog?.mediaAttachments ?: status.mediaAttachments
+                Html(text = status.content.trimPTags(), modifier = Modifier.fillMaxWidth())
+                val attachments = status.mediaAttachments
                 if (attachments.isNotEmpty()) {
                     Box(modifier = Modifier.padding(top = 8.dp)) {
                         StatusAttachments(attachments)

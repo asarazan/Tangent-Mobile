@@ -37,17 +37,17 @@ import social.tangent.mobile.viewmodel.base.PreviewModel
 fun StatusFooter(
     vm: SharedTimelineViewModel,
     status: Status,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
-    val faved = status.favourited?:false || status.reblog?.favourited?:false
-    val reblogged = status.reblogged?:false || status.reblog?.reblogged?:false
+    val faved = status.favourited ?: false
+    val reblogged = status.reblogged ?: false
     Row(
         modifier = modifier.fillMaxWidth(1f),
         verticalAlignment = Alignment.CenterVertically
     ) {
         FooterButton(
             id = R.drawable.comment_regular,
-            count = status.reblog?.repliesCount ?: status.repliesCount
+            count = status.repliesCount
         ) {
             /* TODO */
         }
@@ -56,7 +56,7 @@ fun StatusFooter(
         FooterButton(
             id = R.drawable.retweet_solid,
             color = if (reblogged) Color.Green else MaterialTheme.colors.onBackgroundFaint,
-            count = status.reblog?.reblogsCount ?: status.reblogsCount
+            count = status.reblogsCount
         ) {
             vm.send(Reblog(status, !reblogged))
         }
@@ -65,7 +65,7 @@ fun StatusFooter(
         FooterButton(
             id = if (faved) R.drawable.heart_solid else R.drawable.heart_regular,
             color = if (faved) Color.Red else MaterialTheme.colors.onBackgroundFaint,
-            count = status.reblog?.favouritesCount ?: status.favouritesCount
+            count = status.favouritesCount
         ) {
             vm.send(Fave(status, !faved))
         }

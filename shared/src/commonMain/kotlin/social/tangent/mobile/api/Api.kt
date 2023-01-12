@@ -83,4 +83,10 @@ interface Api {
         @Header("Authorization") authentication: String,
         @Path("id") id: String
     ): Status
+
+    @GET("/api/v1/statuses/{id}")
+    suspend fun getStatus(
+        @Header("Authorization") authentication: String,
+        @Path("id") id: String
+    ): Status
 }

@@ -52,11 +52,11 @@ class TimelineViewModel(scope: CoroutineScope) :
                 currentState
             }
             is LoadMore -> {
-                scope.launch { storage.fetch(event.lastStatus) }
+                scope.launch { storage.fetchFrom(event.lastStatus) }
                 currentState
             }
             is Refresh -> {
-                scope.launch { storage.fetch() }
+                scope.launch { storage.fetchFrom() }
                 currentState
             }
         }
@@ -77,7 +77,7 @@ class TimelineViewModel(scope: CoroutineScope) :
             }
         }
         scope.launch {
-            storage.fetch()
+            storage.fetchFrom()
         }
     }
 

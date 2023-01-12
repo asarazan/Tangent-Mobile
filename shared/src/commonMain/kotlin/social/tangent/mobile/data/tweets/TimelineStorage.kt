@@ -46,49 +46,58 @@ class TimelineStorage(
         get() = settings.getString("__latest_id_${id}", "")
         set(value) = settings.set("__latest_id_${id}", value)
 
-    fun lookup(id: String): Status? {
-        return db.statusQueries.lookup(id).executeAsOneOrNull()
+    fun lookupStatus(id: String): Status? {
+        return db.statusQueries.lookupStatus(id).executeAsOneOrNull()
     }
 
-    suspend fun fetch(from: Status) {
-        val timeline = mastodon.timeline.fetch(fromId = from.id)
+    suspend fun getStatusById(id: String): Status {
+        return mastodon.timeline.fetchById(id)
+    }
+
+    suspend fun fetchFrom(from: Status) {
+        val timeline = mastodon.timeline.fetchFrom(fromId = from.id)
         insert(timeline, from.id)
     }
 
-    suspend fun fetch() {
+    suspend fun fetchFrom() {
         if (_isLoading.value) return
         _isLoading.emit(true)
-        val timeline = mastodon.timeline.fetch()
+        val timeline = mastodon.timeline.fetchFrom()
         insert(timeline, null)
         _isLoading.emit(false)
     }
 
-    suspend fun fave(status: Status, faved: Boolean) {
+    suspend fun fave(status: Status, faved: Boolean): Status {
         val inc = if (faved) 1 else -1
         val preview = status.copy(
             favourited = faved,
             favouritesCount = status.favouritesCount + inc
         )
-        insert(preview)
-        val result = if (faved) api.favourite(mastodon.bearer(), status.id) else api.unfavourite(mastodon.bearer(), status.id)
-
-        // THIS SUCKS BUT IT DOESN'T RETURN THE PROPER COUNT.
-        insert(result.copy(
-            favouritesCount = preview.favouritesCount
-        ))
+        updateWithReblogs(preview)
+        if (faved) api.favourite(mastodon.bearer(), status.id) else api.unfavourite(mastodon.bearer(), status.id)
+        // Refetch because the server is stupid and doesn't properly update the count.
+        return updateWithReblogs(getStatusById(status.id))
     }
 
-    suspend fun reblog(status: Status, reblogged: Boolean) {
+    suspend fun reblog(status: Status, reblogged: Boolean): Status {
         val inc = if (reblogged) 1 else -1
         val preview = status.copy(
             reblogged = reblogged,
             reblogsCount = status.reblogsCount + inc
         )
-        insert(preview)
+        updateWithReblogs(preview)
         if (reblogged) api.reblog(mastodon.bearer(), status.id) else api.unreblog(mastodon.bearer(), status.id)
-        // we don't insert the single result
-        // because the broader timeline would not return it
-        // TODO rethink this
+        // Refetch because the server is stupid and doesn't properly update the count.
+        return updateWithReblogs(getStatusById(status.id))
+    }
+
+    private fun updateWithReblogs(status: Status): Status {
+        val lookup = db.statusQueries.lookupReblogsOf(status.id)
+        val list = lookup.executeAsList()
+        insert(list.map {
+            it.copy(reblog = status)
+        } + status)
+        return status
     }
 
     private fun insert(status: Status) {
@@ -101,12 +110,13 @@ class TimelineStorage(
         val needsPlaceholder = !hasSeenId(statuses.last().id)
         db.transaction {
             statuses.forEachIndexed {
-                index, it ->
+                    index, it ->
                 db.statusQueries.insert(
                     it.id,
                     it,
                     it.account.id,
                     Json.encodeToString(it.createdAt),
+                    it.reblog?.id,
                     index == statuses.lastIndex && needsPlaceholder
                 )
             }
