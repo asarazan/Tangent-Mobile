@@ -39,7 +39,11 @@ private fun fetchHosts(cwd: String): List<String> {
 private fun androidHosts(cwd: String, hosts: List<String>) {
     val outputPath = "$cwd/intent-filters.txt"
     val file = File(outputPath).also { it.createNewFile() }
-    val filters = hosts.joinToString("") { filterFor(it) }
+    val filters = """ 
+        <!-- BEGIN AUTO-GENERATED FILTERS -->
+        ${hosts.joinToString("") { filterFor(it) }}
+        <!-- END AUTO-GENERATED FILTERS -->
+"""
     FileWriter(file).use { it.write(filters) }
 
     if (Os.isFamily(Os.FAMILY_MAC)) {
