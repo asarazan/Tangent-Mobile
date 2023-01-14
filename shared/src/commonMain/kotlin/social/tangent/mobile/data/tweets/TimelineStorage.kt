@@ -59,7 +59,7 @@ class TimelineStorage(
         insert(timeline, from.id)
     }
 
-    suspend fun fetchFrom() {
+    suspend fun fetch() {
         if (_isLoading.value) return
         _isLoading.emit(true)
         val timeline = mastodon.timeline.fetchFrom()
