@@ -15,8 +15,8 @@ tasks.register("clean", Delete::class) {
 }
 
 tasks.register("handle_host_links") {
-    val buildPath = "$projectDir/buildSrc/build/tmp/hosts.txt"
-    val androidPath = "$projectDir/androidApp/src/main"
+    val buildPath = "$projectDir/buildSrc/build/tmp/"
+    val androidPath = "$projectDir/androidApp/src/main/"
     val iosPath = "" // TODO
     handleHostLinks(buildPath, androidPath, iosPath)
 }
