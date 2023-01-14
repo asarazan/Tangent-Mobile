@@ -50,6 +50,7 @@ fun HomeBottomBar(vm: SharedHomeViewModel) {
                 .padding(horizontal = 8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                Spacer(modifier = Modifier.weight(1f))
                 Icon(
                     painter = painterResource(id = R.drawable.house_user_solid),
                     contentDescription = null,
@@ -57,10 +58,9 @@ fun HomeBottomBar(vm: SharedHomeViewModel) {
                         MaterialTheme.colors.onBackground else
                             MaterialTheme.colors.onBackgroundFaint,
                     modifier = Modifier
-                        .padding(12.dp)
                         .clickable {
                             vm.send(ClickTab(Home))
-                        }
+                        }.padding(12.dp)
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 Icon(
@@ -70,10 +70,9 @@ fun HomeBottomBar(vm: SharedHomeViewModel) {
                         MaterialTheme.colors.onBackground else
                         MaterialTheme.colors.onBackgroundFaint,
                     modifier = Modifier
-                        .padding(12.dp)
                         .clickable {
                             vm.send(ClickTab(Search))
-                        }
+                        }.padding(12.dp)
                 )
                 Spacer(modifier = Modifier.weight(1f))
             }
