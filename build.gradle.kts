@@ -13,3 +13,7 @@ plugins {
 tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
 }
+
+tasks.register("handle_host_links") {
+    handleHostLinks("$projectDir/buildSrc/build/tmp/")
+}
