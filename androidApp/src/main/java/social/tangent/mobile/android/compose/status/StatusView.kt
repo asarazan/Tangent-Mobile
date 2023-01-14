@@ -25,6 +25,7 @@ import social.tangent.mobile.android.compose.util.Html
 import social.tangent.mobile.android.compose.util.RoundedBorder
 import social.tangent.mobile.android.compose.util.trimPTags
 import social.tangent.mobile.android.onBackgroundFaint
+import social.tangent.mobile.android.onBackgroundFainter
 import social.tangent.mobile.api.entities.Status
 import social.tangent.mobile.api.mock.MockApi
 import social.tangent.mobile.api.mock.mockState
@@ -80,7 +81,7 @@ private fun StatusViewInternal(
                     RoundedBorder(
                         thickness = 1.dp,
                         backgroundColor = MaterialTheme.colors.background,
-                        color = MaterialTheme.colors.onBackgroundFaint,
+                        color = MaterialTheme.colors.onBackgroundFainter,
                         corner = 8.dp,
                         modifier = Modifier.clickable {
                             launchWebView(status.card!!.url)

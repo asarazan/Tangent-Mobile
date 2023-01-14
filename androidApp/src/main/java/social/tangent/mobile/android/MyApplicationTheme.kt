@@ -27,6 +27,9 @@ import social.tangent.mobile.api.mock.mockState
 import social.tangent.mobile.api.mock.mockStatus
 import social.tangent.mobile.viewmodel.base.PreviewModel
 
+val Colors.onBackgroundFainter: Color
+    get() = if (isLight) Color(0xFFD5D5D5) else Color(0xFF3A4957)
+
 val Colors.onBackgroundFaint: Color
     get() = if (isLight) Color(0xFFAAAAAA) else Color(0xFF7A8690)
 

@@ -44,7 +44,7 @@ fun CardView(card: Card, modifier: Modifier = Modifier) {
             }
             Text(
                 card.url,
-                color = MaterialTheme.colors.onBackgroundFaint,
+                color = MaterialTheme.colors.onBackground,
                 modifier = Modifier.alpha(0.4f),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis

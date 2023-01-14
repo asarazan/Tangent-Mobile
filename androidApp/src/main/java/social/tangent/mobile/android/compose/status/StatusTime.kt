@@ -22,5 +22,5 @@ fun Status.formatTime(): String {
     if (diff.minutes > 0) {
         return "${diff.minutes}m"
     }
-    return "${diff.seconds}"
+    return "${diff.seconds}s"
 }

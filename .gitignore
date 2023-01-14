@@ -1,11 +1,59 @@
-*.iml
-.gradle
-.idea
-.DS_Store
-build
-captures
-.externalNativeBuild
-.cxx
+### Gradle ###
+.gradle/
+build/
+**/build/
+!gradle-wrapper.jar
+!gradle-wrapper.properties
 local.properties
-xcuserdata
+*.log
+
+### Android ###
 androidApp/release
+*.hprof
+gen-external-apklibs
+
+# Android Studio
+.idea/
+.idea_modules/
+out/
+captures/
+.externalNativeBuild/
+.cxx/
+*.iws
+*.ipr
+*.apk
+*.iml
+output.json
+modules.xml
+misc.xml
+deploymentTargetDropDown.xml
+render.experimental.xml
+
+### Xcode ###
+xcuserdata/
+*.xcscmblueprint
+*.xccheckout
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata/
+!*.xcodeproj/project.xcworkspace/
+!*.xcworkspace/contents.xcworkspacedata
+/*.gcno
+**/xcshareddata/WorkspaceSettings.xcsettings
+
+# Keystore files
+*.jks
+*.keystore
+
+# Google Services (e.g. APIs or Firebase)
+google-services.json
+
+# CMake
+cmake-build-*/
+
+### Kotlin ###
+*.class
+
+### macOS ###
+.DS_Store
+.Trashes
