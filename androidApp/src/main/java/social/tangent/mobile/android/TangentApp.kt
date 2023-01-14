@@ -34,7 +34,7 @@ class TangentApp : Application(), KoinComponent, ImageLoaderFactory {
             println("Created database!!! ${db}")
         }
 
-        Takt.stock(this).seat(Seat.BOTTOM_LEFT)
+        Takt.stock(this).seat(Seat.TOP_LEFT)
     }
 
     @SuppressLint("ObsoleteSdkInt")

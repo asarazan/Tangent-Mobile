@@ -58,7 +58,7 @@ fun Avatar(
     modifier: Modifier = Modifier
 ) {
     val url = account.avatar
-    Box(modifier = modifier.fillMaxWidth().aspectRatio(1f).clip(CircleShape)) {
+    Box(modifier = modifier.fillMaxWidth().aspectRatio(1f)) {
         Box(modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.onBackground.copy(alpha = 0.1f)))
         _PreviewableImage(url)
     }

@@ -10,11 +10,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -33,6 +35,8 @@ import social.tangent.mobile.api.mock.mockStatus
 import social.tangent.mobile.data.extensions.actionableStatus
 import social.tangent.mobile.launchWebView
 import social.tangent.mobile.viewmodel.SharedTimelineViewModel
+import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Click
+import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Profile
 import social.tangent.mobile.viewmodel.base.PreviewModel
 
 @Composable
@@ -43,7 +47,8 @@ fun StatusView(
     StatusViewInternal(
         vm = vm,
         status = status.actionableStatus,
-        outerStatus = status
+        outerStatus = status,
+        modifier = Modifier.clickable { vm.send(Click(status)) }
     )
 }
 
@@ -51,9 +56,10 @@ fun StatusView(
 private fun StatusViewInternal(
     vm: SharedTimelineViewModel,
     status: Status,
-    outerStatus: Status
+    outerStatus: Status,
+    modifier: Modifier = Modifier
 ) {
-    Column(modifier = Modifier.padding(start = 8.dp, end = 8.dp, top = 8.dp)) {
+    Column(modifier = modifier.padding(start = 8.dp, end = 8.dp, top = 8.dp)) {
         BoostHeader(status = outerStatus)
         Row(horizontalArrangement = Arrangement.SpaceBetween) {
             Column(
@@ -61,7 +67,9 @@ private fun StatusViewInternal(
                     .width(72.dp)
                     .padding(end = 8.dp, bottom = 8.dp)
             ) {
-                Avatar(account = status.account)
+                Avatar(account = status.account, modifier = Modifier.clip(CircleShape).clickable {
+                    vm.send(Profile(status))
+                })
             }
             Column {
                 Text(text = status.account.displayName, fontWeight = FontWeight.Bold, overflow = TextOverflow.Ellipsis)
@@ -90,7 +98,7 @@ private fun StatusViewInternal(
                         CardView(card = status.card!!)
                     }
                 }
-                StatusFooter(vm, status = status)
+                StatusFooter(vm, status, outerStatus = outerStatus)
             }
         }
     }

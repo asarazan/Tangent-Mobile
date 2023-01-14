@@ -40,7 +40,7 @@ abstract class MobileViewModel<S, E, SE>(
 
     private val _eventFlow: MutableSharedFlow<E> = MutableSharedFlow()
 
-    protected val intentFlow: SharedFlow<E>
+    protected val eventFlow: SharedFlow<E>
         get() = _eventFlow
 
     private val _sideEffectFlow: MutableSharedFlow<SE> = MutableSharedFlow()

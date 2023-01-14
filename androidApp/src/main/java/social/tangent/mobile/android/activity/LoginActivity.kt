@@ -30,11 +30,10 @@ class LoginActivity : ComponentActivity() {
         }
     }
 
-    private lateinit var viewModel: AndroidLoginViewModel
+    private val viewModel by viewModels<AndroidLoginViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = viewModels<AndroidLoginViewModel>().value
         lifecycleScope.launch { listen() }
         setContent {
             MyApplicationTheme {
