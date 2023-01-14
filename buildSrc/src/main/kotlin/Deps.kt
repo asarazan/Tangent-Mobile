@@ -9,6 +9,7 @@ object Versions {
     const val koin = "3.2.2"
     const val koinAndroid = "3.3.0"
     const val koinAndroidCompose = koinAndroid
+    const val koinKtor = koin
     const val kotlinSerialization = "1.4.1"
     const val ktorfit = "1.0.0-beta16"
     const val coroutinesCore = "1.6.4"
@@ -39,38 +40,38 @@ object Versions {
 
 object Deps {
     // commonMain
-    val kotlinSerializationJson = "org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.kotlinSerialization}"
-    val ktorClientCore = "io.ktor:ktor-client-core:${Versions.ktor}"
-    val ktorClientContentNegotiation = "io.ktor:ktor-client-content-negotiation:${Versions.ktor}"
-    val ktorSerializationJson = "io.ktor:ktor-serialization-kotlinx-json:${Versions.ktor}"
-    val ktorClientLogging = "io.ktor:ktor-client-logging:${Versions.ktor}"
-    val ktorClientAuth = "io.ktor:ktor-client-auth:${Versions.ktor}"
-    val coroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutinesCore}"
-    val kermit = "co.touchlab:kermit:${Versions.kermit}"
-    val koinCore = "io.insert-koin:koin-core:${Versions.koin}"
-    val kotlinDatetime = "org.jetbrains.kotlinx:kotlinx-datetime:${Versions.kotlinDatetime}"
-    val ktorfit = "de.jensklingenberg.ktorfit:ktorfit-lib:${Versions.ktorfit}"
-    val multiplatformSettings = "com.russhwolf:multiplatform-settings:${Versions.multiplatformSettings}"
-    val sqldelightCoroutinesExt = "com.squareup.sqldelight:coroutines-extensions:${Versions.sqldelight}"
+    const val kotlinSerializationJson = "org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.kotlinSerialization}"
+    const val ktorClientCore = "io.ktor:ktor-client-core:${Versions.ktor}"
+    const val ktorClientContentNegotiation = "io.ktor:ktor-client-content-negotiation:${Versions.ktor}"
+    const val ktorSerializationJson = "io.ktor:ktor-serialization-kotlinx-json:${Versions.ktor}"
+    const val ktorClientLogging = "io.ktor:ktor-client-logging:${Versions.ktor}"
+    const val ktorClientAuth = "io.ktor:ktor-client-auth:${Versions.ktor}"
+    const val coroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutinesCore}"
+    const val kermit = "co.touchlab:kermit:${Versions.kermit}"
+    const val koinCore = "io.insert-koin:koin-core:${Versions.koin}"
+    const val kotlinDatetime = "org.jetbrains.kotlinx:kotlinx-datetime:${Versions.kotlinDatetime}"
+    const val ktorfit = "de.jensklingenberg.ktorfit:ktorfit-lib:${Versions.ktorfit}"
+    const val multiplatformSettings = "com.russhwolf:multiplatform-settings:${Versions.multiplatformSettings}"
+    const val sqldelightCoroutinesExt = "com.squareup.sqldelight:coroutines-extensions:${Versions.sqldelight}"
 
     // commonTest
-    val koinTest = "io.insert-koin:koin-test:${Versions.koin}"
+    const val koinTest = "io.insert-koin:koin-test:${Versions.koin}"
 
     // androidMain
-    val browser = "androidx.browser:browser:${Versions.browser}"
-    val ktorOkhttp = "io.ktor:ktor-client-okhttp:${Versions.ktor}"
-    val koinAndroid = "io.insert-koin:koin-android:${Versions.koinAndroid}"
-    val koinAndroidCompat = "io.insert-koin:koin-android-compat:${Versions.koinAndroid}"
-    val koinWorkManager = "io.insert-koin:koin-androidx-workmanager:${Versions.koin}"
-    val koinNavigation = "io.insert-koin:koin-androidx-navigation:${Versions.koin}"
-    val koinCompose = "io.insert-koin:koin-androidx-compose:${Versions.koinAndroidCompose}"
-    val koinKtor = "io.insert-koin:koin-ktor:${Versions.koin}"
-    val lifecycleViewModelCompose = "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.lifecycleViewModelCompose}"
-    val sqldelightAndroidDriver = "com.squareup.sqldelight:android-driver:${Versions.sqldelight}"
+    const val browser = "androidx.browser:browser:${Versions.browser}"
+    const val ktorOkhttp = "io.ktor:ktor-client-okhttp:${Versions.ktor}"
+    const val koinAndroid = "io.insert-koin:koin-android:${Versions.koinAndroid}"
+    const val koinAndroidCompat = "io.insert-koin:koin-android-compat:${Versions.koinAndroid}"
+    const val koinWorkManager = "io.insert-koin:koin-androidx-workmanager:${Versions.koinAndroid}"
+    const val koinNavigation = "io.insert-koin:koin-androidx-navigation:${Versions.koinAndroid}"
+    const val koinCompose = "io.insert-koin:koin-androidx-compose:${Versions.koinAndroidCompose}"
+    const val koinKtor = "io.insert-koin:koin-ktor:${Versions.koinKtor}"
+    const val lifecycleViewModelCompose = "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.lifecycleViewModelCompose}"
+    const val sqldelightAndroidDriver = "com.squareup.sqldelight:android-driver:${Versions.sqldelight}"
 
     // iosMain
-    val ktorDarwin = "io.ktor:ktor-client-darwin:${Versions.ktor}"
-    val sqldelightNativeDriver = "com.squareup.sqldelight:native-driver:${Versions.sqldelight}"
+    const val ktorDarwin = "io.ktor:ktor-client-darwin:${Versions.ktor}"
+    const val sqldelightNativeDriver = "com.squareup.sqldelight:native-driver:${Versions.sqldelight}"
 
     // androidApp
     const val activityCompose = "androidx.activity:activity-compose:${Versions.activityCompose}"
