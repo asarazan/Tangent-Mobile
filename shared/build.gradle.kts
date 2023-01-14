@@ -1,13 +1,12 @@
-val ktorfitVersion = "1.0.0-beta16"
 
 plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
-    kotlin("plugin.serialization") version "1.7.20"
+    kotlin("plugin.serialization") version Versions.kotlin
     id("com.android.library")
-    id("com.google.devtools.ksp") version "1.7.20-1.0.7"
-    id("com.squareup.sqldelight") version "1.5.4"
-    // id("org.jmailen.kotlinter")
+    id("com.google.devtools.ksp") version Versions.ksp
+    id("com.squareup.sqldelight") version Versions.sqldelight
+    // id("org.jmailen.kotlinter") version Versions.kotlinter
 }
 
 kotlin {
@@ -28,47 +27,41 @@ kotlin {
     }
 
     sourceSets {
-        val ktor_version = "2.1.3"
-        val koin_version = "3.2.2"
-        val koin_android_version = "3.3.0"
-        val koin_android_compose_version = "3.3.0"
-        val koin_ktor = "3.2.2"
-
         val commonMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
-                implementation("io.ktor:ktor-client-core:$ktor_version")
-                implementation("io.ktor:ktor-client-content-negotiation:$ktor_version")
-                implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
-                implementation("io.ktor:ktor-client-logging:$ktor_version")
-                implementation("io.ktor:ktor-client-auth:$ktor_version")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-                implementation("co.touchlab:kermit:1.1.3") // Add latest version
-                api("io.insert-koin:koin-core:$koin_version")
-                api("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
-                implementation("de.jensklingenberg.ktorfit:ktorfit-lib:$ktorfitVersion")
-                api("com.russhwolf:multiplatform-settings:1.0.0-RC")
-                implementation("com.squareup.sqldelight:coroutines-extensions:1.5.4")
+                implementation(Deps.kotlinSerializationJson)
+                implementation(Deps.ktorClientCore)
+                implementation(Deps.ktorClientContentNegotiation)
+                implementation(Deps.ktorSerializationJson)
+                implementation(Deps.ktorClientLogging)
+                implementation(Deps.ktorClientAuth)
+                implementation(Deps.coroutinesCore)
+                implementation(Deps.kermit)
+                api(Deps.koinCore)
+                api(Deps.kotlinDatetime)
+                implementation(Deps.ktorfit)
+                api(Deps.multiplatformSettings)
+                implementation(Deps.sqldelightCoroutinesExt)
             }
         }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
-                implementation("io.insert-koin:koin-test:$koin_version")
+                implementation(Deps.koinTest)
             }
         }
         val androidMain by getting {
             dependencies {
-                api("androidx.browser:browser:1.4.0")
-                implementation("io.ktor:ktor-client-okhttp:$ktor_version")
-                api("io.insert-koin:koin-android:$koin_android_version")
-                implementation("io.insert-koin:koin-android-compat:$koin_android_version")
-                implementation("io.insert-koin:koin-androidx-workmanager:$koin_android_version")
-                implementation("io.insert-koin:koin-androidx-navigation:$koin_android_version")
-                implementation("io.insert-koin:koin-androidx-compose:$koin_android_compose_version")
-                implementation("io.insert-koin:koin-ktor:$koin_ktor")
-                api("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1")
-                implementation("com.squareup.sqldelight:android-driver:1.5.4")
+                api(Deps.browser)
+                implementation(Deps.ktorOkhttp)
+                api(Deps.koinAndroid)
+                implementation(Deps.koinAndroidCompat)
+                implementation(Deps.koinWorkManager)
+                implementation(Deps.koinNavigation)
+                implementation(Deps.koinCompose)
+                implementation(Deps.koinKtor)
+                api(Deps.lifecycleViewModelCompose)
+                implementation(Deps.sqldelightAndroidDriver)
             }
         }
         val androidTest by getting
@@ -81,8 +74,8 @@ kotlin {
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
             dependencies {
-                implementation("io.ktor:ktor-client-darwin:$ktor_version")
-                implementation("com.squareup.sqldelight:native-driver:1.5.4")
+                implementation(Deps.ktorDarwin)
+                implementation(Deps.sqldelightNativeDriver)
             }
         }
         val iosX64Test by getting
@@ -99,17 +92,17 @@ kotlin {
 
 android {
     namespace = "social.tangent.mobile"
-    compileSdk = 33
+    compileSdk = Versions.androidCompileSdk
     defaultConfig {
-        minSdk = 26
+        minSdk = Versions.androidMinSdk
     }
 }
 
 dependencies {
-    add("kspCommonMainMetadata", "de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfitVersion")
-    add("kspAndroid", "de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfitVersion")
-    add("kspIosX64", "de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfitVersion")
-    add("kspIosSimulatorArm64", "de.jensklingenberg.ktorfit:ktorfit-ksp:$ktorfitVersion")
+    add("kspCommonMainMetadata", "de.jensklingenberg.ktorfit:ktorfit-ksp:${Versions.ktorfit}")
+    add("kspAndroid", "de.jensklingenberg.ktorfit:ktorfit-ksp:${Versions.ktorfit}")
+    add("kspIosX64", "de.jensklingenberg.ktorfit:ktorfit-ksp:${Versions.ktorfit}")
+    add("kspIosSimulatorArm64", "de.jensklingenberg.ktorfit:ktorfit-ksp:${Versions.ktorfit}")
 }
 
 sqldelight {
