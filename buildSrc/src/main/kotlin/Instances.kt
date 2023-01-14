@@ -1,5 +1,6 @@
 import com.google.gson.Gson
 import com.google.gson.JsonObject
+import org.apache.tools.ant.taskdefs.condition.Os
 import java.io.File
 import java.io.FileWriter
 
@@ -13,7 +14,7 @@ import java.io.FileWriter
  * At some point it'd be neat to make this a turnkey step of production builds, but I'm sure
  * we'll simply remember to run this task and manually update files before shipping :P
  */
-fun handleHostLinks(buildPath: String, androidPath: String, iosPath: String = "") {
+fun handleHostLinks(buildPath: String) {
     val cwd = "$buildPath/hosts"
     File(cwd).apply { deleteRecursively(); mkdir() }
     val hosts = fetchHosts(cwd)
@@ -40,7 +41,10 @@ private fun androidHosts(cwd: String, hosts: List<String>) {
     val file = File(outputPath).also { it.createNewFile() }
     val filters = hosts.joinToString("") { filterFor(it) }
     FileWriter(file).use { it.write(filters) }
-    ProcessBuilder("open", outputPath).start()
+
+    if (Os.isFamily(Os.FAMILY_MAC)) {
+        ProcessBuilder("open", outputPath).start()
+    } else println("Android Intent Filters are ready in: $outputPath")
 }
 
 private fun filterFor(host: String): String {
