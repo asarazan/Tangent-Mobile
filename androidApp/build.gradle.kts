@@ -6,11 +6,11 @@ plugins {
 
 android {
     namespace = "social.tangent.mobile.android"
-    compileSdk = 33
+    compileSdk = Versions.androidCompileSdk
     defaultConfig {
         applicationId = "social.tangent.mobile.android"
-        minSdk = 30
-        targetSdk = 33
+        minSdk = Versions.androidMinSdk
+        targetSdk = Versions.androidTargetSdk
         versionCode = 1
         versionName = "1.0"
     }
@@ -18,7 +18,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.3.2"
+        kotlinCompilerExtensionVersion = Versions.kotlinCompilerExt
     }
     packagingOptions {
         resources {
@@ -66,19 +66,19 @@ android {
 
 dependencies {
     implementation(project(":shared"))
-    implementation("androidx.activity:activity-compose:1.6.1")
-    implementation("androidx.compose.ui:ui:1.3.2")
-    implementation("androidx.compose.ui:ui-tooling:1.3.2")
-    implementation("androidx.compose.ui:ui-tooling-preview:1.3.2")
-    implementation("androidx.compose.foundation:foundation:1.3.1")
-    implementation("androidx.compose.material:material:1.3.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
-    implementation("com.airbnb.android:lottie-compose:5.2.0")
-    implementation("io.coil-kt:coil:2.2.2")
-    implementation("io.coil-kt:coil-compose:2.2.2")
-    implementation("io.coil-kt:coil-gif:2.2.2")
-    implementation("io.coil-kt:coil-svg:2.2.2")
-    implementation("io.coil-kt:coil-video:2.2.2")
-    implementation("jp.wasabeef:takt:2.1.1")
-    implementation("com.github.bumptech.glide:compose:1.0.0-alpha.1")
+    implementation(Deps.activityCompose)
+    implementation(Deps.composeUi)
+    implementation(Deps.composeUiTooling)
+    implementation(Deps.composeUiToolingPreview)
+    implementation(Deps.composeFoundation)
+    implementation(Deps.composeMaterial)
+    implementation(Deps.coroutinesAndroid)
+    implementation(Deps.lottieCompose)
+    implementation(Deps.coil)
+    implementation(Deps.coilCompose)
+    implementation(Deps.coilGif)
+    implementation(Deps.coilSvg)
+    implementation(Deps.coilVideo)
+    implementation(Deps.takt)
+    implementation(Deps.glideCompose)
 }

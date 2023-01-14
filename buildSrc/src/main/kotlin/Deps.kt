@@ -21,6 +21,20 @@ object Versions {
 
     const val androidCompileSdk = 33
     const val androidMinSdk = 26
+    const val androidTargetSdk = androidCompileSdk
+    const val kotlinCompilerExt = "1.3.2"
+
+    const val activityCompose = "1.6.1"
+    const val composeUi = "1.3.2"
+    const val composeUiTooling = composeUi
+    const val composeUiToolingPreview = composeUi
+    const val composeFoundation = "1.3.1"
+    const val composeMaterial = composeFoundation
+    const val coroutinesAndroid = "1.6.4"
+    const val lottieCompose = "5.2.0"
+    const val coil = "2.2.2"
+    const val takt = "2.1.1"
+    const val glideCompose = "1.0.0-alpha.1"
 }
 
 object Deps {
@@ -56,4 +70,21 @@ object Deps {
     // iosMain
     val ktorDarwin = "io.ktor:ktor-client-darwin:${Versions.ktor}"
     val sqldelightNativeDriver = "com.squareup.sqldelight:native-driver:${Versions.sqldelight}"
+
+    // androidApp
+    const val activityCompose = "androidx.activity:activity-compose:${Versions.activityCompose}"
+    const val composeUi = "androidx.compose.ui:ui:${Versions.composeUi}"
+    const val composeUiTooling = "androidx.compose.ui:ui-tooling:${Versions.composeUiTooling}"
+    const val composeUiToolingPreview = "androidx.compose.ui:ui-tooling-preview:${Versions.composeUiToolingPreview}"
+    const val composeFoundation = "androidx.compose.foundation:foundation:${Versions.composeFoundation}"
+    const val composeMaterial = "androidx.compose.material:material:${Versions.composeMaterial}"
+    const val coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutinesAndroid}"
+    const val lottieCompose = "com.airbnb.android:lottie-compose:${Versions.lottieCompose}"
+    const val coil = "io.coil-kt:coil:${Versions.coil}"
+    const val coilCompose = "io.coil-kt:coil-compose:${Versions.coil}"
+    const val coilGif = "io.coil-kt:coil-gif:${Versions.coil}"
+    const val coilSvg = "io.coil-kt:coil-svg:${Versions.coil}"
+    const val coilVideo = "io.coil-kt:coil-video:${Versions.coil}"
+    const val takt = "jp.wasabeef:takt:${Versions.takt}"
+    const val glideCompose = "com.github.bumptech.glide:compose:${Versions.glideCompose}"
 }
