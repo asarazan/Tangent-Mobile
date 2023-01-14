@@ -4,15 +4,19 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
+import social.tangent.mobile.api.entities.Account
 import social.tangent.mobile.api.entities.Status
 import social.tangent.mobile.data.tweets.StatusContent
 import social.tangent.mobile.data.tweets.TimelineStorage
 import social.tangent.mobile.sdk.Mastodon
 import social.tangent.mobile.viewmodel.TimelineViewModel.Effect
 import social.tangent.mobile.viewmodel.TimelineViewModel.Event
+import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Click
+import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Comment
 import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Fave
 import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Init
 import social.tangent.mobile.viewmodel.TimelineViewModel.Event.LoadMore
+import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Profile
 import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Reblog
 import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Refresh
 import social.tangent.mobile.viewmodel.TimelineViewModel.State
@@ -51,12 +55,24 @@ class TimelineViewModel(scope: CoroutineScope) :
                 }
                 currentState
             }
+            is Comment -> {
+                sendSideEffect(Effect.Comment(event.status))
+                currentState
+            }
             is LoadMore -> {
                 scope.launch { storage.fetchFrom(event.lastStatus) }
                 currentState
             }
             is Refresh -> {
                 scope.launch { storage.fetchFrom() }
+                currentState
+            }
+            is Click -> {
+                sendSideEffect(Effect.Click(event.status))
+                currentState
+            }
+            is Profile -> {
+                sendSideEffect(Effect.Profile(event.status.account))
                 currentState
             }
         }
@@ -90,12 +106,17 @@ class TimelineViewModel(scope: CoroutineScope) :
     sealed class Event {
         data class Fave(val status: Status, val faved: Boolean) : Event()
         data class Reblog(val status: Status, val reblogged: Boolean) : Event()
+        data class Comment(val status: Status) : Event()
         data class Init(val mastodon: Mastodon) : Event()
         data class LoadMore(val lastStatus: Status) : Event()
+        data class Click(val status: Status) : Event()
+        data class Profile(val status: Status) : Event()
         object Refresh : Event()
     }
     sealed class Effect {
-
+        data class Comment(val status: Status) : Effect()
+        data class Click(val status: Status) : Effect()
+        data class Profile(val account: Account) : Effect()
     }
 }
 

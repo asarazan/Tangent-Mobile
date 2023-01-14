@@ -29,6 +29,7 @@ import social.tangent.mobile.api.entities.Status
 import social.tangent.mobile.api.mock.mockState
 import social.tangent.mobile.api.mock.mockStatus
 import social.tangent.mobile.viewmodel.SharedTimelineViewModel
+import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Comment
 import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Fave
 import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Reblog
 import social.tangent.mobile.viewmodel.base.PreviewModel
@@ -37,7 +38,8 @@ import social.tangent.mobile.viewmodel.base.PreviewModel
 fun StatusFooter(
     vm: SharedTimelineViewModel,
     status: Status,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    outerStatus: Status = status
 ) {
     val faved = status.favourited ?: false
     val reblogged = status.reblogged ?: false
@@ -49,7 +51,7 @@ fun StatusFooter(
             id = R.drawable.comment_regular,
             count = status.repliesCount
         ) {
-            /* TODO */
+            vm.send(Comment(outerStatus))
         }
         Spacer(modifier = Modifier.weight(1f))
 

@@ -12,10 +12,10 @@ import social.tangent.mobile.viewmodel.HomeViewModel.State
 import social.tangent.mobile.viewmodel.base.MobileViewModel
 import social.tangent.mobile.viewmodel.base.SharedViewModel
 
-typealias SharedHomeViewModel = SharedViewModel<State, Event, Effect?>
+typealias SharedHomeViewModel = SharedViewModel<State, Event, Effect>
 
 class HomeViewModel(scope: CoroutineScope) :
-    MobileViewModel<State, Event, Effect?>(scope), KoinComponent {
+    MobileViewModel<State, Event, Effect>(scope), KoinComponent {
 
     override fun initialState() = State()
 
