@@ -27,12 +27,6 @@ kotlin {
     }
 
     sourceSets {
-        val ktor_version = "2.1.3"
-        val koin_version = "3.2.2"
-        val koin_android_version = "3.3.0"
-        val koin_android_compose_version = "3.3.0"
-        val koin_ktor = "3.2.2"
-
         val commonMain by getting {
             dependencies {
                 implementation(Deps.kotlinSerializationJson)
@@ -61,10 +55,10 @@ kotlin {
                 api(Deps.browser)
                 implementation(Deps.ktorOkhttp)
                 api(Deps.koinAndroid)
-                implementation(Deps.ktorOkhttp)
-                implementation(Deps.koinAndroid)
+                implementation(Deps.koinAndroidCompat)
                 implementation(Deps.koinWorkManager)
                 implementation(Deps.koinNavigation)
+                implementation(Deps.koinCompose)
                 implementation(Deps.koinKtor)
                 api(Deps.lifecycleViewModelCompose)
                 implementation(Deps.sqldelightAndroidDriver)

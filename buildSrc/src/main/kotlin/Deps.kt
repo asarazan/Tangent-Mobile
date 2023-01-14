@@ -59,10 +59,11 @@ object Deps {
     // androidMain
     val browser = "androidx.browser:browser:${Versions.browser}"
     val ktorOkhttp = "io.ktor:ktor-client-okhttp:${Versions.ktor}"
-    val koinAndroid = "io.insert-koin:koin-android-compat:${Versions.koin}"
+    val koinAndroid = "io.insert-koin:koin-android:${Versions.koinAndroid}"
+    val koinAndroidCompat = "io.insert-koin:koin-android-compat:${Versions.koinAndroid}"
     val koinWorkManager = "io.insert-koin:koin-androidx-workmanager:${Versions.koin}"
     val koinNavigation = "io.insert-koin:koin-androidx-navigation:${Versions.koin}"
-    val koinCompose = "io.insert-koin:koin-androidx-compose:${Versions.koin}"
+    val koinCompose = "io.insert-koin:koin-androidx-compose:${Versions.koinAndroidCompose}"
     val koinKtor = "io.insert-koin:koin-ktor:${Versions.koin}"
     val lifecycleViewModelCompose = "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.lifecycleViewModelCompose}"
     val sqldelightAndroidDriver = "com.squareup.sqldelight:android-driver:${Versions.sqldelight}"
