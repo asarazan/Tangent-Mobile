@@ -11,6 +11,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -69,15 +70,13 @@ fun HomeScreen(vm: SharedHomeViewModel) {
                 CircularProgressIndicator()
             } else {
                 val tlvm = viewModel<AndroidTimelineViewModel>()
-                LaunchedEffect("tlvm") {
-                    tlvm.send(Init(mastodon))
-                }
+                tlvm.send(Init(mastodon))
                 when (state.tab) {
                     Home -> {
                         TimelineScreen(vm = tlvm, listState = listState)
                     }
                     Search -> {
-                        LaunchedEffect("toast") {
+                        SideEffect {
                             Toast.makeText(koiner.get(), "TODO", Toast.LENGTH_SHORT).show()
                         }
                     }

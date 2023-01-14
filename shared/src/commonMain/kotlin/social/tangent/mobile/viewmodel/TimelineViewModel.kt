@@ -31,7 +31,7 @@ class TimelineViewModel(scope: CoroutineScope) :
     private var init = false
     private lateinit var storage: TimelineStorage
 
-    override fun initialState() = State(listOf(), loading = true, refreshing = false)
+    override fun initialState() = State()
 
     override suspend fun reduce(event: Event, currentState: State): State {
         return when (event) {
@@ -64,7 +64,7 @@ class TimelineViewModel(scope: CoroutineScope) :
                 currentState
             }
             is Refresh -> {
-                scope.launch { storage.fetchFrom() }
+                scope.launch { storage.fetch() }
                 currentState
             }
             is Click -> {
@@ -79,6 +79,7 @@ class TimelineViewModel(scope: CoroutineScope) :
     }
 
     private fun init() {
+        println("Initialize new TimelineViewModel")
         scope.launch {
             storage.timeline.collectLatest { timeline ->
                 state = state.copy(
@@ -93,13 +94,16 @@ class TimelineViewModel(scope: CoroutineScope) :
             }
         }
         scope.launch {
-            storage.fetchFrom()
+            storage.fetch()
         }
+        // stateFlow.onEach {
+        //     println("Set State: ${it.content.count()} | ${it.loading} | ${it.refreshing}")
+        // }.launchIn(scope)
     }
 
     data class State(
-        val content: List<StatusContent>,
-        val loading: Boolean = true,
+        val content: List<StatusContent> = listOf(),
+        val loading: Boolean = false,
         val refreshing: Boolean = false,
     )
 
