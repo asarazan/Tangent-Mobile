@@ -4,16 +4,18 @@ import kotlinx.coroutines.CoroutineScope
 import org.koin.core.component.KoinComponent
 import social.tangent.mobile.sdk.Mastodon
 import social.tangent.mobile.viewmodel.HomeViewModel.Effect
+import social.tangent.mobile.viewmodel.HomeViewModel.Effect.TabReclicked
 import social.tangent.mobile.viewmodel.HomeViewModel.Event
+import social.tangent.mobile.viewmodel.HomeViewModel.Event.ClickTab
 import social.tangent.mobile.viewmodel.HomeViewModel.Event.Init
 import social.tangent.mobile.viewmodel.HomeViewModel.State
 import social.tangent.mobile.viewmodel.base.MobileViewModel
 import social.tangent.mobile.viewmodel.base.SharedViewModel
 
-typealias SharedHomeViewModel = SharedViewModel<State, Event, Effect>
+typealias SharedHomeViewModel = SharedViewModel<State, Event, Effect?>
 
 class HomeViewModel(scope: CoroutineScope) :
-    MobileViewModel<State, Event, Effect>(scope), KoinComponent {
+    MobileViewModel<State, Event, Effect?>(scope), KoinComponent {
 
     override fun initialState() = State()
 
@@ -22,15 +24,31 @@ class HomeViewModel(scope: CoroutineScope) :
             is Init -> {
                 currentState.copy(mastodon = event.mastodon)
             }
+            is ClickTab -> {
+                currentState.copy(tab = event.tab).also {
+                    if (event.tab == currentState.tab) {
+                        sendSideEffect(TabReclicked(event.tab))
+                    }
+                }
+            }
         }
     }
 
     data class State(
-        val mastodon: Mastodon? = null
+        val mastodon: Mastodon? = null,
+        val tab: Tab = Tab.Home
     )
 
     sealed class Event {
         class Init(val mastodon: Mastodon) : Event()
+        class ClickTab(val tab: Tab) : Event()
     }
-    sealed class Effect
+    sealed class Effect {
+        class TabReclicked(val tab: Tab) : Effect()
+    }
+
+    enum class Tab {
+        Home,
+        Search
+    }
 }

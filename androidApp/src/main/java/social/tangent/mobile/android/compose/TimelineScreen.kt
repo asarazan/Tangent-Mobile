@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -44,6 +45,9 @@ fun TimelineScreen(
     listState: LazyListState = rememberLazyListState()
 ) {
     val state by vm.stateFlow.collectAsState()
+    val initialFirstId = remember {
+        state.content.getOrNull(0)?.id
+    }
     val pullRefreshState = rememberPullRefreshState(state.refreshing, {
         vm.send(Refresh)
     })
@@ -84,7 +88,9 @@ fun TimelineScreen(
     // nudge up a bit when the list changes.
     val firstId = state.content.getOrNull(0)?.id
     LaunchedEffect(firstId) {
-        listState.animateScrollBy(-64f, tween(500))
+        if (firstId !== initialFirstId) {
+            listState.animateScrollBy(-64f, tween(500))
+        }
     }
 }
 
