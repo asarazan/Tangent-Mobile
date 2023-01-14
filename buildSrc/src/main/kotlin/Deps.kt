@@ -1,5 +1,3 @@
-package buildsrc
-
 object Versions {
     const val kotlin = "1.7.20"
     const val androidPlugin = "7.4.0"
@@ -42,7 +40,7 @@ object Deps {
     val sqldelightCoroutinesExt = "com.squareup.sqldelight:coroutines-extensions:${Versions.sqldelight}"
 
     // commonTest
-    val koinTest = "com.squareup.sqldelight:coroutines-extensions:${Versions.koin}"
+    val koinTest = "io.insert-koin:koin-test:${Versions.koin}"
 
     // androidMain
     val browser = "androidx.browser:browser:${Versions.browser}"

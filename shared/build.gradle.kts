@@ -1,4 +1,3 @@
-import buildsrc.Versions
 
 plugins {
     kotlin("multiplatform")
