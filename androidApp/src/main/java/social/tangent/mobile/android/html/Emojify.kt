@@ -17,13 +17,28 @@ fun CharSequence.emojify(emoji: List<Emoji>): AnnotatedString {
             val match = it.groupValues[0]
             val code = it.groupValues[1]
             val index = it.range.first
-            val snippet = input.substring(fromIndex, index)
             val url = map[code]!!.url
-            append(snippet)
+            appendSnippet(input, fromIndex, index)
             appendInlineContent(url, match)
             fromIndex = index + match.length
         }
-        val snippet = input.substring(fromIndex, input.length)
-        append(snippet)
+        appendSnippet(input, fromIndex, input.length)
+    }
+}
+
+private fun AnnotatedString.Builder.appendSnippet(
+    input: CharSequence,
+    fromIndex: Int,
+    index: Int
+) {
+    when (input) {
+        is AnnotatedString -> {
+            val snippet = input.subSequence(fromIndex, index)
+            append(snippet)
+        }
+        else -> {
+            val snippet = input.substring(fromIndex, index)
+            append(snippet)
+        }
     }
 }
