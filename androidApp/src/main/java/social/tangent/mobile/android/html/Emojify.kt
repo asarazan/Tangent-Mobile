@@ -17,7 +17,7 @@ fun CharSequence.emojify(emoji: List<Emoji>): AnnotatedString {
             val match = it.groupValues[0]
             val code = it.groupValues[1]
             val index = it.range.first
-            val url = map[code]!!.url
+            val url = map[code]?.url ?: ""
             appendSnippet(input, fromIndex, index)
             appendInlineContent(url, match)
             fromIndex = index + match.length

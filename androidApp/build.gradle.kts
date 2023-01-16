@@ -26,9 +26,9 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-        isCoreLibraryDesugaringEnabled = true
+        // sourceCompatibility = JavaVersion.VERSION_17
+        // targetCompatibility = JavaVersion.VERSION_17
+        // isCoreLibraryDesugaringEnabled = true
     }
     buildTypes {
         getByName("debug") {
@@ -87,7 +87,7 @@ dependencies {
     implementation(Deps.takt)
     implementation(Deps.glideCompose)
     implementation(Deps.jsoup)
-    coreLibraryDesugaring(Deps.desugaring)
+    // coreLibraryDesugaring(Deps.desugaring)
 
     // tests
     testImplementation(Deps.junit)

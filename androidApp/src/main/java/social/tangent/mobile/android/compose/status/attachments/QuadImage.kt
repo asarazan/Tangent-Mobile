@@ -32,6 +32,7 @@ fun QuadImage(
                 PreviewableImage(
                     url = it.url,
                     blurhash = it.blurhash,
+                    sizeKey = "quad",
                     modifier = Modifier.weight(1f).clickable { launchWebView(it.url) }
                 )
                 if (it != attachments[1]) {
@@ -45,6 +46,7 @@ fun QuadImage(
                 PreviewableImage(
                     url = it.url,
                     blurhash = it.blurhash,
+                    sizeKey = "quad",
                     modifier = Modifier.weight(1f).clickable { launchWebView(it.url) }
                 )
                 if (it != attachments.last()) {

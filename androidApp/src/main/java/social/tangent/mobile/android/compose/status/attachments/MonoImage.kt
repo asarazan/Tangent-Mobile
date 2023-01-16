@@ -23,6 +23,7 @@ fun MonoImage(
     PreviewableImage(
         url = attachment.url,
         blurhash = attachment.blurhash,
+        sizeKey = "mono",
         modifier = modifier
             .fillMaxWidth()
             .aspectRatio(2f)

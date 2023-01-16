@@ -27,6 +27,7 @@ fun BiImage(
             PreviewableImage(
                 url = it.url,
                 blurhash = it.blurhash,
+                sizeKey = "bi",
                 modifier = Modifier.weight(1f)
             )
             if (it != attachments.last()) {

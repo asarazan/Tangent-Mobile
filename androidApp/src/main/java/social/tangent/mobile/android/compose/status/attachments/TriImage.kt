@@ -32,6 +32,7 @@ fun TriImage(
         PreviewableImage(
             url = first.url,
             blurhash = first.blurhash,
+            sizeKey = "tri_big",
             modifier = Modifier.weight(1f).clickable { launchWebView(first.url) }
         )
         Spacer(modifier = Modifier.height(4.dp))
@@ -40,6 +41,7 @@ fun TriImage(
                 PreviewableImage(
                     url = it.url,
                     blurhash = it.blurhash,
+                    sizeKey = "tri_small",
                     modifier = Modifier.weight(1f).clickable { launchWebView(it.url) }
                 )
                 if (it != attachments.last()) {
