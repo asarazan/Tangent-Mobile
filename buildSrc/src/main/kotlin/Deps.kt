@@ -36,6 +36,10 @@ object Versions {
     const val coil = "2.2.2"
     const val takt = "2.1.1"
     const val glideCompose = "1.0.0-alpha.1"
+    const val jsoup = "1.15.3"
+    const val desugaring = "2.0.0"
+    const val junit = "4.13.2"
+    const val androidXTesting = "1.5.0"
 }
 
 object Deps {
@@ -89,4 +93,8 @@ object Deps {
     const val coilVideo = "io.coil-kt:coil-video:${Versions.coil}"
     const val takt = "jp.wasabeef:takt:${Versions.takt}"
     const val glideCompose = "com.github.bumptech.glide:compose:${Versions.glideCompose}"
+    const val jsoup = "org.jsoup:jsoup:${Versions.jsoup}"
+    const val desugaring = "com.android.tools:desugar_jdk_libs:${Versions.desugaring}"
+    const val junit = "junit:junit:${Versions.junit}"
+    const val androidXTesting = "androidx.test:core:${Versions.androidXTesting}"
 }

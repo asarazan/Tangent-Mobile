@@ -25,6 +25,11 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    compileOptions {
+        // sourceCompatibility = JavaVersion.VERSION_17
+        // targetCompatibility = JavaVersion.VERSION_17
+        // isCoreLibraryDesugaringEnabled = true
+    }
     buildTypes {
         getByName("debug") {
             // Enables code shrinking, obfuscation, and optimization for only
@@ -81,4 +86,10 @@ dependencies {
     implementation(Deps.coilVideo)
     implementation(Deps.takt)
     implementation(Deps.glideCompose)
+    implementation(Deps.jsoup)
+    // coreLibraryDesugaring(Deps.desugaring)
+
+    // tests
+    testImplementation(Deps.junit)
+    testImplementation(Deps.androidXTesting)
 }

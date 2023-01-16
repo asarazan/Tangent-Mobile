@@ -6,51 +6,65 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
-import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
-import com.bumptech.glide.integration.compose.GlideImage
+import androidx.compose.ui.unit.IntSize
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.wolt.blurhashkt.BlurHashDecoder
 import social.tangent.mobile.android.R
 
-private const val width = 540
-private const val height = 260
+private val sizeMap = mutableMapOf<String, IntSize>()
+private const val blurScale = 16;
 
-@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun PreviewableImage(
     url: String,
     modifier: Modifier = Modifier,
-    blurhash: String? = null
+    blurhash: String? = null,
+    sizeKey: String? = null
 ) {
-    if (LocalInspectionMode.current) {
+    if (!LocalInspectionMode.current) {
+
+        // A lot of shitty optimizations
+        // to hopefully reduce image pop-in jank
+        var req = ImageRequest.Builder(LocalContext.current)
+            .data(url)
+            .crossfade(true)
+            .crossfade(true)
+        var _modifier = modifier
+        if (sizeKey != null) {
+            sizeMap[sizeKey]?.let {
+                val bmp = remember {
+                    blurhash?.let {
+                        blur ->
+                        BitmapDrawable(BlurHashDecoder.decode(
+                            blur,
+                            it.width / blurScale,
+                            it.height / blurScale))
+                    }
+                }
+                req = req.size(it.width, it.height).placeholder(bmp)
+            }
+            _modifier = _modifier.onGloballyPositioned {
+                sizeMap[sizeKey] = it.size
+            }
+        }
+
+        AsyncImage(
+            model = req.build(),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = _modifier
+        )
+    } else {
         Image(
             painter = painterResource(id = R.drawable.sarazan),
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = modifier
         )
-    } else {
-        val bmp = remember {
-            blurhash?.let {
-                BitmapDrawable(BlurHashDecoder.decode(it, width, height))
-            }
-        }
-        GlideImage(
-            model = url,
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = modifier
-        )
-        // AsyncImage(
-        //     model = ImageRequest.Builder(LocalContext.current)
-        //         .data(url)
-        //         // .crossfade(true)
-        //         .placeholder(bmp)
-        //         .build(),
-        //     contentDescription = null,
-        //     contentScale = ContentScale.Crop,
-        //     modifier = modifier
-        // )
     }
 }

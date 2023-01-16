@@ -4,13 +4,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import social.tangent.mobile.android.MyApplicationTheme
+import social.tangent.mobile.android.compose.text.EmojiText
 import social.tangent.mobile.android.onBackgroundFaint
 import social.tangent.mobile.api.entities.Status
 import social.tangent.mobile.api.mock.MockApi
@@ -24,7 +24,8 @@ fun BoostHeader(status: Status, modifier: Modifier = Modifier) {
     Box(
         contentAlignment = Alignment.CenterStart
     ) {
-        Text(text = "${status.account.displayName} Reblogged",
+        EmojiText(text = "${status.account.displayName} Reblogged",
+            emoji = status.account.emojis,
             color = MaterialTheme.colors.onBackgroundFaint,
             modifier = Modifier.padding(bottom = 8.dp)
         )

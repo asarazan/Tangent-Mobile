@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -23,9 +22,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import social.tangent.mobile.android.MyApplicationTheme
 import social.tangent.mobile.android.compose.status.attachments.StatusAttachments
-import social.tangent.mobile.android.compose.util.Html
+import social.tangent.mobile.android.compose.text.EmojiText
 import social.tangent.mobile.android.compose.util.RoundedBorder
-import social.tangent.mobile.android.compose.util.trimPTags
 import social.tangent.mobile.android.onBackgroundFaint
 import social.tangent.mobile.android.onBackgroundFainter
 import social.tangent.mobile.api.entities.Status
@@ -59,6 +57,8 @@ private fun StatusViewInternal(
     outerStatus: Status,
     modifier: Modifier = Modifier
 ) {
+    // val json = status.serialize()
+    // println("STATUS CONTENT:\n${status.serialize()}\n")
     Column(modifier = modifier.padding(start = 8.dp, end = 8.dp, top = 8.dp)) {
         BoostHeader(status = outerStatus)
         Row(horizontalArrangement = Arrangement.SpaceBetween) {
@@ -67,18 +67,29 @@ private fun StatusViewInternal(
                     .width(72.dp)
                     .padding(end = 8.dp, bottom = 8.dp)
             ) {
-                Avatar(account = status.account, modifier = Modifier.clip(CircleShape).clickable {
-                    vm.send(Profile(status))
-                })
+                Avatar(account = status.account, modifier = Modifier
+                    .clip(CircleShape)
+                    .clickable {
+                        vm.send(Profile(status))
+                    })
             }
             Column {
-                Text(text = status.account.displayName, fontWeight = FontWeight.Bold, overflow = TextOverflow.Ellipsis)
+                EmojiText(
+                    text = status.account.displayName,
+                    emoji = status.account.emojis,
+                    fontWeight = FontWeight.Bold,
+                    overflow = TextOverflow.Ellipsis
+                )
                 Text(text = "${status.account.acct} • ${status.formatTime()}",
                     color = MaterialTheme.colors.onBackgroundFaint,
                     overflow = TextOverflow.Ellipsis,
                     softWrap = false
                 )
-                Html(text = status.content.trimPTags(), modifier = Modifier.fillMaxWidth())
+                // Html(text = status.content.trimPTags(), modifier = Modifier.fillMaxWidth())
+                // Text(text = "\n-----------------\n")
+                ContentView(status = status)
+                // Text(text = "\n-----------------\n")
+                // Text(text = status.content)
                 val attachments = status.mediaAttachments
                 if (attachments.isNotEmpty()) {
                     Box(modifier = Modifier.padding(top = 8.dp)) {
