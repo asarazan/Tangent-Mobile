@@ -1,7 +1,6 @@
-package social.tangent.mobile.android.compose.util
+package social.tangent.mobile.android.compose.status
 
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
@@ -10,6 +9,9 @@ import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import social.tangent.mobile.android.MyApplicationTheme
+import social.tangent.mobile.android.compose.text.AnnotatedClickableText
+import social.tangent.mobile.android.compose.text.rememberEmojiMap
+import social.tangent.mobile.android.html.emojify
 import social.tangent.mobile.android.html.parsedContent
 import social.tangent.mobile.api.entities.Status
 import social.tangent.mobile.api.mock.mockStatus
@@ -31,19 +33,14 @@ fun ContentView(
             textDecoration = TextDecoration.Underline
         )
     )
-    // val text = HtmlCompat.fromHtml(status.content, HtmlCompat.FROM_HTML_MODE_LEGACY).trim()
-    // val annotated = spannableStringToAnnotatedString(
-    //     text = text,
-    //     baseStyle = MaterialTheme.typography.body1.toSpanStyle(),
-    //     density = LocalDensity.current
-    // )
-    // val annotated = buildAnnotatedString {
-    //     append(status.content)
-    //     addStyle(MaterialTheme.typography.body1.toSpanStyle().copy(color = MaterialTheme.colors.onBackground), 0, status.content.length)
-    // }
-    // LinkableTextView(annotatedString = annotated, modifier = modifier)
-
-    ClickableText(text = parsed, modifier = modifier.fillMaxSize()) {
+    val emojified = parsed.emojify(status.emojis)
+    val contentMap = rememberEmojiMap(emoji = status.emojis)
+    AnnotatedClickableText(
+        text = emojified,
+        // color = MaterialTheme.colors.onBackground,
+        modifier = modifier.fillMaxSize(),
+        inlineContent = contentMap
+    ) {
         parsed.getUrlAnnotations(it, it).firstOrNull()?.let {
             annotation ->
             launchWebView(annotation.item.url)

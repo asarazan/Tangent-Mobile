@@ -7,7 +7,7 @@ import social.tangent.mobile.api.entities.Emoji
 
 private val EMOJI = Regex(":(\\w+):")
 
-fun String.emojify(emoji: List<Emoji>): AnnotatedString {
+fun CharSequence.emojify(emoji: List<Emoji>): AnnotatedString {
     val input = this
     val map = emoji.associateBy { it.shortcode }
     val matches = EMOJI.findAll(input).toList()
@@ -20,7 +20,7 @@ fun String.emojify(emoji: List<Emoji>): AnnotatedString {
             val snippet = input.substring(fromIndex, index)
             val url = map[code]!!.url
             append(snippet)
-            appendInlineContent(url)
+            appendInlineContent(url, match)
             fromIndex = index + match.length
         }
         val snippet = input.substring(fromIndex, input.length)

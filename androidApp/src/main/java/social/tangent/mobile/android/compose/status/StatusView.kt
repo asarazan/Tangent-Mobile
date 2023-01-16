@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -24,10 +23,7 @@ import androidx.compose.ui.unit.dp
 import social.tangent.mobile.android.MyApplicationTheme
 import social.tangent.mobile.android.compose.status.attachments.StatusAttachments
 import social.tangent.mobile.android.compose.text.EmojiText
-import social.tangent.mobile.android.compose.util.ContentView
-import social.tangent.mobile.android.compose.util.Html
 import social.tangent.mobile.android.compose.util.RoundedBorder
-import social.tangent.mobile.android.compose.util.trimPTags
 import social.tangent.mobile.android.onBackgroundFaint
 import social.tangent.mobile.android.onBackgroundFainter
 import social.tangent.mobile.api.entities.Status
@@ -35,7 +31,6 @@ import social.tangent.mobile.api.mock.MockApi
 import social.tangent.mobile.api.mock.mockState
 import social.tangent.mobile.api.mock.mockStatus
 import social.tangent.mobile.data.extensions.actionableStatus
-import social.tangent.mobile.data.extensions.serialize
 import social.tangent.mobile.launchWebView
 import social.tangent.mobile.viewmodel.SharedTimelineViewModel
 import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Click
@@ -62,8 +57,8 @@ private fun StatusViewInternal(
     outerStatus: Status,
     modifier: Modifier = Modifier
 ) {
-    val json = status.serialize()
-    println("STATUS CONTENT:\n${status.serialize()}\n")
+    // val json = status.serialize()
+    // println("STATUS CONTENT:\n${status.serialize()}\n")
     Column(modifier = modifier.padding(start = 8.dp, end = 8.dp, top = 8.dp)) {
         BoostHeader(status = outerStatus)
         Row(horizontalArrangement = Arrangement.SpaceBetween) {
@@ -90,11 +85,11 @@ private fun StatusViewInternal(
                     overflow = TextOverflow.Ellipsis,
                     softWrap = false
                 )
-                Html(text = status.content.trimPTags(), modifier = Modifier.fillMaxWidth())
-                Text(text = "\n-----------------\n")
+                // Html(text = status.content.trimPTags(), modifier = Modifier.fillMaxWidth())
+                // Text(text = "\n-----------------\n")
                 ContentView(status = status)
-                Text(text = "\n-----------------\n")
-                Text(text = status.content)
+                // Text(text = "\n-----------------\n")
+                // Text(text = status.content)
                 val attachments = status.mediaAttachments
                 if (attachments.isNotEmpty()) {
                     Box(modifier = Modifier.padding(top = 8.dp)) {
