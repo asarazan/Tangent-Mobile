@@ -88,4 +88,8 @@ dependencies {
     implementation(Deps.glideCompose)
     implementation(Deps.jsoup)
     coreLibraryDesugaring(Deps.desugaring)
+
+    // tests
+    testImplementation(Deps.junit)
+    testImplementation(Deps.androidXTesting)
 }
