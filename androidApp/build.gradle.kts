@@ -87,7 +87,7 @@ dependencies {
     implementation(Deps.takt)
     implementation(Deps.glideCompose)
     implementation(Deps.jsoup)
-    // coreLibraryDesugaring(Deps.desugaring)
+    implementation(Deps.toolbarCompose)
 
     // tests
     testImplementation(Deps.junit)

@@ -23,6 +23,8 @@ private const val blurScale = 16;
 fun PreviewableImage(
     url: String,
     modifier: Modifier = Modifier,
+    contentScale: ContentScale = ContentScale.Crop,
+    contentDescription: String? = null,
     blurhash: String? = null,
     sizeKey: String? = null
 ) {
@@ -32,7 +34,6 @@ fun PreviewableImage(
         // to hopefully reduce image pop-in jank
         var req = ImageRequest.Builder(LocalContext.current)
             .data(url)
-            .crossfade(true)
             .crossfade(true)
         var _modifier = modifier
         if (sizeKey != null) {
@@ -55,15 +56,15 @@ fun PreviewableImage(
 
         AsyncImage(
             model = req.build(),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
+            contentDescription = contentDescription,
+            contentScale = contentScale,
             modifier = _modifier
         )
     } else {
         Image(
             painter = painterResource(id = R.drawable.sarazan),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
+            contentDescription = contentDescription,
+            contentScale = contentScale,
             modifier = modifier
         )
     }

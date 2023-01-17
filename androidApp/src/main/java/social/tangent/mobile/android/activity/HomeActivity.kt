@@ -33,7 +33,7 @@ class HomeActivity : ComponentActivity(), KoinComponent {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val id = intent.getStringExtra("id")!!
+        val id = intent.getStringExtra("me")!!
         val mastodon = MastodonStorage.get(id)!!
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
@@ -69,9 +69,9 @@ class HomeActivity : ComponentActivity(), KoinComponent {
             return create(c, id)
         }
 
-        fun create(c: Context, id: String): Intent {
+        fun create(c: Context, me: String): Intent {
             return Intent(c, HomeActivity::class.java)
-                .putExtra("id", id)
+                .putExtra("me", me)
         }
     }
 }

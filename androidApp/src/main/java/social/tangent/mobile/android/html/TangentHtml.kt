@@ -4,7 +4,6 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.UrlAnnotation
 import androidx.compose.ui.text.buildAnnotatedString
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
@@ -12,21 +11,25 @@ import org.jsoup.nodes.Node
 import org.jsoup.nodes.TextNode
 import org.jsoup.select.NodeVisitor
 import social.tangent.mobile.api.entities.Status
+import social.tangent.mobile.api.util.UrlHelpers
+
+object LinkTypes {
+    const val Profile = "profile"
+    const val Hashtag = "hashtag"
+    const val Status = "status"
+    const val Url = "url"
+}
 
 private data class Hyperlink(
-    val href: String,
+    val element: Element,
     val start: Int
 )
 
 private class TangentNodeVisitor(
-    status: Status,
     val style: SpanStyle,
     val linkStyle: SpanStyle,
     val builder: AnnotatedString.Builder
 ) : NodeVisitor {
-
-    val idsByUrl: Map<String, String> =
-        status.mentions.associate { Pair(it.id, it.url) }
 
     private var invisible = 0
     private var ellipsize = 0
@@ -68,7 +71,7 @@ private class TangentNodeVisitor(
     private fun enterHref(el: Element) {
         hyperlink.add(
             Hyperlink(
-                href = el.attr("href"),
+                element = el,
                 start = builder.length
             )
         )
@@ -78,17 +81,12 @@ private class TangentNodeVisitor(
     private fun exitHref(el: Element) {
         val current = hyperlink.removeLast()
         builder.addStyle(linkStyle, current.start, builder.length)
-        builder.addUrlAnnotation(
-            urlAnnotation = UrlAnnotation(current.href),
+        builder.addStringAnnotation(
+            tag = extractType(current.element),
+            annotation = current.element.attr("href"),
             start = current.start,
             end = builder.length
         )
-        // builder.addStringAnnotation(
-        //     tag = "Url",
-        //     annotation = current.href,
-        //     start = current.start,
-        //     end = builder.length
-        // )
     }
 
     private fun handleEndParagraph(el: Element) {
@@ -101,11 +99,9 @@ private class TangentNodeVisitor(
         when (el.className()) {
             "invisible" -> {
                 invisible++
-                // println("invisible = $ellipsize")
             }
             "ellipsis" -> {
                 ellipsize++
-                // println("ellipsize = $ellipsize")
             }
         }
     }
@@ -114,11 +110,9 @@ private class TangentNodeVisitor(
         when (el.className()) {
             "invisible" -> {
                 invisible--
-                // println("invisible = $ellipsize")
             }
             "ellipsis" -> {
                 ellipsize--
-                // println("ellipsize = $ellipsize")
             }
         }
     }
@@ -128,7 +122,6 @@ private class TangentNodeVisitor(
         if (ellipsize > 0) {
             text = "$text…"
         }
-        // println("print $text")
         append(text)
     }
 
@@ -144,11 +137,21 @@ fun Status.parsedContent(
     val body = Jsoup.parseBodyFragment(content).body()
     return buildAnnotatedString {
         val visitor = TangentNodeVisitor(
-            status = this@parsedContent,
             style = style.toSpanStyle(),
             linkStyle = linkStyle.toSpanStyle(),
             builder = this
         )
         body.traverse(visitor)
+    }
+}
+
+private fun extractType(el: Element): String {
+    val href = el.attr("href")
+    val status = UrlHelpers.statusFromUrl(href)
+    return when {
+        status != null -> LinkTypes.Status
+        el.hasClass("hashtag") -> LinkTypes.Hashtag
+        el.hasClass("mention") -> LinkTypes.Profile
+        else -> LinkTypes.Url
     }
 }

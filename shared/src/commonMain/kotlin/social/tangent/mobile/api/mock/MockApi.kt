@@ -11,6 +11,7 @@ import social.tangent.mobile.api.entities.Attachment
 import social.tangent.mobile.api.entities.Instance
 import social.tangent.mobile.api.entities.Status
 import social.tangent.mobile.api.entities.Token
+import social.tangent.mobile.data.extensions.actionableStatus
 import social.tangent.mobile.data.tweets.StatusContent
 import social.tangent.mobile.viewmodel.TimelineViewModel
 
@@ -26,6 +27,7 @@ class MockApi(val delay: Long = 0) : Api, KoinComponent {
         val longStatus by lazy { timeline[1].status }
         val rtlStatus by lazy { timeline[5].status }
         val reblogStatus by lazy { Json.decodeFromString<Status>(reblog) }
+        val mockAccount by lazy { reblogStatus.actionableStatus.account }
         val singleAttachment = listOf(
             Attachment(
                 id = "foo",
