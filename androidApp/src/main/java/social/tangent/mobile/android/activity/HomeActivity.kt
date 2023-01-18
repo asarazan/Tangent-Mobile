@@ -59,6 +59,9 @@ class HomeActivity : ComponentActivity(), KoinComponent {
                 is Profile -> {
                     longToast("Profile ${it.account.displayName}")
                 }
+                else -> {
+                    // nothing.
+                }
             }
         }
     }

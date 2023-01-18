@@ -88,6 +88,7 @@ dependencies {
     implementation(Deps.glideCompose)
     implementation(Deps.jsoup)
     implementation(Deps.toolbarCompose)
+    implementation(Deps.composeScreenshot)
 
     // tests
     testImplementation(Deps.junit)

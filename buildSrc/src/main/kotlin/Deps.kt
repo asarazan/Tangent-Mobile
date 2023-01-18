@@ -38,6 +38,7 @@ object Versions {
     const val glideCompose = "1.0.0-alpha.1"
     const val jsoup = "1.15.3"
     const val toolbarCompose = "2.3.5"
+    const val composeScreenshot = "1.0.3"
     const val junit = "4.13.2"
     const val androidXTesting = "1.5.0"
 }
@@ -95,6 +96,7 @@ object Deps {
     const val glideCompose = "com.github.bumptech.glide:compose:${Versions.glideCompose}"
     const val jsoup = "org.jsoup:jsoup:${Versions.jsoup}"
     const val toolbarCompose = "me.onebone:toolbar-compose:${Versions.toolbarCompose}"
+    const val composeScreenshot = "com.github.SmartToolFactory:Compose-Screenshot:${Versions.composeScreenshot}"
     const val junit = "junit:junit:${Versions.junit}"
     const val androidXTesting = "androidx.test:core:${Versions.androidXTesting}"
 }

@@ -1,6 +1,5 @@
 package social.tangent.mobile.android.compose.status
 
-import android.app.Activity
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
@@ -17,14 +16,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import social.tangent.mobile.android.MyApplicationTheme
 import social.tangent.mobile.android.R
 import social.tangent.mobile.android.onBackgroundFaint
-import social.tangent.mobile.android.util.shareStatus
 import social.tangent.mobile.api.entities.Status
 import social.tangent.mobile.api.mock.mockState
 import social.tangent.mobile.api.mock.mockStatus
@@ -32,6 +29,7 @@ import social.tangent.mobile.viewmodel.SharedTimelineViewModel
 import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Comment
 import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Fave
 import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Reblog
+import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Share
 import social.tangent.mobile.viewmodel.base.PreviewModel
 
 @Composable
@@ -72,10 +70,8 @@ fun StatusFooter(
             vm.send(Fave(status, !faved))
         }
         Spacer(modifier = Modifier.weight(1f))
-
-        val context = LocalContext.current as Activity
         FooterButton(id = R.drawable.share_from_square) {
-            shareStatus(context, status)
+            vm.send(Share(status))
         }
     }
 }

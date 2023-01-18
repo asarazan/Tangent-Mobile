@@ -10,6 +10,7 @@ import social.tangent.mobile.data.tweets.StatusContent
 import social.tangent.mobile.data.tweets.TimelineStorage
 import social.tangent.mobile.sdk.Mastodon
 import social.tangent.mobile.viewmodel.TimelineViewModel.Effect
+import social.tangent.mobile.viewmodel.TimelineViewModel.Effect.Screenshot
 import social.tangent.mobile.viewmodel.TimelineViewModel.Event
 import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Click
 import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Comment
@@ -19,6 +20,7 @@ import social.tangent.mobile.viewmodel.TimelineViewModel.Event.LoadMore
 import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Profile
 import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Reblog
 import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Refresh
+import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Share
 import social.tangent.mobile.viewmodel.TimelineViewModel.State
 import social.tangent.mobile.viewmodel.base.MobileViewModel
 import social.tangent.mobile.viewmodel.base.SharedViewModel
@@ -75,6 +77,10 @@ class TimelineViewModel(scope: CoroutineScope) :
                 sendSideEffect(Effect.Profile(event.status.account))
                 currentState
             }
+            is Share -> {
+                sendSideEffect(Screenshot(event.status))
+                currentState
+            }
         }
     }
 
@@ -115,12 +121,14 @@ class TimelineViewModel(scope: CoroutineScope) :
         data class LoadMore(val lastStatus: Status) : Event()
         data class Click(val status: Status) : Event()
         data class Profile(val status: Status) : Event()
+        data class Share(val status: Status) : Event()
         object Refresh : Event()
     }
     sealed class Effect {
         data class Comment(val status: Status) : Effect()
         data class Click(val status: Status) : Effect()
         data class Profile(val account: Account) : Effect()
+        data class Screenshot(val status: Status): Effect()
     }
 }
 

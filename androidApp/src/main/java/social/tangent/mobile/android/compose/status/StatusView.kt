@@ -1,5 +1,6 @@
 package social.tangent.mobile.android.compose.status
 
+import android.app.Activity
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,18 +15,30 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.smarttoolfactory.screenshot.ScreenshotBox
+import com.smarttoolfactory.screenshot.ScreenshotState
+import com.smarttoolfactory.screenshot.rememberScreenshotState
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import social.tangent.mobile.android.MyApplicationTheme
 import social.tangent.mobile.android.compose.status.attachments.StatusAttachments
 import social.tangent.mobile.android.compose.text.EmojiText
 import social.tangent.mobile.android.compose.util.RoundedBorder
 import social.tangent.mobile.android.onBackgroundFaint
 import social.tangent.mobile.android.onBackgroundFainter
+import social.tangent.mobile.android.util.longToast
+import social.tangent.mobile.android.util.shareImage
 import social.tangent.mobile.api.entities.Status
 import social.tangent.mobile.api.mock.MockApi
 import social.tangent.mobile.api.mock.mockState
@@ -33,7 +46,7 @@ import social.tangent.mobile.api.mock.mockStatus
 import social.tangent.mobile.data.extensions.actionableStatus
 import social.tangent.mobile.launchWebView
 import social.tangent.mobile.viewmodel.SharedTimelineViewModel
-import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Click
+import social.tangent.mobile.viewmodel.TimelineViewModel
 import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Profile
 import social.tangent.mobile.viewmodel.base.PreviewModel
 
@@ -42,12 +55,19 @@ fun StatusView(
     vm: SharedTimelineViewModel,
     status: Status
 ) {
-    StatusViewInternal(
-        vm = vm,
-        status = status.actionableStatus,
-        outerStatus = status,
-        modifier = Modifier.clickable { vm.send(Click(status)) }
-    )
+    val screenshot = rememberScreenshotState()
+    ScreenshotBox(screenshotState = screenshot) {
+        StatusViewInternal(
+            vm = vm,
+            status = status.actionableStatus,
+            outerStatus = status,
+            modifier = Modifier
+                .clickable {
+                    vm.send(TimelineViewModel.Event.Click(status))
+                }
+        )
+    }
+    ListenForScreenshot(vm = vm, status = status, screenshot = screenshot)
 }
 
 @Composable
@@ -112,6 +132,40 @@ private fun StatusViewInternal(
                 StatusFooter(vm, status, outerStatus = outerStatus)
             }
         }
+    }
+}
+
+@Composable
+fun ListenForScreenshot(
+    vm: SharedTimelineViewModel,
+    status: Status,
+    screenshot: ScreenshotState,
+) {
+    val activity = LocalContext.current as Activity
+    val scope = rememberCoroutineScope()
+    LaunchedEffect("screenshot") {
+        vm.sideEffectFlow.onEach {
+            println("Received side effect: ${it.javaClass.simpleName}")
+            when (it) {
+                is TimelineViewModel.Effect.Screenshot -> {
+                    if (it.status.actionableStatus == status.actionableStatus) {
+                        scope.launch(Dispatchers.IO) {
+                            var count = 0
+                            while (screenshot.bitmap == null && count++ < 5) {
+                                screenshot.capture()
+                                Thread.sleep(100L)
+                            }
+                            if (screenshot.bitmap == null) {
+                                longToast("Could not take screenshot...")
+                            } else {
+                                activity.shareImage(screenshot.bitmap!!)
+                            }
+                        }
+                    }
+                }
+                else -> {}
+            }
+        }.launchIn(scope)
     }
 }
 
