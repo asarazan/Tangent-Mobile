@@ -1,5 +1,6 @@
-package social.tangent.mobile.sdk.timeline
+package social.tangent.mobile.sdk.helpers
 
+import social.tangent.mobile.api.entities.Context
 import social.tangent.mobile.api.entities.Status
 import social.tangent.mobile.sdk.Mastodon
 
@@ -12,12 +13,19 @@ class MastodonTimeline(val mastodon: Mastodon) {
         return mastodon.api.getHomeTimeline(
             authentication = mastodon.bearer(),
             maxId = fromId,
-            limit = 20
+            limit = 40
         )
     }
 
     suspend fun fetchById(id: String): Status {
         return mastodon.api.getStatus(
+            authentication = mastodon.bearer(),
+            id = id
+        )
+    }
+
+    suspend fun fetchThread(id: String): Context {
+        return mastodon.api.getContext(
             authentication = mastodon.bearer(),
             id = id
         )

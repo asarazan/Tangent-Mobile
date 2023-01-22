@@ -56,8 +56,12 @@ fun ContentView(
                         AccountActivity.create(activity, "", "")
                     )
                 }
-                Hashtag -> {}
-                Status -> {}
+                Hashtag -> {
+                    // TODO
+                }
+                Status -> {
+                    // TODO
+                }
                 else -> { launchWebView(annotation.item) }
             }
         }

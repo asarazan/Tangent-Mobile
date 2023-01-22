@@ -4,6 +4,7 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import social.tangent.mobile.api.entities.Status
+import social.tangent.mobile.data.tweets.StatusContent
 
 val Status.actionableStatus
     get() = reblog ?: this
@@ -25,4 +26,8 @@ fun Status.serialize(): String {
 
 fun Status.Companion.deserialize(json: String): Status {
     return Json.decodeFromString(json)
+}
+
+fun Status.toContent(loadMore: Boolean = false): StatusContent {
+    return StatusContent(id, this, loadMore)
 }

@@ -3,6 +3,7 @@ package social.tangent.mobile.api
 import de.jensklingenberg.ktorfit.http.*
 import social.tangent.mobile.api.entities.Account
 import social.tangent.mobile.api.entities.Application
+import social.tangent.mobile.api.entities.Context
 import social.tangent.mobile.api.entities.Instance
 import social.tangent.mobile.api.entities.Status
 import social.tangent.mobile.api.entities.Token
@@ -55,6 +56,15 @@ interface Api {
         @Query("limit") limit: Int? = null
     ): List<Status>
 
+    @GET("api/v1/accounts/{id}/statuses")
+    suspend fun getAccountStatuses(
+        @Header("Authorization") authentication: String,
+        @Query("max_id") maxId: String? = null,
+        @Query("since_id") sinceId: String? = null,
+        @Query("min_id") minId: String? = null,
+        @Query("limit") limit: Int? = null
+    ): List<Status>
+
     @GET("api/v1/accounts/verify_credentials")
     suspend fun verifyAccountCredentials(
         @Header("Authorization") authentication: String
@@ -89,4 +99,10 @@ interface Api {
         @Header("Authorization") authentication: String,
         @Path("id") id: String
     ): Status
+
+    @GET("/api/v1/statuses/{id}/context")
+    suspend fun getContext(
+        @Header("Authorization") authentication: String,
+        @Path("id") id: String
+    ): Context
 }

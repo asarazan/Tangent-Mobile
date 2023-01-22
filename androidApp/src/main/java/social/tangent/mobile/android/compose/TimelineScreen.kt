@@ -64,22 +64,7 @@ fun TimelineScreen(
                     modifier = Modifier.size(64.dp)
                 )
             } else {
-                LazyColumn(
-                    state = listState,
-                    modifier = Modifier
-                        .background(MaterialTheme.colors.background)
-                        .scrollbar(listState, false)
-                        .rememberScroll("home", listState)
-                ) {
-                    items(state.content, key = { it.id }) {
-                        StatusView(vm, it.status)
-                        if (it.loadMore || it == state.content.lastOrNull()) {
-                            MyDivider()
-                            LoadMoreView(vm = vm, lastStatus = it.status)
-                        }
-                        MyDivider()
-                    }
-                }
+                StatusList(vm, state, listState)
             }
             PullRefreshIndicator(state.refreshing, pullRefreshState, Modifier.align(Alignment.TopCenter))
         }
@@ -90,6 +75,30 @@ fun TimelineScreen(
     LaunchedEffect(firstId) {
         if (firstId !== initialFirstId) {
             listState.animateScrollBy(-64f, tween(500))
+        }
+    }
+}
+
+@Composable
+private fun StatusList(
+    vm: SharedTimelineViewModel,
+    state: TimelineViewModel.State,
+    listState: LazyListState
+) {
+    LazyColumn(
+        state = listState,
+        modifier = Modifier
+            .background(MaterialTheme.colors.background)
+            .scrollbar(listState, false)
+            .rememberScroll("home", listState)
+    ) {
+        items(state.content, key = { it.id }) {
+            StatusView(vm, it.status)
+            if (it.loadMore || it == state.content.lastOrNull()) {
+                MyDivider()
+                LoadMoreView(vm = vm, lastStatus = it.status)
+            }
+            MyDivider()
         }
     }
 }

@@ -39,3 +39,7 @@ clearLoadMore:
 UPDATE DbStatus
 SET load_more = 0
 WHERE id = ?;
+
+deleteIds:
+DELETE FROM DbStatus
+WHERE id IN :ids;

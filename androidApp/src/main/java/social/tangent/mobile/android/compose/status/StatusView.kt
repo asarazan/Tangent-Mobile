@@ -32,6 +32,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import social.tangent.mobile.android.MyApplicationTheme
+import social.tangent.mobile.android.activity.StatusActivity
 import social.tangent.mobile.android.compose.status.attachments.StatusAttachments
 import social.tangent.mobile.android.compose.text.EmojiText
 import social.tangent.mobile.android.compose.util.RoundedBorder
@@ -55,6 +56,7 @@ fun StatusView(
     vm: SharedTimelineViewModel,
     status: Status
 ) {
+    val activity = LocalContext.current as Activity
     val screenshot = rememberScreenshotState()
     ScreenshotBox(screenshotState = screenshot) {
         StatusViewInternal(
@@ -63,7 +65,8 @@ fun StatusView(
             outerStatus = status,
             modifier = Modifier
                 .clickable {
-                    vm.send(TimelineViewModel.Event.Click(status))
+                    activity.startActivity(StatusActivity.create(activity, status))
+                    // vm.send(TimelineViewModel.Event.Click(status))
                 }
         )
     }

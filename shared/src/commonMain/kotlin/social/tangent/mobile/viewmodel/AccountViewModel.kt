@@ -12,7 +12,11 @@ import social.tangent.mobile.viewmodel.base.SharedViewModel
 
 typealias SharedAccountViewModel = SharedViewModel<State, Event, Effect>
 
-class AccountViewModel(scope: CoroutineScope, private val mastodon: Mastodon, private val initialState: State) :
+class AccountViewModel(
+    scope: CoroutineScope,
+    private val mastodon: Mastodon,
+    private val initialState: State
+) :
     MobileViewModel<State, Event, Effect>(scope), KoinComponent
 {
     override fun initialState() = initialState

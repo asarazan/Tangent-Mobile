@@ -1,7 +1,5 @@
 package social.tangent.mobile.data.tweets
 
-import com.russhwolf.settings.Settings
-import com.russhwolf.settings.set
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,7 +11,6 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
-import org.koin.core.component.inject
 import social.tangent.mobile.TangentDatabase
 import social.tangent.mobile.api.entities.Status
 import social.tangent.mobile.data.createDatabase
@@ -39,16 +36,6 @@ class TimelineStorage(
         .asFlow()
         .map { Timeline(it.executeAsList()) }
         .stateIn(scope, SharingStarted.Eagerly, Timeline(listOf()))
-
-    // TODO use this.
-    private val settings: Settings by inject()
-    private var latestIdSeen: String
-        get() = settings.getString("__latest_id_${id}", "")
-        set(value) = settings.set("__latest_id_${id}", value)
-
-    fun lookupStatus(id: String): Status? {
-        return db.statusQueries.lookupStatus(id).executeAsOneOrNull()
-    }
 
     suspend fun getStatusById(id: String): Status {
         return mastodon.timeline.fetchById(id)
@@ -100,13 +87,8 @@ class TimelineStorage(
         return status
     }
 
-    private fun insert(status: Status) {
-        insert(listOf(status))
-    }
-
     private fun insert(statuses: List<Status>, clearLoadMore: String? = null) {
         if (statuses.isEmpty()) return
-        statuses.first().let { latestIdSeen = maxOf(latestIdSeen, it.id) }
         val needsPlaceholder = !hasSeenId(statuses.last().id)
         db.transaction {
             statuses.forEachIndexed {

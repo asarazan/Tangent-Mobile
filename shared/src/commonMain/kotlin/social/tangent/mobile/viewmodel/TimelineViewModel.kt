@@ -33,6 +33,8 @@ class TimelineViewModel(scope: CoroutineScope) :
     private var init = false
     private lateinit var storage: TimelineStorage
 
+    val mastodon get() = storage.mastodon
+
     override fun initialState() = State()
 
     override suspend fun reduce(event: Event, currentState: State): State {

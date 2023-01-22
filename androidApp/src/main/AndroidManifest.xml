@@ -30,6 +30,9 @@
             android:exported="false">
         </activity>
         <activity
+            android:name=".activity.StatusActivity"
+            android:exported="false"/>
+        <activity
             android:name=".activity.LoginActivity"
             android:exported="true"
             android:launchMode="singleTop">

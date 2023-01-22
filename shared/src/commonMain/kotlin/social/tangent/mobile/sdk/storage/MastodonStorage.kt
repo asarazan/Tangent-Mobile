@@ -23,6 +23,9 @@ object MastodonStorage : KoinComponent {
         return getIds().map { get(it)!! }
     }
 
+    @Deprecated("This is temporary")
+    val default get() = all().first()
+
     fun get(id: String): Mastodon? {
         val cached = map[id]
         if (cached != null) return cached
