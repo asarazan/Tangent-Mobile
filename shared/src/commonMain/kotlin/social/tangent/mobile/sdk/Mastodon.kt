@@ -4,6 +4,7 @@ import org.koin.core.component.KoinComponent
 import social.tangent.mobile.api.entities.Status
 import social.tangent.mobile.api.entities.Token
 import social.tangent.mobile.sdk.helpers.MastodonAccounts
+import social.tangent.mobile.sdk.helpers.MastodonStatuses
 import social.tangent.mobile.sdk.helpers.MastodonTimeline
 
 class Mastodon(
@@ -16,6 +17,7 @@ class Mastodon(
 
     val timeline = MastodonTimeline(this)
     val accounts = MastodonAccounts(this)
+    val statuses = MastodonStatuses(this)
 
     internal fun bearer(): String = "Bearer ${token.accessToken}"
 

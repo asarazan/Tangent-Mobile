@@ -87,39 +87,6 @@ class TimelineStorage(
         _isLoading.emit(false)
     }
 
-    suspend fun fave(status: Status, faved: Boolean): Status {
-        val inc = if (faved) 1 else -1
-        val preview = status.copy(
-            favourited = faved,
-            favouritesCount = status.favouritesCount + inc
-        )
-        updateWithReblogs(preview)
-        if (faved) api.favourite(mastodon.bearer(), status.id) else api.unfavourite(mastodon.bearer(), status.id)
-        // Refetch because the server is stupid and doesn't properly update the count.
-        return updateWithReblogs(getStatusById(status.id))
-    }
-
-    suspend fun reblog(status: Status, reblogged: Boolean): Status {
-        val inc = if (reblogged) 1 else -1
-        val preview = status.copy(
-            reblogged = reblogged,
-            reblogsCount = status.reblogsCount + inc
-        )
-        updateWithReblogs(preview)
-        if (reblogged) api.reblog(mastodon.bearer(), status.id) else api.unreblog(mastodon.bearer(), status.id)
-        // Refetch because the server is stupid and doesn't properly update the count.
-        return updateWithReblogs(getStatusById(status.id))
-    }
-
-    private fun updateWithReblogs(status: Status): Status {
-        val lookup = db.timelineQueries.lookupReblogsOf(status.id)
-        val list = lookup.executeAsList()
-        insert(list.map {
-            it.copy(reblog = status)
-        } + status)
-        return status
-    }
-
     private fun insert(statuses: List<Status>, clearLoadMore: String? = null) {
         if (statuses.isEmpty()) return
         val needsPlaceholder = !hasSeenStatus(statuses.last().id)
