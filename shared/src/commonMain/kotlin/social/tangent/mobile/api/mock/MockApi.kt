@@ -8,6 +8,7 @@ import social.tangent.mobile.api.Api
 import social.tangent.mobile.api.entities.Account
 import social.tangent.mobile.api.entities.Application
 import social.tangent.mobile.api.entities.Attachment
+import social.tangent.mobile.api.entities.Context
 import social.tangent.mobile.api.entities.Instance
 import social.tangent.mobile.api.entities.Status
 import social.tangent.mobile.api.entities.Token
@@ -106,6 +107,20 @@ class MockApi(val delay: Long = 0) : Api, KoinComponent {
     }
 
     override suspend fun getStatus(authentication: String, id: String): Status {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getAccountStatuses(
+        authentication: String,
+        maxId: String?,
+        sinceId: String?,
+        minId: String?,
+        limit: Int?
+    ): List<Status> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getContext(authentication: String, id: String): Context {
         TODO("Not yet implemented")
     }
 }

@@ -7,6 +7,10 @@ import social.tangent.mobile.TangentDatabase
 
 actual class DriverFactory(private val context: Context) {
     actual fun createDriver(id: String): SqlDriver {
-        return AndroidSqliteDriver(TangentDatabase.Schema, context, "profile_${id}.db")
+        return AndroidSqliteDriver(
+            TangentDatabase.Schema,
+            context,
+            "timeline_${id}.db"
+        )
     }
 }

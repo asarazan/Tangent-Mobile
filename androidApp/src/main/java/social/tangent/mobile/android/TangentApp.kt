@@ -11,9 +11,6 @@ import org.koin.core.KoinApplication
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 import org.koin.dsl.module
-import social.tangent.mobile.data.DriverFactory
-import social.tangent.mobile.data.createDatabase
-import social.tangent.mobile.sdk.storage.MastodonStorage
 
 class TangentApp : Application(), KoinComponent, ImageLoaderFactory {
 
@@ -28,12 +25,6 @@ class TangentApp : Application(), KoinComponent, ImageLoaderFactory {
                 single<Application> { this@TangentApp }
             }
         )
-        MastodonStorage.all().firstOrNull()?.let {
-            val id = it.id
-            val db = createDatabase(id, DriverFactory(this))
-            println("Created database!!! ${db}")
-        }
-
         Takt.stock(this).seat(Seat.TOP_LEFT)
     }
 

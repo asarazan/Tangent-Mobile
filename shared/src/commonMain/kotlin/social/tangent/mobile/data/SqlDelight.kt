@@ -14,10 +14,14 @@ expect class DriverFactory {
 }
 
 fun createDatabase(id: String, driverFactory: DriverFactory): TangentDatabase {
-    val driver = driverFactory.createDriver(id)
-    val database = TangentDatabase(driver, Adapter(statusAdapter))
-    // Do more work with the database (see below).
-    return database
+    val driver = driverFactory.createDriver(id).apply {
+        execute(null, "PRAGMA foreign_keys=ON;", 0)
+    }
+    return TangentDatabase(
+        driver,
+        Adapter(statusAdapter),
+        DbStatusV2.Adapter(statusAdapter)
+    )
 }
 
 val statusAdapter = object : ColumnAdapter<Status, String> {
