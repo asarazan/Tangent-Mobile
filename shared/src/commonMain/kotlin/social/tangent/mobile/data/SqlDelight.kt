@@ -7,7 +7,6 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import social.tangent.mobile.TangentDatabase
 import social.tangent.mobile.api.entities.Status
-import social.tangent.mobile.data.DbStatus.Adapter
 
 expect class DriverFactory {
     fun createDriver(id: String): SqlDriver
@@ -19,7 +18,6 @@ fun createDatabase(id: String, driverFactory: DriverFactory): TangentDatabase {
     }
     return TangentDatabase(
         driver,
-        Adapter(statusAdapter),
         DbStatusV2.Adapter(statusAdapter)
     )
 }
