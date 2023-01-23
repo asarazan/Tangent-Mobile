@@ -1,4 +1,4 @@
-package social.tangent.mobile.data.ng
+package social.tangent.mobile.data.ng.repo
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import social.tangent.mobile.api.entities.Status
+import social.tangent.mobile.data.ng.PostResult
 import social.tangent.mobile.data.ng.storage.PostStorage
 
 interface PostRepo {

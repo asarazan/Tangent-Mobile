@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import social.tangent.mobile.api.entities.Status
 import social.tangent.mobile.data.extensions.toContent
-import social.tangent.mobile.data.ng.PostRepo
 import social.tangent.mobile.data.ng.storage.MemoryStorage
 import social.tangent.mobile.data.ng.storage.PostStorage
 import social.tangent.mobile.sdk.Mastodon
