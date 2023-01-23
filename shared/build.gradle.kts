@@ -42,6 +42,8 @@ kotlin {
                 implementation(Deps.ktorfit)
                 api(Deps.multiplatformSettings)
                 implementation(Deps.sqldelightCoroutinesExt)
+                api(Deps.statelyIso)
+                api(Deps.statelyConcurrency)
             }
         }
         val commonTest by getting {
