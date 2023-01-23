@@ -88,13 +88,14 @@ private fun StatusList(
     LazyColumn(
         state = listState,
         modifier = Modifier
+            .fillMaxSize()
             .background(MaterialTheme.colors.background)
             .scrollbar(listState, false)
             .rememberScroll("home", listState)
     ) {
         items(state.content, key = { it.id }) {
             StatusView(vm, it.status)
-            if (it.loadMore || it == state.content.lastOrNull()) {
+            if (state.canLoadMore && (it.loadMore || it == state.content.lastOrNull())) {
                 MyDivider()
                 LoadMoreView(vm = vm, lastStatus = it.status)
             }
@@ -109,7 +110,7 @@ fun PreviewTimeline() {
     MyApplicationTheme(darkTheme = true) {
         Surface(color = MaterialTheme.colors.background) {
             val timeline = MockApi.timeline
-            TimelineScreen(PreviewModel(TimelineViewModel.State(timeline, false)))
+            TimelineScreen(PreviewModel(TimelineViewModel.State("", timeline, false)))
         }
     }
 }
@@ -120,7 +121,7 @@ fun PreviewTimelineLoading() {
     MyApplicationTheme(darkTheme = true) {
         Surface {
             val timeline = MockApi.timeline
-            TimelineScreen(PreviewModel(TimelineViewModel.State(timeline, true)))
+            TimelineScreen(PreviewModel(TimelineViewModel.State("", timeline, true)))
         }
     }
 }

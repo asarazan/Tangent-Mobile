@@ -15,7 +15,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
@@ -53,7 +52,7 @@ fun HomeScreen(vm: SharedHomeViewModel) {
         topBar = { HomeTopBar(listState = listState) },
         bottomBar = { HomeBottomBar(vm) },
         // drawerContent = { HomeDrawer() },
-        drawerShape = RectangleShape,
+        // drawerShape = RectangleShape,
         modifier = Modifier.fillMaxSize(),
     )
     {

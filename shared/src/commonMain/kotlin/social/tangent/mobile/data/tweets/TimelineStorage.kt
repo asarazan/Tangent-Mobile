@@ -14,13 +14,21 @@ import org.koin.core.component.get
 import social.tangent.mobile.TangentDatabase
 import social.tangent.mobile.api.entities.Status
 import social.tangent.mobile.data.DbFactory
-import social.tangent.mobile.data.tweets.TimelineId.HomeTimeline.id
+import social.tangent.mobile.data.extensions.toList
 import social.tangent.mobile.sdk.Mastodon
 
-sealed class TimelineId(val id: String) {
+sealed class TimelineId(
+    val id: String,
+    val canLoadMore: Boolean = true,
+    val reverseChronological: Boolean = true
+) {
     object HomeTimeline : TimelineId("home")
-    class AccountTimeline(val account: String) : TimelineId("account:$id")
-    // class ThreadTimeline(val status: String) : TimelineKind("thread:$id")
+    class AccountTimeline(val account: String) : TimelineId("account:$account")
+    class ThreadTimeline(val status: String) : TimelineId(
+        "thread:$status",
+        false,
+        false
+    )
 
     operator fun invoke(): String = id
 }
@@ -43,22 +51,38 @@ class TimelineStorage(
 
     private val raw = db.timelineQueries.getTimeline(id(), ::timelineMapper)
         .asFlow()
-        .map { Timeline(it.executeAsList()) }
+        .map { Timeline(it.executeAsList().let {
+            list ->
+            // easier than messing with sqldelight
+            if (!id.reverseChronological) {
+                list.reversed()
+            } else {
+                list
+            }
+        }) }
         .stateIn(scope, SharingStarted.Eagerly, Timeline(listOf()))
 
-    suspend fun getStatusById(id: String): Status {
+    private suspend fun getStatusById(id: String): Status {
         return mastodon.timeline.fetchById(id)
     }
 
     suspend fun fetchFrom(from: Status) {
-        val timeline = mastodon.timeline.fetchFrom(fromId = from.id)
+        val timeline = when (id) {
+            TimelineId.HomeTimeline -> mastodon.timeline.fetchFrom(from.id)
+            is TimelineId.AccountTimeline -> mastodon.accounts.fetchFrom(from.id)
+            is TimelineId.ThreadTimeline -> mastodon.timeline.fetchThread(id.status).toList(getStatusById(id.status))
+        }
         insert(timeline, from.id)
     }
 
     suspend fun fetch() {
         if (_isLoading.value) return
         _isLoading.emit(true)
-        val timeline = mastodon.timeline.fetchFrom()
+        val timeline = when (id) {
+            TimelineId.HomeTimeline -> mastodon.timeline.fetchFrom()
+            is TimelineId.AccountTimeline -> mastodon.accounts.fetchFrom()
+            is TimelineId.ThreadTimeline -> mastodon.timeline.fetchThread(id.status).toList(getStatusById(id.status))
+        }
         insert(timeline, null)
         _isLoading.emit(false)
     }
@@ -101,7 +125,7 @@ class TimelineStorage(
         val needsPlaceholder = !hasSeenStatus(statuses.last().id)
         db.transaction {
             statuses.forEachIndexed { index, it ->
-                val loadMore = index == statuses.lastIndex && needsPlaceholder
+                val loadMore = id.canLoadMore && index == statuses.lastIndex && needsPlaceholder
                 db.timelineQueries.insert(
                     it.id,
                     it,

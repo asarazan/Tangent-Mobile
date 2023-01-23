@@ -28,9 +28,9 @@ import social.tangent.mobile.viewmodel.TimelineViewModel.Effect.Profile
 
 class HomeActivity : ComponentActivity(), KoinComponent {
 
-    private val id by lazy { intent.getStringExtra("me")!! }
+    private val me by lazy { intent.getStringExtra("me")!! }
     private val tlvm by viewModels<AndroidTimelineViewModel> {
-        AndroidTimelineViewModel.Factory(HomeTimeline, id)
+        AndroidTimelineViewModel.Factory(HomeTimeline, me)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,13 +50,13 @@ class HomeActivity : ComponentActivity(), KoinComponent {
         tlvm.sideEffectFlow.collectLatest {
             when (it) {
                 is Click -> {
-                    longToast("Click ${it.status.id}")
+                    startActivity(StatusActivity.create(this, me, it.status))
                 }
                 is Comment -> {
                     longToast("Comment ${it.status.id}")
                 }
                 is Profile -> {
-                    longToast("Profile ${it.account.displayName}")
+                    startActivity(AccountActivity.create(this, me, it.account))
                 }
                 else -> {
                     // nothing.

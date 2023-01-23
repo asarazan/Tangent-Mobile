@@ -126,7 +126,7 @@ class MockApi(val delay: Long = 0) : Api, KoinComponent {
 }
 
 val mockState by lazy {
-    TimelineViewModel.State(MockApi.timeline)
+    TimelineViewModel.State("", MockApi.timeline)
 }
 val mockStatus by lazy {
     MockApi.fakeStatus
