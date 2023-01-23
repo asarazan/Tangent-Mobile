@@ -14,7 +14,6 @@ import org.koin.core.component.get
 import social.tangent.mobile.TangentDatabase
 import social.tangent.mobile.api.entities.Status
 import social.tangent.mobile.data.DbFactory
-import social.tangent.mobile.data.tweets.TimelineId.HomeTimeline
 import social.tangent.mobile.data.tweets.TimelineId.HomeTimeline.id
 import social.tangent.mobile.sdk.Mastodon
 
@@ -125,9 +124,13 @@ class TimelineStorage(
     }
 
     companion object : KoinComponent {
-        fun create(mastodon: Mastodon, scope: CoroutineScope): TimelineStorage {
+        fun create(
+            timelineId: TimelineId,
+            mastodon: Mastodon,
+            scope: CoroutineScope
+        ): TimelineStorage {
             val db = get<DbFactory>()[mastodon.id]
-            return TimelineStorage(HomeTimeline, db, mastodon, scope)
+            return TimelineStorage(timelineId, db, mastodon, scope)
         }
     }
 }
