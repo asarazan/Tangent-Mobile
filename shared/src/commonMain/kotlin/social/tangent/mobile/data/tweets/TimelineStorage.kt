@@ -13,11 +13,20 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 import social.tangent.mobile.TangentDatabase
 import social.tangent.mobile.api.entities.Status
-import social.tangent.mobile.data.createDatabase
+import social.tangent.mobile.data.DbFactory
+import social.tangent.mobile.data.tweets.TimelineId.HomeTimeline.id
 import social.tangent.mobile.sdk.Mastodon
 
+sealed class TimelineId(val id: String) {
+    object HomeTimeline : TimelineId("home")
+    class AccountTimeline(val account: String) : TimelineId("account:$id")
+    // class ThreadTimeline(val status: String) : TimelineKind("thread:$id")
+
+    operator fun invoke(): String = id
+}
+
 class TimelineStorage(
-    val id: String,
+    val id: TimelineId,
     val db: TangentDatabase,
     val mastodon: Mastodon,
     val scope: CoroutineScope
@@ -32,7 +41,7 @@ class TimelineStorage(
 
     private val _isLoading = MutableStateFlow(false)
 
-    private val raw = db.statusQueries.selectAll(::timelineMapper)
+    private val raw = db.timelineQueries.getTimeline(id(), ::timelineMapper)
         .asFlow()
         .map { Timeline(it.executeAsList()) }
         .stateIn(scope, SharingStarted.Eagerly, Timeline(listOf()))
@@ -79,7 +88,7 @@ class TimelineStorage(
     }
 
     private fun updateWithReblogs(status: Status): Status {
-        val lookup = db.statusQueries.lookupReblogsOf(status.id)
+        val lookup = db.timelineQueries.lookupReblogsOf(status.id)
         val list = lookup.executeAsList()
         insert(list.map {
             it.copy(reblog = status)
@@ -89,35 +98,39 @@ class TimelineStorage(
 
     private fun insert(statuses: List<Status>, clearLoadMore: String? = null) {
         if (statuses.isEmpty()) return
-        val needsPlaceholder = !hasSeenId(statuses.last().id)
+        val needsPlaceholder = !hasSeenStatus(statuses.last().id)
         db.transaction {
-            statuses.forEachIndexed {
-                    index, it ->
-                db.statusQueries.insert(
+            statuses.forEachIndexed { index, it ->
+                val loadMore = index == statuses.lastIndex && needsPlaceholder
+                db.timelineQueries.insert(
                     it.id,
                     it,
                     it.account.id,
                     Json.encodeToString(it.createdAt),
-                    it.reblog?.id,
-                    index == statuses.lastIndex && needsPlaceholder
+                    it.reblog?.id
                 )
+                db.timelineQueries.addToTimeline(id(), it.id, loadMore)
             }
             clearLoadMore?.let { clearLoadMore(it) }
         }
     }
 
-    private fun hasSeenId(id: String): Boolean {
-        return db.statusQueries.checkExists(id).executeAsOneOrNull() != null
+    private fun hasSeenStatus(status: String): Boolean {
+        return db.timelineQueries.checkExists(id(), status).executeAsOneOrNull() != null
     }
 
-    private fun clearLoadMore(id: String) {
-        db.statusQueries.clearLoadMore(id)
+    private fun clearLoadMore(status: String) {
+        db.timelineQueries.clearLoadMore(id(), status)
     }
 
     companion object : KoinComponent {
-        fun create(mastodon: Mastodon, scope: CoroutineScope): TimelineStorage {
-            val db = createDatabase(mastodon.id, get())
-            return TimelineStorage(mastodon.id, db, mastodon, scope)
+        fun create(
+            timelineId: TimelineId,
+            mastodon: Mastodon,
+            scope: CoroutineScope
+        ): TimelineStorage {
+            val db = get<DbFactory>()[mastodon.id]
+            return TimelineStorage(timelineId, db, mastodon, scope)
         }
     }
 }

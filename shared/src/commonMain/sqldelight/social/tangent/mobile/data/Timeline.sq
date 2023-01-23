@@ -1,0 +1,63 @@
+import social.tangent.mobile.api.entities.Status;
+
+CREATE TABLE DbStatusV2(
+    id TEXT PRIMARY KEY,
+    json TEXT AS Status NOT NULL,
+    account_id TEXT NOT NULL,
+    date TEXT NOT NULL, -- YYYY-MM-DD HH:MM:SS.SSS
+    reblogs TEXT
+);
+
+CREATE INDEX timeline_account_v2 ON DbStatusV2(account_id);
+CREATE INDEX timeline_reblogs_v2 ON DbStatusV2(reblogs);
+CREATE INDEX timeline_sep_v2 ON Timeline(load_more);
+
+-- TODO - PRAGMA foreign_keys = ON;
+CREATE TABLE Timeline(
+    id TEXT NOT NULL, -- this could be either a static id "home" or an account id!
+    status TEXT NOT NULL,
+    load_more INTEGER AS Boolean DEFAULT 0 NOT NULL,
+    PRIMARY KEY (id, status),
+    FOREIGN KEY (status) REFERENCES DbStatusV2(id)
+);
+
+getTimeline:
+SELECT json, load_more
+FROM Timeline
+INNER JOIN DbStatusV2 ON DbStatusV2.id = Timeline.status
+WHERE Timeline.id = :id
+ORDER BY DbStatusV2.date DESC;
+
+insert:
+INSERT OR REPLACE INTO DbStatusV2(id, json, account_id, date, reblogs)
+VALUES (:statusId, :json, :accound_id, :date, :reblogs);
+
+addToTimeline:
+INSERT OR REPLACE INTO Timeline(id, status, load_more)
+VALUES (:id, :statusId, :load_more);
+
+removeFromTimeline:
+DELETE FROM Timeline WHERE id = :id AND status = :statusId;
+
+checkExists:
+SELECT status FROM Timeline
+WHERE id = :id AND status = :statusId
+LIMIT 1;
+
+clearLoadMore:
+UPDATE Timeline
+SET load_more = 0
+WHERE id = :id AND status = :statusId;
+
+lookupStatus:
+SELECT json FROM DbStatusV2
+WHERE id = ?
+LIMIT 1;
+
+lookupReblogsOf:
+SELECT json FROM DbStatusV2
+WHERE reblogs = ?;
+
+deleteIds:
+DELETE FROM DbStatusV2
+WHERE id IN :ids;

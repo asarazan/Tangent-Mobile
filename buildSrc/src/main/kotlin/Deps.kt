@@ -16,6 +16,7 @@ object Versions {
     const val kermit = "1.2.2"
     const val kotlinDatetime = "0.4.0"
     const val multiplatformSettings = "1.0.0-RC"
+    const val stately = "1.2.0"
 
     const val browser = "1.4.0"
     const val lifecycleViewModelCompose = "2.5.1"
@@ -58,6 +59,8 @@ object Deps {
     const val ktorfit = "de.jensklingenberg.ktorfit:ktorfit-lib:${Versions.ktorfit}"
     const val multiplatformSettings = "com.russhwolf:multiplatform-settings:${Versions.multiplatformSettings}"
     const val sqldelightCoroutinesExt = "com.squareup.sqldelight:coroutines-extensions:${Versions.sqldelight}"
+    const val statelyIso = "co.touchlab:stately-isolate:${Versions.stately}"
+    const val statelyConcurrency = "co.touchlab:stately-concurrency:${Versions.stately}"
 
     // commonTest
     const val koinTest = "io.insert-koin:koin-test:${Versions.koin}"

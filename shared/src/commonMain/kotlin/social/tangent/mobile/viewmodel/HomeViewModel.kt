@@ -2,12 +2,10 @@ package social.tangent.mobile.viewmodel
 
 import kotlinx.coroutines.CoroutineScope
 import org.koin.core.component.KoinComponent
-import social.tangent.mobile.sdk.Mastodon
 import social.tangent.mobile.viewmodel.HomeViewModel.Effect
 import social.tangent.mobile.viewmodel.HomeViewModel.Effect.TabReclicked
 import social.tangent.mobile.viewmodel.HomeViewModel.Event
 import social.tangent.mobile.viewmodel.HomeViewModel.Event.ClickTab
-import social.tangent.mobile.viewmodel.HomeViewModel.Event.Init
 import social.tangent.mobile.viewmodel.HomeViewModel.State
 import social.tangent.mobile.viewmodel.base.MobileViewModel
 import social.tangent.mobile.viewmodel.base.SharedViewModel
@@ -21,9 +19,6 @@ class HomeViewModel(scope: CoroutineScope) :
 
     override suspend fun reduce(event: Event, currentState: State): State {
         return when (event) {
-            is Init -> {
-                currentState.copy(mastodon = event.mastodon)
-            }
             is ClickTab -> {
                 currentState.copy(tab = event.tab).also {
                     if (event.tab == currentState.tab) {
@@ -35,12 +30,10 @@ class HomeViewModel(scope: CoroutineScope) :
     }
 
     data class State(
-        val mastodon: Mastodon? = null,
         val tab: Tab = Tab.Home
     )
 
     sealed class Event {
-        class Init(val mastodon: Mastodon) : Event()
         class ClickTab(val tab: Tab) : Event()
     }
     sealed class Effect {

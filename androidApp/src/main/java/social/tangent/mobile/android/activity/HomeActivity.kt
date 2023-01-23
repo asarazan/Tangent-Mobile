@@ -18,26 +18,25 @@ import org.koin.core.component.KoinComponent
 import social.tangent.mobile.android.MyApplicationTheme
 import social.tangent.mobile.android.compose.home.HomeScreen
 import social.tangent.mobile.android.util.longToast
+import social.tangent.mobile.data.tweets.TimelineId.HomeTimeline
 import social.tangent.mobile.sdk.storage.MastodonStorage
 import social.tangent.mobile.viewmodel.AndroidHomeViewModel
 import social.tangent.mobile.viewmodel.AndroidTimelineViewModel
-import social.tangent.mobile.viewmodel.HomeViewModel.Event.Init
 import social.tangent.mobile.viewmodel.TimelineViewModel.Effect.Click
 import social.tangent.mobile.viewmodel.TimelineViewModel.Effect.Comment
 import social.tangent.mobile.viewmodel.TimelineViewModel.Effect.Profile
 
 class HomeActivity : ComponentActivity(), KoinComponent {
 
-    private val vm by viewModels<AndroidHomeViewModel>()
-    private val tlvm by viewModels<AndroidTimelineViewModel>()
+    private val id by lazy { intent.getStringExtra("me")!! }
+    private val tlvm by viewModels<AndroidTimelineViewModel> {
+        AndroidTimelineViewModel.Factory(HomeTimeline, id)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val id = intent.getStringExtra("me")!!
-        val mastodon = MastodonStorage.get(id)!!
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
-            vm.send(Init(mastodon))
             MyApplicationTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {
                     HomeScreen(vm = viewModel<AndroidHomeViewModel>())
