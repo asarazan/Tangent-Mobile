@@ -1,13 +1,15 @@
 package social.tangent.mobile.android.compose.status
 
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -25,6 +27,8 @@ import social.tangent.mobile.android.onBackgroundFaint
 import social.tangent.mobile.api.entities.Status
 import social.tangent.mobile.api.mock.mockState
 import social.tangent.mobile.api.mock.mockStatus
+import social.tangent.mobile.data.extensions.combinedFavorites
+import social.tangent.mobile.data.extensions.combinedReblogs
 import social.tangent.mobile.viewmodel.SharedTimelineViewModel
 import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Comment
 import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Fave
@@ -56,7 +60,7 @@ fun StatusFooter(
         FooterButton(
             id = R.drawable.retweet_solid,
             color = if (reblogged) Color.Green else MaterialTheme.colors.onBackgroundFaint,
-            count = status.reblogsCount
+            count = status.combinedReblogs
         ) {
             vm.send(Reblog(status, !reblogged))
         }
@@ -65,25 +69,31 @@ fun StatusFooter(
         FooterButton(
             id = if (faved) R.drawable.heart_solid else R.drawable.heart_regular,
             color = if (faved) Color.Red else MaterialTheme.colors.onBackgroundFaint,
-            count = status.favouritesCount
+            count = status.combinedFavorites
         ) {
             vm.send(Fave(status, !faved))
         }
         Spacer(modifier = Modifier.weight(1f))
         FooterButton(id = R.drawable.share_from_square) {
-            vm.send(Share(status))
+            vm.send(Share(status, it))
         }
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun FooterButton(
     @DrawableRes id: Int,
     color: Color = MaterialTheme.colors.onBackgroundFaint,
     count: Long = 0,
-    onClick: () -> Unit = {}
+    onClick: (isLong: Boolean) -> Unit = {},
 ) {
-    IconButton(onClick = onClick) {
+    Box(
+        modifier = Modifier.combinedClickable(
+            onClick = { onClick(false) },
+            onLongClick = { onClick(true) }
+        )
+    ) {
         Image(
             modifier = Modifier
                 .height(48.dp)

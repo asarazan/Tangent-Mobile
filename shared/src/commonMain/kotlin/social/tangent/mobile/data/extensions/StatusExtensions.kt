@@ -6,6 +6,22 @@ import kotlinx.serialization.json.Json
 import social.tangent.mobile.api.entities.Status
 import social.tangent.mobile.data.tweets.StatusContent
 
+val Status.combinedFavorites: Long get() {
+    var sum = favouritesCount
+    if (this != actionableStatus) {
+        sum += actionableStatus.favouritesCount
+    }
+    return sum
+}
+
+val Status.combinedReblogs: Long get() {
+    var sum = reblogsCount
+    if (this != actionableStatus) {
+        sum += actionableStatus.reblogsCount
+    }
+    return sum
+}
+
 val Status.actionableStatus
     get() = reblog ?: this
 

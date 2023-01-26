@@ -82,7 +82,12 @@ class TimelineViewModel(
                 currentState
             }
             is Share -> {
-                sendSideEffect(Screenshot(event.status))
+                if (event.screenshot) {
+                    sendSideEffect(Screenshot(event.status))
+                } else {
+                    sendSideEffect(Effect.Share(event.status))
+                }
+
                 currentState
             }
         }
@@ -126,7 +131,7 @@ class TimelineViewModel(
         data class LoadMore(val lastStatus: Status) : Event()
         data class Click(val status: Status) : Event()
         data class Profile(val status: Status) : Event()
-        data class Share(val status: Status) : Event()
+        data class Share(val status: Status, val screenshot: Boolean) : Event()
         object Refresh : Event()
     }
     sealed class Effect {
@@ -134,6 +139,7 @@ class TimelineViewModel(
         data class Click(val status: Status) : Effect()
         data class Profile(val account: Account) : Effect()
         data class Screenshot(val status: Status): Effect()
+        data class Share(val status: Status): Effect()
     }
 }
 

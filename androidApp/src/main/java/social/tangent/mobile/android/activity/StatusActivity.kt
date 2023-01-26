@@ -14,6 +14,7 @@ import androidx.core.view.WindowCompat
 import social.tangent.mobile.android.MyApplicationTheme
 import social.tangent.mobile.android.compose.TimelineScreen
 import social.tangent.mobile.api.entities.Status
+import social.tangent.mobile.data.extensions.actionableStatus
 import social.tangent.mobile.data.extensions.deserialize
 import social.tangent.mobile.data.extensions.serialize
 import social.tangent.mobile.data.tweets.TimelineId.ThreadTimeline
@@ -27,7 +28,7 @@ class StatusActivity : ComponentActivity() {
 
     private val me by lazy { intent.getStringExtra("me")!! }
     private val vm by viewModels<AndroidTimelineViewModel> {
-        AndroidTimelineViewModel.Factory(ThreadTimeline(status.id), me)
+        AndroidTimelineViewModel.Factory(ThreadTimeline(status.actionableStatus.id), me)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

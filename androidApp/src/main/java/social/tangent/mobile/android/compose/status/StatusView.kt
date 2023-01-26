@@ -39,6 +39,7 @@ import social.tangent.mobile.android.onBackgroundFaint
 import social.tangent.mobile.android.onBackgroundFainter
 import social.tangent.mobile.android.util.longToast
 import social.tangent.mobile.android.util.shareImage
+import social.tangent.mobile.android.util.shareStatus
 import social.tangent.mobile.api.entities.Status
 import social.tangent.mobile.api.mock.MockApi
 import social.tangent.mobile.api.mock.mockState
@@ -47,6 +48,8 @@ import social.tangent.mobile.data.extensions.actionableStatus
 import social.tangent.mobile.launchWebView
 import social.tangent.mobile.viewmodel.SharedTimelineViewModel
 import social.tangent.mobile.viewmodel.TimelineViewModel
+import social.tangent.mobile.viewmodel.TimelineViewModel.Effect.Screenshot
+import social.tangent.mobile.viewmodel.TimelineViewModel.Effect.Share
 import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Profile
 import social.tangent.mobile.viewmodel.base.PreviewModel
 
@@ -148,8 +151,9 @@ fun ListenForScreenshot(
     LaunchedEffect("screenshot") {
         vm.sideEffectFlow.onEach {
             println("Received side effect: ${it.javaClass.simpleName}")
+            // TODO put these up into the activity
             when (it) {
-                is TimelineViewModel.Effect.Screenshot -> {
+                is Screenshot -> {
                     if (it.status.actionableStatus == status.actionableStatus) {
                         scope.launch(Dispatchers.IO) {
                             var count = 0
@@ -163,6 +167,11 @@ fun ListenForScreenshot(
                                 activity.shareImage(screenshot.bitmap!!)
                             }
                         }
+                    }
+                }
+                is Share -> {
+                    if (it.status.actionableStatus == status.actionableStatus) {
+                        activity.shareStatus(status.actionableStatus)
                     }
                 }
                 else -> {}

@@ -11,9 +11,12 @@ import java.io.FileOutputStream
 import java.io.IOException
 
 fun Activity.shareStatus(status: Status) {
+    val url = (status.reblog?.url ?: status.url).let {
+        "https://mstdn.link?to=${it}"
+    }
     val sendIntent: Intent = Intent().apply {
         action = Intent.ACTION_SEND
-        putExtra(Intent.EXTRA_TEXT, status.reblog?.url ?: status.url)
+        putExtra(Intent.EXTRA_TEXT, url)
         type = "text/plain"
     }
     val shareIntent = Intent.createChooser(sendIntent, status.account.username)
