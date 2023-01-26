@@ -6,13 +6,23 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
+import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
 import social.tangent.mobile.android.MyApplicationTheme
 import social.tangent.mobile.android.compose.TimelineScreen
+import social.tangent.mobile.android.compose.text.EmojiText
+import social.tangent.mobile.android.compose.util.MyDivider
 import social.tangent.mobile.api.entities.Status
 import social.tangent.mobile.data.extensions.actionableStatus
 import social.tangent.mobile.data.extensions.deserialize
@@ -37,7 +47,30 @@ class StatusActivity : ComponentActivity() {
         setContent {
             MyApplicationTheme {
                 Surface(color = MaterialTheme.colors.background, modifier = Modifier.fillMaxSize()) {
-                    TimelineScreen(vm = vm)
+                    Column(modifier = Modifier.fillMaxSize()) {
+                        TopAppBar(
+                            title = {
+                                EmojiText(
+                                    text = "Post from ${status.account.displayName}",
+                                    emoji = status.account.emojis
+                                )
+                            },
+                            navigationIcon = {
+                                IconButton(onClick = { this@StatusActivity.finish() }) {
+                                    Icon(
+                                        imageVector = Icons.Filled.ArrowBack,
+                                        contentDescription = "Back"
+                                    )
+                                }
+                            },
+                            backgroundColor = MaterialTheme.colors.background,
+                            modifier = Modifier
+                                .background(MaterialTheme.colors.background)
+                                .statusBarsPadding()
+                        )
+                        MyDivider()
+                        TimelineScreen(vm = vm)
+                    }
                 }
             }
         }
