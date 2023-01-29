@@ -7,6 +7,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -14,6 +15,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -21,7 +23,6 @@ import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
 import social.tangent.mobile.android.MyApplicationTheme
 import social.tangent.mobile.android.compose.TimelineScreen
-import social.tangent.mobile.android.compose.text.EmojiText
 import social.tangent.mobile.android.compose.util.MyDivider
 import social.tangent.mobile.api.entities.Status
 import social.tangent.mobile.data.extensions.actionableStatus
@@ -29,6 +30,7 @@ import social.tangent.mobile.data.extensions.deserialize
 import social.tangent.mobile.data.extensions.serialize
 import social.tangent.mobile.data.tweets.TimelineId.ThreadTimeline
 import social.tangent.mobile.viewmodel.AndroidTimelineViewModel
+import social.tangent.mobile.viewmodel.TimelineViewModel.Event.ScrollToTop
 
 class StatusActivity : ComponentActivity() {
 
@@ -49,12 +51,7 @@ class StatusActivity : ComponentActivity() {
                 Surface(color = MaterialTheme.colors.background, modifier = Modifier.fillMaxSize()) {
                     Column(modifier = Modifier.fillMaxSize()) {
                         TopAppBar(
-                            title = {
-                                EmojiText(
-                                    text = "Post from ${status.account.displayName}",
-                                    emoji = status.account.emojis
-                                )
-                            },
+                            title = { Text(text = "Thread") },
                             navigationIcon = {
                                 IconButton(onClick = { this@StatusActivity.finish() }) {
                                     Icon(
@@ -65,6 +62,9 @@ class StatusActivity : ComponentActivity() {
                             },
                             backgroundColor = MaterialTheme.colors.background,
                             modifier = Modifier
+                                .clickable {
+                                    vm.send(ScrollToTop)
+                                }
                                 .background(MaterialTheme.colors.background)
                                 .statusBarsPadding()
                         )

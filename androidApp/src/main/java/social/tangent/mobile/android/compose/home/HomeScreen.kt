@@ -13,11 +13,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
-import kotlinx.coroutines.launch
 import org.koin.core.component.get
 import social.tangent.mobile.android.MyApplicationTheme
 import social.tangent.mobile.android.compose.TimelineScreen
@@ -28,28 +26,30 @@ import social.tangent.mobile.viewmodel.HomeViewModel.Effect.TabReclicked
 import social.tangent.mobile.viewmodel.HomeViewModel.Tab.Home
 import social.tangent.mobile.viewmodel.HomeViewModel.Tab.Search
 import social.tangent.mobile.viewmodel.SharedHomeViewModel
+import social.tangent.mobile.viewmodel.SharedTimelineViewModel
+import social.tangent.mobile.viewmodel.TimelineViewModel
 import social.tangent.mobile.viewmodel.base.PreviewModel
 
 @Composable
-fun HomeScreen(vm: SharedHomeViewModel) {
+fun HomeScreen(
+    vm: SharedHomeViewModel,
+    tlvm: SharedTimelineViewModel
+) {
     val state by vm.stateFlow.collectAsState()
     val effect by vm.sideEffectFlow.collectAsState(null)
     val scaffold = rememberScaffoldState()
     val listState = rememberLazyListState()
-    val scope = rememberCoroutineScope()
     LaunchedEffect(effect) {
         when (effect) {
             is TabReclicked -> {
-                scope.launch {
-                    listState.animateScrollToItem(0)
-                }
+                tlvm.send(TimelineViewModel.Event.ScrollToTop)
             }
             else -> {}
         }
     }
     Scaffold(
         scaffoldState = scaffold,
-        topBar = { HomeTopBar(listState = listState) },
+        topBar = { HomeTopBar(vm = tlvm) },
         bottomBar = { HomeBottomBar(vm) },
         // drawerContent = { HomeDrawer() },
         // drawerShape = RectangleShape,
@@ -82,7 +82,10 @@ fun HomeScreen(vm: SharedHomeViewModel) {
 fun HomeScreenPreview() {
     MyApplicationTheme(darkTheme = true) {
         Surface {
-            HomeScreen(vm = PreviewModel(HomeViewModel.State()))
+            HomeScreen(
+                vm = PreviewModel(HomeViewModel.State()),
+                tlvm = PreviewModel(TimelineViewModel.State(""))
+            )
         }
     }
 }

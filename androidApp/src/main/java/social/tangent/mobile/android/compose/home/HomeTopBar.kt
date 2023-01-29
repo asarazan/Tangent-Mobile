@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -23,12 +22,15 @@ import social.tangent.mobile.android.MyApplicationTheme
 import social.tangent.mobile.android.R
 import social.tangent.mobile.android.compose.util.MyDivider
 import social.tangent.mobile.viewmodel.HomeViewModel
+import social.tangent.mobile.viewmodel.SharedTimelineViewModel
+import social.tangent.mobile.viewmodel.TimelineViewModel
+import social.tangent.mobile.viewmodel.TimelineViewModel.Event.ScrollToTop
 import social.tangent.mobile.viewmodel.base.PreviewModel
 
 @Composable
 fun HomeTopBar(
     modifier: Modifier = Modifier,
-    listState: LazyListState? = null,
+    vm: SharedTimelineViewModel
 ) {
     val scope = rememberCoroutineScope()
     Column(
@@ -46,7 +48,7 @@ fun HomeTopBar(
             // Spacer(modifier = Modifier.fillMaxWidth(0.5f))
             IconButton(onClick = {
                 scope.launch {
-                    listState?.animateScrollToItem(0)
+                    vm.send(ScrollToTop)
                 }
             }) {
                 Icon(
@@ -66,7 +68,7 @@ fun HomeTopBar(
 fun PreviewTopBaNew() {
     MyApplicationTheme(darkTheme = true) {
         Surface {
-            HomeTopBar()
+            HomeTopBar(vm = PreviewModel(TimelineViewModel.State("")))
         }
     }
 }
@@ -76,7 +78,10 @@ fun PreviewTopBaNew() {
 fun HomeScreenPreviewTop() {
     MyApplicationTheme(darkTheme = true) {
         Surface {
-            HomeScreen(vm = PreviewModel(HomeViewModel.State()))
+            HomeScreen(
+                vm = PreviewModel(HomeViewModel.State()),
+                tlvm = PreviewModel(TimelineViewModel.State(""))
+            )
         }
     }
 }

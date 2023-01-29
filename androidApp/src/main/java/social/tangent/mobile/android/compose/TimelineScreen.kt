@@ -22,10 +22,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 import social.tangent.mobile.android.MyApplicationTheme
 import social.tangent.mobile.android.compose.status.LoadMoreView
 import social.tangent.mobile.android.compose.status.StatusView
@@ -35,6 +37,7 @@ import social.tangent.mobile.android.compose.util.scrollbar
 import social.tangent.mobile.api.mock.MockApi
 import social.tangent.mobile.viewmodel.SharedTimelineViewModel
 import social.tangent.mobile.viewmodel.TimelineViewModel
+import social.tangent.mobile.viewmodel.TimelineViewModel.Effect.ScrollToTop
 import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Refresh
 import social.tangent.mobile.viewmodel.base.PreviewModel
 
@@ -51,6 +54,7 @@ fun TimelineScreen(
     val pullRefreshState = rememberPullRefreshState(state.refreshing, {
         vm.send(Refresh)
     })
+    val scope = rememberCoroutineScope()
 
     Surface(color = MaterialTheme.colors.background) {
         Box(
@@ -75,6 +79,18 @@ fun TimelineScreen(
     LaunchedEffect(firstId) {
         if (firstId !== initialFirstId) {
             listState.animateScrollBy(-64f, tween(500))
+        }
+    }
+
+    val effect by vm.sideEffectFlow.collectAsState(initial = null)
+    LaunchedEffect(effect) {
+        when (effect) {
+            is ScrollToTop -> {
+                scope.launch {
+                    listState.animateScrollToItem(0)
+                }
+            }
+            else -> {}
         }
     }
 }

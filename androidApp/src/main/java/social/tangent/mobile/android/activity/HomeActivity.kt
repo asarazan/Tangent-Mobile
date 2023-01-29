@@ -39,7 +39,10 @@ class HomeActivity : ComponentActivity(), KoinComponent {
         setContent {
             MyApplicationTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {
-                    HomeScreen(vm = viewModel<AndroidHomeViewModel>())
+                    HomeScreen(
+                        vm = viewModel<AndroidHomeViewModel>(),
+                        tlvm = tlvm
+                    )
                 }
             }
         }

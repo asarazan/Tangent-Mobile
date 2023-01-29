@@ -21,6 +21,7 @@ import social.tangent.mobile.viewmodel.TimelineViewModel.Event.LoadMore
 import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Profile
 import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Reblog
 import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Refresh
+import social.tangent.mobile.viewmodel.TimelineViewModel.Event.ScrollToTop
 import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Share
 import social.tangent.mobile.viewmodel.TimelineViewModel.State
 import social.tangent.mobile.viewmodel.base.MobileViewModel
@@ -87,7 +88,10 @@ class TimelineViewModel(
                 } else {
                     sendSideEffect(Effect.Share(event.status))
                 }
-
+                currentState
+            }
+            is ScrollToTop -> {
+                sendSideEffect(Effect.ScrollToTop)
                 currentState
             }
         }
@@ -132,6 +136,7 @@ class TimelineViewModel(
         data class Click(val status: Status) : Event()
         data class Profile(val status: Status) : Event()
         data class Share(val status: Status, val screenshot: Boolean) : Event()
+        object ScrollToTop : Event()
         object Refresh : Event()
     }
     sealed class Effect {
@@ -140,6 +145,7 @@ class TimelineViewModel(
         data class Profile(val account: Account) : Effect()
         data class Screenshot(val status: Status): Effect()
         data class Share(val status: Status): Effect()
+        object ScrollToTop : Effect()
     }
 }
 

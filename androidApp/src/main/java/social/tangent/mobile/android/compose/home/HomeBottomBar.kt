@@ -29,6 +29,7 @@ import social.tangent.mobile.viewmodel.HomeViewModel.Event.ClickTab
 import social.tangent.mobile.viewmodel.HomeViewModel.Tab.Home
 import social.tangent.mobile.viewmodel.HomeViewModel.Tab.Search
 import social.tangent.mobile.viewmodel.SharedHomeViewModel
+import social.tangent.mobile.viewmodel.TimelineViewModel
 import social.tangent.mobile.viewmodel.base.PreviewModel
 
 
@@ -85,7 +86,10 @@ fun HomeBottomBar(vm: SharedHomeViewModel) {
 fun HomeScreenPreviewBottom() {
     MyApplicationTheme(darkTheme = true) {
         Surface {
-            HomeScreen(vm = PreviewModel(HomeViewModel.State()))
+            HomeScreen(
+                vm = PreviewModel(HomeViewModel.State()),
+                tlvm = PreviewModel(TimelineViewModel.State(""))
+            )
         }
     }
 }
