@@ -32,7 +32,6 @@ fun EmojiText(
     overflow: TextOverflow = TextOverflow.Clip,
     style: TextStyle = LocalTextStyle.current
 ) {
-    println("EMOJI TEXT:\n${text}\n")
     val processed = remember { text.emojify(emoji) }
     val contentMap = rememberEmojiMap(emoji = emoji)
     Text(

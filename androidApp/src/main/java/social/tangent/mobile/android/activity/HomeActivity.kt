@@ -7,6 +7,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
@@ -32,6 +34,7 @@ class HomeActivity : ComponentActivity(), KoinComponent {
     private val tlvm by viewModels<AndroidTimelineViewModel> {
         AndroidTimelineViewModel.Factory(HomeTimeline, me)
     }
+    private lateinit var listState: LazyListState
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +42,7 @@ class HomeActivity : ComponentActivity(), KoinComponent {
         setContent {
             MyApplicationTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {
+                    listState = rememberLazyListState()
                     HomeScreen(
                         vm = viewModel<AndroidHomeViewModel>(),
                         tlvm = tlvm

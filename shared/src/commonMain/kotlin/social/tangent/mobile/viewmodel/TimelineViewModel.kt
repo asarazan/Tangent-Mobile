@@ -26,6 +26,7 @@ import social.tangent.mobile.viewmodel.TimelineViewModel.Event.Share
 import social.tangent.mobile.viewmodel.TimelineViewModel.State
 import social.tangent.mobile.viewmodel.base.MobileViewModel
 import social.tangent.mobile.viewmodel.base.SharedViewModel
+import kotlin.random.Random
 
 typealias SharedTimelineViewModel = SharedViewModel<State, Event, Effect>
 
@@ -91,7 +92,7 @@ class TimelineViewModel(
                 currentState
             }
             is ScrollToTop -> {
-                sendSideEffect(Effect.ScrollToTop)
+                sendSideEffect(Effect.ScrollToTop())
                 currentState
             }
         }
@@ -145,7 +146,7 @@ class TimelineViewModel(
         data class Profile(val account: Account) : Effect()
         data class Screenshot(val status: Status): Effect()
         data class Share(val status: Status): Effect()
-        object ScrollToTop : Effect()
+        data class ScrollToTop(val uuid: String = "${Random.nextInt()}") : Effect()
     }
 }
 
