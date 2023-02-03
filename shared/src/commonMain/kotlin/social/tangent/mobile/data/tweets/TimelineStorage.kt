@@ -14,23 +14,27 @@ import org.koin.core.component.get
 import social.tangent.mobile.TangentDatabase
 import social.tangent.mobile.api.entities.Status
 import social.tangent.mobile.data.DbFactory
+import social.tangent.mobile.data.extensions.threaded
 import social.tangent.mobile.data.extensions.toList
 import social.tangent.mobile.sdk.Mastodon
 
 sealed class TimelineId(
     val id: String,
-    val canLoadMore: Boolean = true,
-    val reverseChronological: Boolean = true
+    val canLoadMore: Boolean = true
 ) {
     object HomeTimeline : TimelineId("home")
+
     class AccountTimeline(val account: String) : TimelineId("account:$account")
-    class ThreadTimeline(val status: String) : TimelineId(
+
+    class ThreadTimeline(val status: Status) : TimelineId(
         "thread:$status",
-        false,
         false
-    )
+    ) {
+        override fun process(list: List<StatusContent>) = list.asReversed().threaded(status)
+    }
 
     operator fun invoke(): String = id
+    open fun process(list: List<StatusContent>) = list
 }
 
 class TimelineStorage(
@@ -52,13 +56,7 @@ class TimelineStorage(
     private val raw = db.timelineQueries.getTimeline(id(), ::timelineMapper)
         .asFlow()
         .map { Timeline(it.executeAsList().let {
-            list ->
-            // easier than messing with sqldelight
-            if (!id.reverseChronological) {
-                list.reversed()
-            } else {
-                list
-            }
+            id.process(it)
         }) }
         .stateIn(scope, SharingStarted.Eagerly, Timeline(listOf()))
 
@@ -70,7 +68,7 @@ class TimelineStorage(
         val timeline = when (id) {
             TimelineId.HomeTimeline -> mastodon.timeline.fetchFrom(from.id)
             is TimelineId.AccountTimeline -> mastodon.accounts.fetchFrom(from.id)
-            is TimelineId.ThreadTimeline -> mastodon.timeline.fetchThread(id.status).toList(getStatusById(id.status))
+            is TimelineId.ThreadTimeline -> mastodon.timeline.fetchThread(id.status.id).toList(id.status)
         }
         insert(timeline, from.id)
     }
@@ -81,7 +79,7 @@ class TimelineStorage(
         val timeline = when (id) {
             TimelineId.HomeTimeline -> mastodon.timeline.fetchFrom()
             is TimelineId.AccountTimeline -> mastodon.accounts.fetchFrom()
-            is TimelineId.ThreadTimeline -> mastodon.timeline.fetchThread(id.status).toList(getStatusById(id.status))
+            is TimelineId.ThreadTimeline -> mastodon.timeline.fetchThread(id.status.id).toList(id.status)
         }
         insert(timeline, null)
         _isLoading.emit(false)

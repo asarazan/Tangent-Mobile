@@ -6,7 +6,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Colors
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Shapes
-import androidx.compose.material.Surface
 import androidx.compose.material.Typography
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
@@ -18,14 +17,9 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowCompat
-import social.tangent.mobile.android.compose.status.StatusView
-import social.tangent.mobile.api.mock.mockState
-import social.tangent.mobile.api.mock.mockStatus
-import social.tangent.mobile.viewmodel.base.PreviewModel
 
 val Colors.onBackgroundFainter: Color
     get() = if (isLight) Color(0xFFD5D5D5) else Color(0xFF3A4957)
@@ -94,31 +88,5 @@ fun MyApplicationTheme(
         shapes = shapes,
         content = content
     )
-}
-
-@Preview(widthDp = 540)
-@Composable
-fun PreviewStatusViewDark() {
-    MyApplicationTheme(darkTheme = true) {
-        Surface(color = MaterialTheme.colors.background) {
-            StatusView(
-                PreviewModel(mockState),
-                mockStatus.copy(reblogged = true, favourited = true)
-            )
-        }
-    }
-}
-
-@Preview(widthDp = 540)
-@Composable
-fun PreviewStatusViewLight() {
-    MyApplicationTheme(darkTheme = false) {
-        Surface(color = MaterialTheme.colors.background) {
-            StatusView(
-                PreviewModel(mockState),
-                mockStatus.copy(reblogged = true, favourited = true)
-            )
-        }
-    }
 }
 

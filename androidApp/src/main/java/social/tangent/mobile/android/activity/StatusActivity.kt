@@ -40,7 +40,7 @@ class StatusActivity : ComponentActivity() {
 
     private val me by lazy { intent.getStringExtra("me")!! }
     private val vm by viewModels<AndroidTimelineViewModel> {
-        AndroidTimelineViewModel.Factory(ThreadTimeline(status.actionableStatus.id), me)
+        AndroidTimelineViewModel.Factory(ThreadTimeline(status.actionableStatus), me)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
