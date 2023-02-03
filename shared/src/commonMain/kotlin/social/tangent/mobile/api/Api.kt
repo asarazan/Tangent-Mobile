@@ -59,6 +59,7 @@ interface Api {
     @GET("api/v1/accounts/{id}/statuses")
     suspend fun getAccountStatuses(
         @Header("Authorization") authentication: String,
+        @Path("id") id: String,
         @Query("max_id") maxId: String? = null,
         @Query("since_id") sinceId: String? = null,
         @Query("min_id") minId: String? = null,

@@ -22,11 +22,11 @@ sealed class TimelineId(
     val id: String,
     val canLoadMore: Boolean = true
 ) {
-    object HomeTimeline : TimelineId("home")
+    object HomeTimelineId : TimelineId("home")
 
-    class AccountTimeline(val account: String) : TimelineId("account:$account")
+    class AccountTimelineId(val account: String) : TimelineId("account:$account")
 
-    class ThreadTimeline(val status: Status) : TimelineId(
+    class ThreadTimelineId(val status: Status) : TimelineId(
         "thread:$status",
         false
     ) {
@@ -66,9 +66,9 @@ class TimelineStorage(
 
     suspend fun fetchFrom(from: Status) {
         val timeline = when (id) {
-            TimelineId.HomeTimeline -> mastodon.timeline.fetchFrom(from.id)
-            is TimelineId.AccountTimeline -> mastodon.accounts.fetchFrom(from.id)
-            is TimelineId.ThreadTimeline -> mastodon.timeline.fetchThread(id.status.id).toList(id.status)
+            TimelineId.HomeTimelineId -> mastodon.timeline.fetchFrom(from.id)
+            is TimelineId.AccountTimelineId -> mastodon.accounts.fetchFrom(id.account, from.id)
+            is TimelineId.ThreadTimelineId -> mastodon.timeline.fetchThread(id.status.id).toList(id.status)
         }
         insert(timeline, from.id)
     }
@@ -77,9 +77,9 @@ class TimelineStorage(
         if (_isLoading.value) return
         _isLoading.emit(true)
         val timeline = when (id) {
-            TimelineId.HomeTimeline -> mastodon.timeline.fetchFrom()
-            is TimelineId.AccountTimeline -> mastodon.accounts.fetchFrom()
-            is TimelineId.ThreadTimeline -> mastodon.timeline.fetchThread(id.status.id).toList(id.status)
+            TimelineId.HomeTimelineId -> mastodon.timeline.fetchFrom()
+            is TimelineId.AccountTimelineId -> mastodon.accounts.fetchFrom(id.account)
+            is TimelineId.ThreadTimelineId -> mastodon.timeline.fetchThread(id.status.id).toList(id.status)
         }
         insert(timeline, null)
         _isLoading.emit(false)

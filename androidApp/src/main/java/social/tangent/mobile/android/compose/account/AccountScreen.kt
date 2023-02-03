@@ -11,21 +11,29 @@ import androidx.compose.ui.zIndex
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
+import social.tangent.mobile.android.compose.util.MyDivider
 import social.tangent.mobile.android.compose.util.PreviewContent
 import social.tangent.mobile.viewmodel.SharedAccountViewModel
+import social.tangent.mobile.viewmodel.SharedTimelineViewModel
 
 @Composable
-fun AccountScreen(vm: SharedAccountViewModel) {
+fun AccountScreen(
+    vm: SharedAccountViewModel,
+    tlvm: SharedTimelineViewModel
+) {
     CollapsingToolbarScaffold(
         state = rememberCollapsingToolbarScaffoldState(),
         toolbar = { AccountHeader(vm) },
         modifier = Modifier.fillMaxSize(),
         scrollStrategy = ScrollStrategy.EnterAlways
     ) {
-        Column(modifier = Modifier.zIndex(2f).padding(horizontal = 16.dp)) {
+        Column(modifier = Modifier
+            .zIndex(2f)
+            .padding(horizontal = 16.dp)) {
             AccountInfo(vm)
-            AccountContent(vm)
-            AccountTimeline()
+            MyDivider()
+            // AccountContent(vm)
+            AccountTimeline(tlvm)
         }
     }
 }

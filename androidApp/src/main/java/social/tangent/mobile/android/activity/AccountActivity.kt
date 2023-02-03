@@ -15,8 +15,10 @@ import social.tangent.mobile.android.compose.account.AccountScreen
 import social.tangent.mobile.api.entities.Account
 import social.tangent.mobile.data.extensions.deserialize
 import social.tangent.mobile.data.extensions.serialize
+import social.tangent.mobile.data.tweets.TimelineId.AccountTimelineId
 import social.tangent.mobile.sdk.storage.MastodonStorage
 import social.tangent.mobile.viewmodel.AndroidAccountViewModel
+import social.tangent.mobile.viewmodel.AndroidTimelineViewModel
 
 class AccountActivity : ComponentActivity() {
 
@@ -32,6 +34,9 @@ class AccountActivity : ComponentActivity() {
     private val vm by viewModels<AndroidAccountViewModel> {
         AndroidAccountViewModel.Factory(mastodon, account)
     }
+    private val tlvm by viewModels<AndroidTimelineViewModel> {
+        AndroidTimelineViewModel.Factory(AccountTimelineId(account.id), mastodon.id)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +46,7 @@ class AccountActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    AccountScreen(vm)
+                    AccountScreen(vm, tlvm)
                 }
             }
         }

@@ -112,6 +112,7 @@ class MockApi(val delay: Long = 0) : Api, KoinComponent {
 
     override suspend fun getAccountStatuses(
         authentication: String,
+        id: String,
         maxId: String?,
         sinceId: String?,
         minId: String?,

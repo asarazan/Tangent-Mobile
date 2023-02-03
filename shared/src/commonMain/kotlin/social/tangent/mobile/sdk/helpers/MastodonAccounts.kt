@@ -7,9 +7,10 @@ class MastodonAccounts(val mastodon: Mastodon) {
     val api get() = mastodon.api
     val token get() = mastodon.token
 
-    suspend fun fetchFrom(fromId: String? = null): List<Status> {
+    suspend fun fetchFrom(account: String, fromId: String? = null): List<Status> {
         return mastodon.api.getAccountStatuses(
             authentication = mastodon.bearer(),
+            id = account,
             maxId = fromId,
             limit = 40
         )

@@ -10,15 +10,15 @@ import social.tangent.mobile.viewmodel.base.AndroidViewModel
 
 class AndroidTimelineViewModel(
     timelineId: TimelineId,
-    accountId: String
+    me: String
 ) :
-    AndroidViewModel<State, Event, Effect>({ TimelineViewModel(it, timelineId, accountId) }) {
+    AndroidViewModel<State, Event, Effect>({ TimelineViewModel(it, timelineId, me) }) {
     class Factory(
         val timelineId: TimelineId,
-        val accountId: String
+        val me: String
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return AndroidTimelineViewModel(timelineId, accountId) as T
+            return AndroidTimelineViewModel(timelineId, me) as T
         }
     }
 }

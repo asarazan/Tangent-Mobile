@@ -33,10 +33,10 @@ typealias SharedTimelineViewModel = SharedViewModel<State, Event, Effect>
 class TimelineViewModel(
     scope: CoroutineScope,
     private val timelineId: TimelineId,
-    private val accountId: String
+    private val me: String
 ) : MobileViewModel<State, Event, Effect>(scope), KoinComponent {
 
-    private val mastodon = MastodonStorage.get(accountId)!!
+    private val mastodon = MastodonStorage.get(me)!!
     private val storage = TimelineStorage.create(timelineId, mastodon, scope)
 
     init {
@@ -44,12 +44,12 @@ class TimelineViewModel(
     }
 
     override fun initialState() = State(
-        me = accountId,
+        me = me,
         canLoadMore = timelineId.canLoadMore
     )
 
     override suspend fun reduce(event: Event, currentState: State): State {
-        val interactor = StatusInteractor[accountId]
+        val interactor = StatusInteractor[me]
         return when (event) {
             is Fave -> {
                 scope.launch {
