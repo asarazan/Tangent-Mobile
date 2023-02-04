@@ -130,11 +130,11 @@ private class TangentNodeVisitor(
     }
 }
 
-fun Status.parsedContent(
+fun String.parsedContent(
     style: TextStyle,
     linkStyle: TextStyle,
 ): AnnotatedString {
-    val body = Jsoup.parseBodyFragment(content).body()
+    val body = Jsoup.parseBodyFragment(this).body()
     return buildAnnotatedString {
         val visitor = TangentNodeVisitor(
             style = style.toSpanStyle(),
@@ -144,6 +144,11 @@ fun Status.parsedContent(
         body.traverse(visitor)
     }
 }
+
+fun Status.parsedContent(
+    style: TextStyle,
+    linkStyle: TextStyle,
+) = content.parsedContent(style, linkStyle)
 
 private fun extractType(el: Element): String {
     val href = el.attr("href")

@@ -7,24 +7,33 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import social.tangent.mobile.android.MyApplicationTheme
+import social.tangent.mobile.android.compose.status.ContentView
 import social.tangent.mobile.android.compose.text.EmojiText
 import social.tangent.mobile.android.onBackgroundFaint
+import social.tangent.mobile.api.mock.mockStatus
+import social.tangent.mobile.viewmodel.AccountViewModel.State
 import social.tangent.mobile.viewmodel.SharedAccountViewModel
+import social.tangent.mobile.viewmodel.base.PreviewModel
 
 @Composable
 fun AccountInfo(vm: SharedAccountViewModel, modifier: Modifier = Modifier) {
     val state by vm.stateFlow.collectAsState()
     val account = state.account
+    val offset = if (LocalInspectionMode.current) 0 else -52
     Column(
-        modifier = modifier.offset(y = (-52).dp)
+        modifier = modifier.offset(y = offset.dp).padding(16.dp)
     ) {
         Row(
             verticalAlignment = Alignment.Bottom
@@ -55,6 +64,20 @@ fun AccountInfo(vm: SharedAccountViewModel, modifier: Modifier = Modifier) {
             Button(onClick = { /*TODO*/ }) {
                 Text(text = "Follow")
             }
+        }
+        Row(modifier = Modifier.padding(top = 8.dp)) {
+            ContentView(html = account.note, emojis = account.emojis)
+        }
+        // TODO: Private Notes
+    }
+}
+
+@Preview(widthDp = 540)
+@Composable
+fun PreviewAccountInfo() {
+    MyApplicationTheme(darkTheme = true) {
+        Surface(color = MaterialTheme.colors.background) {
+            AccountInfo(vm = PreviewModel(State(mockStatus.account)))
         }
     }
 }
