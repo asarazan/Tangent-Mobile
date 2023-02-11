@@ -15,3 +15,8 @@ fun List<StatusContent>.replace(status: Status): List<StatusContent> {
     result[index] = existing.copy(status = status)
     return result.toList()
 }
+
+fun MutableList<StatusContent>.flagLoadMore(value: Boolean = true) {
+    val existing = last()
+    this[this.lastIndex] = existing.copy(loadMore = value)
+}

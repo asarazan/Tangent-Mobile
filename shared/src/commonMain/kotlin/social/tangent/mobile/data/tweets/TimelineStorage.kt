@@ -1,21 +1,18 @@
 package social.tangent.mobile.data.tweets
 
-import com.squareup.sqldelight.runtime.coroutines.asFlow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
-import social.tangent.mobile.TangentDatabase
 import social.tangent.mobile.api.entities.Status
 import social.tangent.mobile.data.DbFactory
 import social.tangent.mobile.data.extensions.threaded
+import social.tangent.mobile.data.extensions.toContent
 import social.tangent.mobile.data.extensions.toList
+import social.tangent.mobile.data.ng.storage.DbStorage
+import social.tangent.mobile.data.ng.storage.PostStorage
 import social.tangent.mobile.sdk.Mastodon
 
 sealed class TimelineId(
@@ -38,13 +35,14 @@ sealed class TimelineId(
 }
 
 class TimelineStorage(
-    val id: TimelineId,
-    val db: TangentDatabase,
-    val mastodon: Mastodon,
-    val scope: CoroutineScope
+    private val id: TimelineId,
+    private val storage: PostStorage,
+    private val mastodon: Mastodon,
 ) {
-    val timeline: StateFlow<Timeline>
-        get() = raw
+    val timeline
+        get() = storage.posts.map {
+            Timeline(it)
+        }
 
     val isLoading: StateFlow<Boolean>
         get() = _isLoading
@@ -52,17 +50,6 @@ class TimelineStorage(
     val api get() = mastodon.api
 
     private val _isLoading = MutableStateFlow(false)
-
-    private val raw = db.timelineQueries.getTimeline(id(), ::timelineMapper)
-        .asFlow()
-        .map { Timeline(it.executeAsList().let {
-            id.process(it)
-        }) }
-        .stateIn(scope, SharingStarted.Eagerly, Timeline(listOf()))
-
-    private suspend fun getStatusById(id: String): Status {
-        return mastodon.timeline.fetchById(id)
-    }
 
     suspend fun fetchFrom(from: Status) {
         val timeline = when (id) {
@@ -85,31 +72,42 @@ class TimelineStorage(
         _isLoading.emit(false)
     }
 
+    suspend fun fave(status: Status, faved: Boolean): Status {
+        val inc = if (faved) 1 else -1
+        val preview = status.copy(
+            favourited = faved,
+            favouritesCount = status.favouritesCount + inc
+        )
+        updateWithReblogs(preview)
+        mastodon.statuses.fave(status.id, faved)
+        // Refetch because the server is stupid and doesn't properly update the count.
+        return updateWithReblogs(mastodon.timeline.fetchById(status.id))
+    }
+
+    suspend fun reblog(status: Status, reblogged: Boolean): Status {
+        val inc = if (reblogged) 1 else -1
+        val preview = status.copy(
+            reblogged = reblogged,
+            reblogsCount = status.reblogsCount + inc
+        )
+        updateWithReblogs(preview)
+        mastodon.statuses.reblog(status.id, reblogged)
+        // Refetch because the server is stupid and doesn't properly update the count.
+        return updateWithReblogs(mastodon.timeline.fetchById(status.id))
+    }
+
+    private fun updateWithReblogs(status: Status): Status {
+        val lookup = storage.reblogsOf(status.id)
+        val updated = lookup.map {
+            it.copy(reblog = status)
+        } + status
+        storage.insert(updated.map { it.toContent() })
+        return status
+    }
+
     private fun insert(statuses: List<Status>, clearLoadMore: String? = null) {
-        if (statuses.isEmpty()) return
-        val needsPlaceholder = !hasSeenStatus(statuses.last().id)
-        db.transaction {
-            statuses.forEachIndexed { index, it ->
-                val loadMore = id.canLoadMore && index == statuses.lastIndex && needsPlaceholder
-                db.timelineQueries.insert(
-                    it.id,
-                    it,
-                    it.account.id,
-                    Json.encodeToString(it.createdAt),
-                    it.reblog?.id
-                )
-                db.timelineQueries.addToTimeline(id(), it.id, loadMore)
-            }
-            clearLoadMore?.let { clearLoadMore(it) }
-        }
-    }
-
-    private fun hasSeenStatus(status: String): Boolean {
-        return db.timelineQueries.checkExists(id(), status).executeAsOneOrNull() != null
-    }
-
-    private fun clearLoadMore(status: String) {
-        db.timelineQueries.clearLoadMore(id(), status)
+        storage.insert(statuses.map { it.toContent() })
+        clearLoadMore?.let { storage.clearLoadMore(it) }
     }
 
     companion object : KoinComponent {
@@ -119,7 +117,8 @@ class TimelineStorage(
             scope: CoroutineScope
         ): TimelineStorage {
             val db = get<DbFactory>()[mastodon.id]
-            return TimelineStorage(timelineId, db, mastodon, scope)
+            val storage = DbStorage(timelineId, db, scope)
+            return TimelineStorage(timelineId, storage, mastodon)
         }
     }
 }

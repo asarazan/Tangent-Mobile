@@ -1,6 +1,6 @@
 object Versions {
     const val kotlin = "1.7.20"
-    const val androidPlugin = "7.4.0"
+    const val androidPlugin = "7.4.1"
     const val ksp = "1.7.20-1.0.7"
     const val sqldelight = "1.5.4"
     const val kotlinter = "3.12.0"

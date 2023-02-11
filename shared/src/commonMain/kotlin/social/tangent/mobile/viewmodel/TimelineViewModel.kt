@@ -7,7 +7,6 @@ import org.koin.core.component.KoinComponent
 import social.tangent.mobile.api.entities.Account
 import social.tangent.mobile.api.entities.Status
 import social.tangent.mobile.data.tweets.StatusContent
-import social.tangent.mobile.data.tweets.StatusInteractor
 import social.tangent.mobile.data.tweets.TimelineId
 import social.tangent.mobile.data.tweets.TimelineStorage
 import social.tangent.mobile.sdk.storage.MastodonStorage
@@ -49,17 +48,16 @@ class TimelineViewModel(
     )
 
     override suspend fun reduce(event: Event, currentState: State): State {
-        val interactor = StatusInteractor[me]
         return when (event) {
             is Fave -> {
                 scope.launch {
-                    interactor.fave(event.status, event.faved)
+                    storage.fave(event.status, event.faved)
                 }
                 currentState
             }
             is Reblog -> {
                 scope.launch {
-                    interactor.reblog(event.status, event.reblogged)
+                    storage.reblog(event.status, event.reblogged)
                 }
                 currentState
             }
@@ -116,9 +114,6 @@ class TimelineViewModel(
         scope.launch {
             storage.fetch()
         }
-        // stateFlow.onEach {
-        //     println("Set State: ${it.content.count()} | ${it.loading} | ${it.refreshing}")
-        // }.launchIn(scope)
     }
 
     data class State(

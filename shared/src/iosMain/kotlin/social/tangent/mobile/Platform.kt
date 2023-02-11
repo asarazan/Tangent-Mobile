@@ -1,5 +1,7 @@
 package social.tangent.mobile
 
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import platform.UIKit.UIDevice
 import social.tangent.mobile.api.entities.Status
 
@@ -15,3 +17,6 @@ actual fun launchWebView(url: String, useSystemBrowser: Boolean) {
 actual fun shareStatus(status: Status) {
     // TODO
 }
+
+actual val BackgroundDispatcher: CoroutineDispatcher
+    get() = Dispatchers.Default

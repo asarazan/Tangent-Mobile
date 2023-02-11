@@ -5,6 +5,8 @@ import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.net.Uri
 import androidx.browser.customtabs.CustomTabsIntent
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 import social.tangent.mobile.api.entities.Status
@@ -37,3 +39,6 @@ actual fun shareStatus(status: Status) {
     val shareIntent = Intent.createChooser(sendIntent, status.account.username)
     koiner.get<android.content.Context>().startActivity(shareIntent)
 }
+
+actual val BackgroundDispatcher: CoroutineDispatcher
+    get() = Dispatchers.IO
