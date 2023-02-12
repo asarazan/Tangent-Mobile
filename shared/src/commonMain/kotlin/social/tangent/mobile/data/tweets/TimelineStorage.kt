@@ -33,7 +33,7 @@ class TimelineStorage(
                     status = it,
                     gap = gaps.hasGap(it.id)
                 )
-                it.toContent()
+                it.toContent(gaps.hasGap(it.id))
             })
         }
 

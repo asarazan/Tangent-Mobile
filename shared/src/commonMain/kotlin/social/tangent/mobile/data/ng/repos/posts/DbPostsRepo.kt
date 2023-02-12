@@ -50,9 +50,9 @@ class DbPostsRepo(
 
     override fun insert(statuses: List<Status>) {
         if (statuses.isEmpty()) return
+        val addGap = kind.supportsGaps && !has(statuses.last().id)
         db.timelineQueries.transaction {
-            statuses.forEach {
-                status ->
+            statuses.forEachIndexed { index, status ->
                 map[status.id] = status
                 db.timelineQueries.insert(
                     statusId = status.id,
@@ -61,7 +61,9 @@ class DbPostsRepo(
                     date = Json.encodeToString(status.createdAt),
                     reblogs = status.reblog?.id
                 )
-                db.timelineQueries.addToTimeline(kind(), status.id)
+                // The gap logic is incredibly gross, but I couldn't figure out
+                // a better way to do it transactionally.
+                db.timelineQueries.addToTimeline(kind(), status.id, addGap && index == statuses.lastIndex)
             }
         }
         refresh()

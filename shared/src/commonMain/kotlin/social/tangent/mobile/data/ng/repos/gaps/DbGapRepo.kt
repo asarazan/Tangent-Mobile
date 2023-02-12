@@ -18,13 +18,17 @@ class DbGapRepo(
     private val query = db.timelineQueries.allGaps(timeline())
     override val gaps: StateFlow<Set<String>> = query
         .asFlow()
-        .map { it.executeAsList().toSet() }
+        .map {
+            it.executeAsList().toSet()
+        }
         .stateIn(scope, SharingStarted.Eagerly, setOf())
 
     override fun requery(): Set<String> {
         return db.timelineQueries.allGaps(timeline()).executeAsList().toSet()
     }
 
+    // Note that this never gets called presently
+    // because the logic is handled directly in DbPostsRepo
     override fun addGap(gap: String) {
         db.timelineQueries.addGap(timeline(), gap)
     }

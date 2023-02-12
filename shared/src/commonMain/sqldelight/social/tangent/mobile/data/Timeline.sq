@@ -37,8 +37,8 @@ SET json = :json, reblogs = :reblogs
 WHERE id = :id;
 
 addToTimeline:
-INSERT OR REPLACE INTO Timeline(id, status)
-VALUES (:id, :statusId);
+INSERT OR REPLACE INTO Timeline(id, status, load_more)
+VALUES (:id, :statusId, :load_more);
 
 removeFromTimeline:
 DELETE FROM Timeline WHERE id = :id AND status = :statusId;
@@ -50,7 +50,7 @@ LIMIT 1;
 
 allGaps:
 SELECT status FROM Timeline
-WHERE status = :id AND load_more != 0;
+WHERE id = :id AND load_more != 0;
 
 addGap:
 UPDATE Timeline

@@ -4,8 +4,8 @@ import social.tangent.mobile.api.entities.Context
 import social.tangent.mobile.api.entities.Status
 import social.tangent.mobile.sdk.Mastodon
 
-// private const val LIMIT = 40
-private const val LIMIT = 1
+private const val LIMIT = 40
+// private const val LIMIT = 1
 
 class MastodonTimeline(val mastodon: Mastodon) {
 
