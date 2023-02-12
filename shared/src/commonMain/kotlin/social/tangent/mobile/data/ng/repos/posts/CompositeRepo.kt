@@ -15,7 +15,7 @@ class CompositeRepo(
     override val posts: StateFlow<List<Status>>
         get() = memory.posts
 
-    private val backup = DbRepo(timeline, db, scope)
+    private val backup = DbPostsRepo(timeline, db, scope)
     private val memory = MemoryRepo(timeline, scope)
 
     init {

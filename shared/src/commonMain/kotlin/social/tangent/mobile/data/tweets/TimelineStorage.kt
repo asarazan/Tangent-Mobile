@@ -12,7 +12,7 @@ import social.tangent.mobile.data.DbFactory
 import social.tangent.mobile.data.extensions.toContent
 import social.tangent.mobile.data.ng.repos.gaps.DbGapRepo
 import social.tangent.mobile.data.ng.repos.gaps.GapRepo
-import social.tangent.mobile.data.ng.repos.posts.CompositeRepo
+import social.tangent.mobile.data.ng.repos.posts.DbPostsRepo
 import social.tangent.mobile.data.ng.repos.posts.PostRepo
 import social.tangent.mobile.data.tweets.timelines.TimelineKind
 import social.tangent.mobile.sdk.Mastodon
@@ -105,7 +105,8 @@ class TimelineStorage(
             val scope = GlobalScope
             val mastodon = MastodonStorage.get(it.id)!!
             val db = get<DbFactory>()[mastodon.id]
-            val posts = CompositeRepo(it.kind, db, scope)
+            // val posts = CompositeRepo(it.kind, db, scope)
+            val posts = DbPostsRepo(it.kind, db, scope)
             // val posts = MemoryRepo(it.kind, scope)
             val gaps = DbGapRepo(it.kind, db, scope)
             TimelineStorage(it.kind, posts, gaps, mastodon)

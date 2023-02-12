@@ -37,8 +37,8 @@ SET json = :json, reblogs = :reblogs
 WHERE id = :id;
 
 addToTimeline:
-INSERT OR REPLACE INTO Timeline(id, status, load_more)
-VALUES (:id, :statusId, :load_more);
+INSERT OR REPLACE INTO Timeline(id, status)
+VALUES (:id, :statusId);
 
 removeFromTimeline:
 DELETE FROM Timeline WHERE id = :id AND status = :statusId;
