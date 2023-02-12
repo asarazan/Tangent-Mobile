@@ -26,7 +26,7 @@ class DbPostsRepo(
 
     private val query = db.timelineQueries.getTimeline(kind(), ::timelineMapperBasic)
     private val _posts = MutableStateFlow(listOf<Status>())
-    private val map = linkedMapOf<String, Status>()
+    private var map = linkedMapOf<String, Status>()
 
     init { reload() }
 
@@ -86,6 +86,8 @@ class DbPostsRepo(
     }
 
     private fun reload() {
-        refresh(requery())
+        val content = requery()
+        map = LinkedHashMap(content.associateBy { it.id })
+        refresh(content)
     }
 }
