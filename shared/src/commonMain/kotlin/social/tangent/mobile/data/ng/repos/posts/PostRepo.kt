@@ -1,4 +1,4 @@
-package social.tangent.mobile.data.ng.repos
+package social.tangent.mobile.data.ng.repos.posts
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.StateFlow

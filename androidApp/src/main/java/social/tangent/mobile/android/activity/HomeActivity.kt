@@ -20,7 +20,7 @@ import org.koin.core.component.KoinComponent
 import social.tangent.mobile.android.MyApplicationTheme
 import social.tangent.mobile.android.compose.home.HomeScreen
 import social.tangent.mobile.android.util.longToast
-import social.tangent.mobile.data.tweets.TimelineId.HomeTimelineId
+import social.tangent.mobile.data.tweets.timelines.HomeTimeline
 import social.tangent.mobile.sdk.storage.MastodonStorage
 import social.tangent.mobile.viewmodel.AndroidHomeViewModel
 import social.tangent.mobile.viewmodel.AndroidTimelineViewModel
@@ -32,7 +32,7 @@ class HomeActivity : ComponentActivity(), KoinComponent {
 
     private val me by lazy { intent.getStringExtra("me")!! }
     private val tlvm by viewModels<AndroidTimelineViewModel> {
-        AndroidTimelineViewModel.Factory(HomeTimelineId, me)
+        AndroidTimelineViewModel.Factory(HomeTimeline, me)
     }
     private lateinit var listState: LazyListState
 

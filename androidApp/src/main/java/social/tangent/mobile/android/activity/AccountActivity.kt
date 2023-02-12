@@ -15,7 +15,7 @@ import social.tangent.mobile.android.compose.account.AccountScreen
 import social.tangent.mobile.api.entities.Account
 import social.tangent.mobile.data.extensions.deserialize
 import social.tangent.mobile.data.extensions.serialize
-import social.tangent.mobile.data.tweets.TimelineId.AccountTimelineId
+import social.tangent.mobile.data.tweets.timelines.AccountTimelineId
 import social.tangent.mobile.sdk.storage.MastodonStorage
 import social.tangent.mobile.viewmodel.AndroidAccountViewModel
 import social.tangent.mobile.viewmodel.AndroidTimelineViewModel

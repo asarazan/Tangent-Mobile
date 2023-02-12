@@ -1,4 +1,4 @@
-package social.tangent.mobile.data.ng.repos
+package social.tangent.mobile.data.ng.repos.posts
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -8,12 +8,12 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import social.tangent.mobile.TangentDatabase
 import social.tangent.mobile.api.entities.Status
-import social.tangent.mobile.data.tweets.TimelineId
+import social.tangent.mobile.data.tweets.timelines.TimelineKind
 import social.tangent.mobile.data.tweets.timelineMapperBasic
 import social.tangent.mobile.sdk.extensions.replaceStatus
 
 class DbRepo(
-    private val timeline: TimelineId,
+    private val timeline: TimelineKind,
     private val db: TangentDatabase,
     override val scope: CoroutineScope
 ): PostRepo {

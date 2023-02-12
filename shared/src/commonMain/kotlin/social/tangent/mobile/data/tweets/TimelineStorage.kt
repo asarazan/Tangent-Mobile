@@ -9,37 +9,21 @@ import org.koin.core.component.get
 import social.tangent.mobile.api.entities.Status
 import social.tangent.mobile.data.DbFactory
 import social.tangent.mobile.data.extensions.toContent
-import social.tangent.mobile.data.extensions.toList
-import social.tangent.mobile.data.ng.repos.CompositeRepo
-import social.tangent.mobile.data.ng.repos.PostRepo
+import social.tangent.mobile.data.ng.repos.gaps.DbGapRepo
+import social.tangent.mobile.data.ng.repos.gaps.GapRepo
+import social.tangent.mobile.data.ng.repos.posts.CompositeRepo
+import social.tangent.mobile.data.ng.repos.posts.PostRepo
+import social.tangent.mobile.data.tweets.timelines.TimelineKind
 import social.tangent.mobile.sdk.Mastodon
 
-sealed class TimelineId(
-    val id: String,
-    val canLoadMore: Boolean = true
-) {
-    object HomeTimelineId : TimelineId("home")
-
-    class AccountTimelineId(val account: String) : TimelineId("account:$account")
-
-    class ThreadTimelineId(val status: Status) : TimelineId(
-        "thread:$status",
-        false
-    ) {
-        override fun process(list: List<Status>) = list.asReversed()//.threaded(status)
-    }
-
-    operator fun invoke(): String = id
-    open fun process(list: List<Status>) = list
-}
-
 class TimelineStorage(
-    private val id: TimelineId,
-    private val storage: PostRepo,
+    private val kind: TimelineKind,
+    private val posts: PostRepo,
+    private val gaps: GapRepo,
     private val mastodon: Mastodon,
 ) {
     val timeline
-        get() = storage.posts.map {
+        get() = posts.posts.map {
             Timeline(it.map(Status::toContent))
         }
 
@@ -50,24 +34,14 @@ class TimelineStorage(
 
     private val _isLoading = MutableStateFlow(false)
 
-    suspend fun fetchFrom(from: Status) {
-        val timeline = when (id) {
-            TimelineId.HomeTimelineId -> mastodon.timeline.fetchFrom(from.id)
-            is TimelineId.AccountTimelineId -> mastodon.accounts.fetchFrom(id.account, from.id)
-            is TimelineId.ThreadTimelineId -> mastodon.timeline.fetchThread(id.status.id).toList(id.status)
-        }
-        insert(timeline, from.id)
+    suspend fun fetchFrom(from: Status?) {
+        insert(kind.fetch(mastodon, from?.id), from?.id)
     }
 
     suspend fun fetch() {
         if (_isLoading.value) return
         _isLoading.emit(true)
-        val timeline = when (id) {
-            TimelineId.HomeTimelineId -> mastodon.timeline.fetchFrom()
-            is TimelineId.AccountTimelineId -> mastodon.accounts.fetchFrom(id.account)
-            is TimelineId.ThreadTimelineId -> mastodon.timeline.fetchThread(id.status.id).toList(id.status)
-        }
-        insert(timeline, null)
+        fetchFrom(null)
         _isLoading.emit(false)
     }
 
@@ -96,30 +70,31 @@ class TimelineStorage(
     }
 
     private fun updateWithReblogs(status: Status): Status {
-        val lookup = storage.reblogsOf(status.id)
+        val lookup = posts.reblogsOf(status.id)
         val updated = lookup.map {
             it.copy(reblog = status)
         } + status
-        storage.insert(updated)
+        posts.insert(updated)
         return status
     }
 
-    private fun insert(statuses: List<Status>, clearLoadMore: String? = null) {
-        storage.insert(statuses)
-        // clearLoadMore?.let { storage.clearLoadMore(it) }
+    private fun insert(statuses: List<Status>, closeGap: String? = null) {
+        posts.insert(statuses)
+        closeGap?.let {
+            gaps.closeGap(it)
+        }
     }
 
     companion object : KoinComponent {
         fun create(
-            timelineId: TimelineId,
+            kind: TimelineKind,
             mastodon: Mastodon,
             scope: CoroutineScope
         ): TimelineStorage {
             val db = get<DbFactory>()[mastodon.id]
-            // val storage = DbRepo(timelineId, db, scope)
-            // val storage = MemoryRepo(timelineId, scope)
-            val storage = CompositeRepo(timelineId, db, scope)
-            return TimelineStorage(timelineId, storage, mastodon)
+            val posts = CompositeRepo(kind, db, scope)
+            val gaps = DbGapRepo(kind, db, scope)
+            return TimelineStorage(kind, posts, gaps, mastodon)
         }
     }
 }

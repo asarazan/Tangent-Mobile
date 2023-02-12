@@ -48,7 +48,16 @@ SELECT status FROM Timeline
 WHERE id = :id AND status = :statusId
 LIMIT 1;
 
-clearLoadMore:
+allGaps:
+SELECT status FROM Timeline
+WHERE status = :id AND load_more != 0;
+
+addGap:
+UPDATE Timeline
+SET load_more = 1
+WHERE id = :id AND status = :statusId;
+
+closeGap:
 UPDATE Timeline
 SET load_more = 0
 WHERE id = :id AND status = :statusId;

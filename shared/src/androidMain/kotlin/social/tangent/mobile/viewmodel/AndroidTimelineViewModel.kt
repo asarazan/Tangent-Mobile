@@ -2,23 +2,23 @@ package social.tangent.mobile.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import social.tangent.mobile.data.tweets.TimelineId
+import social.tangent.mobile.data.tweets.timelines.TimelineKind
 import social.tangent.mobile.viewmodel.TimelineViewModel.Effect
 import social.tangent.mobile.viewmodel.TimelineViewModel.Event
 import social.tangent.mobile.viewmodel.TimelineViewModel.State
 import social.tangent.mobile.viewmodel.base.AndroidViewModel
 
 class AndroidTimelineViewModel(
-    timelineId: TimelineId,
+    timelineKind: TimelineKind,
     me: String
 ) :
-    AndroidViewModel<State, Event, Effect>({ TimelineViewModel(it, timelineId, me) }) {
+    AndroidViewModel<State, Event, Effect>({ TimelineViewModel(it, timelineKind, me) }) {
     class Factory(
-        val timelineId: TimelineId,
+        val timelineKind: TimelineKind,
         val me: String
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return AndroidTimelineViewModel(timelineId, me) as T
+            return AndroidTimelineViewModel(timelineKind, me) as T
         }
     }
 }

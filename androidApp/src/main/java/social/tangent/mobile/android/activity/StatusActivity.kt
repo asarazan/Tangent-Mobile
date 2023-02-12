@@ -28,7 +28,7 @@ import social.tangent.mobile.api.entities.Status
 import social.tangent.mobile.data.extensions.actionableStatus
 import social.tangent.mobile.data.extensions.deserialize
 import social.tangent.mobile.data.extensions.serialize
-import social.tangent.mobile.data.tweets.TimelineId.ThreadTimelineId
+import social.tangent.mobile.data.tweets.timelines.ThreadTimeline
 import social.tangent.mobile.viewmodel.AndroidTimelineViewModel
 import social.tangent.mobile.viewmodel.TimelineViewModel.Event.ScrollToTop
 
@@ -40,7 +40,7 @@ class StatusActivity : ComponentActivity() {
 
     private val me by lazy { intent.getStringExtra("me")!! }
     private val vm by viewModels<AndroidTimelineViewModel> {
-        AndroidTimelineViewModel.Factory(ThreadTimelineId(status.actionableStatus), me)
+        AndroidTimelineViewModel.Factory(ThreadTimeline(status.actionableStatus), me)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

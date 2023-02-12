@@ -1,14 +1,14 @@
-package social.tangent.mobile.data.ng.repos
+package social.tangent.mobile.data.ng.repos.posts
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.StateFlow
 import social.tangent.mobile.TangentDatabase
 import social.tangent.mobile.api.entities.Status
-import social.tangent.mobile.data.tweets.TimelineId
+import social.tangent.mobile.data.tweets.timelines.TimelineKind
 
 // TODO - see if there's a more efficient way to thread/do this
 class CompositeRepo(
-    timeline: TimelineId,
+    timeline: TimelineKind,
     db: TangentDatabase,
     override val scope: CoroutineScope
 ) : PostRepo {
