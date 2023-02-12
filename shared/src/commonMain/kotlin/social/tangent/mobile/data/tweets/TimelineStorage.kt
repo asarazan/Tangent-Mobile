@@ -1,6 +1,7 @@
 package social.tangent.mobile.data.tweets
 
-import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -15,6 +16,8 @@ import social.tangent.mobile.data.ng.repos.posts.CompositeRepo
 import social.tangent.mobile.data.ng.repos.posts.PostRepo
 import social.tangent.mobile.data.tweets.timelines.TimelineKind
 import social.tangent.mobile.sdk.Mastodon
+import social.tangent.mobile.sdk.storage.MastodonStorage
+import social.tangent.mobile.util.safeCacheOf
 
 class TimelineStorage(
     private val kind: TimelineKind,
@@ -23,8 +26,15 @@ class TimelineStorage(
     private val mastodon: Mastodon,
 ) {
     val timeline
-        get() = posts.posts.map {
-            Timeline(it.map(Status::toContent))
+        get() = posts.posts.map { list ->
+            Timeline(list.map {
+                StatusContent(
+                    id = it.id,
+                    status = it,
+                    gap = gaps.hasGap(it.id)
+                )
+                it.toContent()
+            })
         }
 
     val isLoading: StateFlow<Boolean>
@@ -86,15 +96,26 @@ class TimelineStorage(
     }
 
     companion object : KoinComponent {
-        fun create(
-            kind: TimelineKind,
-            mastodon: Mastodon,
-            scope: CoroutineScope
-        ): TimelineStorage {
+        private data class Key(
+            val id: String,
+            val kind: TimelineKind
+        )
+        @OptIn(DelicateCoroutinesApi::class)
+        private val cache = safeCacheOf<Key, TimelineStorage> {
+            val scope = GlobalScope
+            val mastodon = MastodonStorage.get(it.id)!!
             val db = get<DbFactory>()[mastodon.id]
-            val posts = CompositeRepo(kind, db, scope)
-            val gaps = DbGapRepo(kind, db, scope)
-            return TimelineStorage(kind, posts, gaps, mastodon)
+            val posts = CompositeRepo(it.kind, db, scope)
+            // val posts = MemoryRepo(it.kind, scope)
+            val gaps = DbGapRepo(it.kind, db, scope)
+            TimelineStorage(it.kind, posts, gaps, mastodon)
+        }
+
+        fun get(
+            kind: TimelineKind,
+            mastodon: Mastodon
+        ): TimelineStorage {
+            return cache[Key(mastodon.id, kind)]
         }
     }
 }

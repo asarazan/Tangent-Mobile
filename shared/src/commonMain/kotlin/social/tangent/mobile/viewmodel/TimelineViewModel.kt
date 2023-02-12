@@ -7,8 +7,8 @@ import org.koin.core.component.KoinComponent
 import social.tangent.mobile.api.entities.Account
 import social.tangent.mobile.api.entities.Status
 import social.tangent.mobile.data.tweets.StatusContent
-import social.tangent.mobile.data.tweets.timelines.TimelineKind
 import social.tangent.mobile.data.tweets.TimelineStorage
+import social.tangent.mobile.data.tweets.timelines.TimelineKind
 import social.tangent.mobile.sdk.storage.MastodonStorage
 import social.tangent.mobile.viewmodel.TimelineViewModel.Effect
 import social.tangent.mobile.viewmodel.TimelineViewModel.Effect.Screenshot
@@ -31,12 +31,12 @@ typealias SharedTimelineViewModel = SharedViewModel<State, Event, Effect>
 
 class TimelineViewModel(
     scope: CoroutineScope,
-    private val timelineKind: TimelineKind,
+    private val kind: TimelineKind,
     private val me: String
 ) : MobileViewModel<State, Event, Effect>(scope), KoinComponent {
 
     private val mastodon = MastodonStorage.get(me)!!
-    private val storage = TimelineStorage.create(timelineKind, mastodon, scope)
+    private val storage = TimelineStorage.get(kind, mastodon)
 
     init {
         init()
@@ -44,7 +44,7 @@ class TimelineViewModel(
 
     override fun initialState() = State(
         me = me,
-        canLoadMore = timelineKind.canLoadMore
+        supportsGaps = kind.supportsGaps
     )
 
     override suspend fun reduce(event: Event, currentState: State): State {
@@ -121,7 +121,7 @@ class TimelineViewModel(
         val content: List<StatusContent> = listOf(),
         val loading: Boolean = false,
         val refreshing: Boolean = false,
-        val canLoadMore: Boolean = true,
+        val supportsGaps: Boolean = true,
     )
 
     sealed class Event {

@@ -5,7 +5,7 @@ import social.tangent.mobile.sdk.Mastodon
 
 sealed class TimelineKind(
     val id: String,
-    val canLoadMore: Boolean = true
+    val supportsGaps: Boolean = true
 ) {
     operator fun invoke(): String = id
     open fun process(list: List<Status>) = list

@@ -111,7 +111,7 @@ private fun StatusList(
     ) {
         items(state.content, key = { it.id }) {
             StatusView(vm, it.status)
-            if (state.canLoadMore && (it.loadMore || it == state.content.lastOrNull())) {
+            if (state.supportsGaps && (it.gap || it == state.content.lastOrNull())) {
                 MyDivider()
                 LoadMoreView(vm = vm, lastStatus = it.status)
             }

@@ -44,8 +44,8 @@ fun Status.Companion.deserialize(json: String): Status {
     return Json.decodeFromString(json)
 }
 
-fun Status.toContent(): StatusContent {
-    return StatusContent(id, this, false)
+fun Status.toContent(gap: Boolean = false): StatusContent {
+    return StatusContent(id, this, gap)
 }
 
 // fun List<StatusContent>.threaded(focus: Status): List<StatusContent> {
