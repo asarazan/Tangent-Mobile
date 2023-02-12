@@ -44,34 +44,34 @@ fun Status.Companion.deserialize(json: String): Status {
     return Json.decodeFromString(json)
 }
 
-fun Status.toContent(loadMore: Boolean = false): StatusContent {
-    return StatusContent(id, this, loadMore)
+fun Status.toContent(): StatusContent {
+    return StatusContent(id, this, false)
 }
 
-fun List<StatusContent>.threaded(focus: Status): List<StatusContent> {
-    val parentMap = this.groupBy { it.status.inReplyToId }
-    val seen = mutableSetOf<String>()
-    val result = mutableListOf<StatusContent>()
-    var threadFromPrev = false
-    var threadToNext = false
-    fun traverse(status: StatusContent) {
-        if (!seen.contains(status.id)) {
-            seen.add(status.id)
-            val children = parentMap[status.id]
-            threadFromPrev = threadToNext
-            threadToNext = children?.isNotEmpty() ?: false
-            result.add(status.copy(
-                threadFromPrev = threadFromPrev,
-                threadToNext = threadToNext,
-                isFocus = status.id == focus.id
-            ))
-            parentMap[status.id]?.forEach {
-                traverse(it)
-            }
-        }
-    }
-    this.forEach {
-        traverse(it)
-    }
-    return result
-}
+// fun List<StatusContent>.threaded(focus: Status): List<StatusContent> {
+//     val parentMap = this.groupBy { it.status.inReplyToId }
+//     val seen = mutableSetOf<String>()
+//     val result = mutableListOf<StatusContent>()
+//     var threadFromPrev = false
+//     var threadToNext = false
+//     fun traverse(status: StatusContent) {
+//         if (!seen.contains(status.id)) {
+//             seen.add(status.id)
+//             val children = parentMap[status.id]
+//             threadFromPrev = threadToNext
+//             threadToNext = children?.isNotEmpty() ?: false
+//             result.add(status.copy(
+//                 threadFromPrev = threadFromPrev,
+//                 threadToNext = threadToNext,
+//                 isFocus = status.id == focus.id
+//             ))
+//             parentMap[status.id]?.forEach {
+//                 traverse(it)
+//             }
+//         }
+//     }
+//     this.forEach {
+//         traverse(it)
+//     }
+//     return result
+// }

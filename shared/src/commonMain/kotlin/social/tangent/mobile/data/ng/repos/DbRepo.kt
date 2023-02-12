@@ -1,4 +1,4 @@
-package social.tangent.mobile.data.ng.storage
+package social.tangent.mobile.data.ng.repos
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -8,25 +8,27 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import social.tangent.mobile.TangentDatabase
 import social.tangent.mobile.api.entities.Status
-import social.tangent.mobile.data.tweets.StatusContent
 import social.tangent.mobile.data.tweets.TimelineId
-import social.tangent.mobile.data.tweets.timelineMapper
-import social.tangent.mobile.sdk.extensions.flagLoadMore
-import social.tangent.mobile.sdk.extensions.replace
+import social.tangent.mobile.data.tweets.timelineMapperBasic
+import social.tangent.mobile.sdk.extensions.replaceStatus
 
-class DbStorage(
+class DbRepo(
     private val timeline: TimelineId,
     private val db: TangentDatabase,
     override val scope: CoroutineScope
-): PostStorage {
+): PostRepo {
 
-    override val posts: StateFlow<List<StatusContent>>
+    override val posts: StateFlow<List<Status>>
         get() = _posts
 
-    private val query = db.timelineQueries.getTimeline(timeline(), ::timelineMapper)
-    private val _posts = MutableStateFlow(listOf<StatusContent>())
+    private val query = db.timelineQueries.getTimeline(timeline(), ::timelineMapperBasic)
+    private val _posts = MutableStateFlow(listOf<Status>())
 
     init { reload() }
+
+    override fun requery(): List<Status> {
+        return timeline.process(query.executeAsList())
+    }
 
     override fun has(status: String): Boolean {
         return db.timelineQueries.checkExists(timeline(), status).executeAsOneOrNull() != null
@@ -38,25 +40,22 @@ class DbStorage(
             json = status,
             reblogs = status.reblog?.id
         )
-        notify(posts.value.replace(status))
+        notify(posts.value.replaceStatus(status))
     }
 
-    override fun insert(statuses: List<StatusContent>) {
+    override fun insert(statuses: List<Status>) {
         if (statuses.isEmpty()) return
-        val needsLoadMore = timeline.canLoadMore && !has(statuses.last().id)
         val finalStatuses = statuses.toMutableList()
-        if (needsLoadMore) finalStatuses.flagLoadMore()
         db.timelineQueries.transaction {
             finalStatuses.forEach {
                 status ->
                 db.timelineQueries.insert(
-                    statusId = status.status.id,
-                    json = status.status,
-                    accound_id = status.status.id,
-                    date = Json.encodeToString(status.status.createdAt),
-                    reblogs = status.status.reblog?.id
+                    statusId = status.id,
+                    json = status,
+                    accound_id = status.id,
+                    date = Json.encodeToString(status.createdAt),
+                    reblogs = status.reblog?.id
                 )
-                db.timelineQueries.addToTimeline(timeline(), status.id, status.loadMore)
             }
         }
         val ids = statuses.map { it.id }.toSet()
@@ -71,21 +70,17 @@ class DbStorage(
         notify(posts.value.filter { !set.contains(it.id) })
     }
 
-    override fun clearLoadMore(id: String) {
-        db.timelineQueries.clearLoadMore(timeline(), id)
-    }
-
     override fun reblogsOf(status: String): List<Status> {
         return db.timelineQueries.lookupReblogsOf(status).executeAsList()
     }
 
-    private fun notify(content: List<StatusContent>) {
+    private fun notify(content: List<Status>) {
         scope.launch {
             _posts.emit(content)
         }
     }
 
     private fun reload() {
-        notify(query.executeAsList())
+        notify(requery())
     }
 }

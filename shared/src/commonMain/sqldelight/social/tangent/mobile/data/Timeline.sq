@@ -12,7 +12,6 @@ CREATE INDEX timeline_account_v2 ON DbStatusV2(account_id);
 CREATE INDEX timeline_reblogs_v2 ON DbStatusV2(reblogs);
 CREATE INDEX timeline_sep_v2 ON Timeline(load_more);
 
--- TODO - PRAGMA foreign_keys = ON;
 CREATE TABLE Timeline(
     id TEXT NOT NULL, -- this could be either a static id "home" or an account id!
     status TEXT NOT NULL,

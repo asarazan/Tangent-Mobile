@@ -8,11 +8,10 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 import social.tangent.mobile.api.entities.Status
 import social.tangent.mobile.data.DbFactory
-import social.tangent.mobile.data.extensions.threaded
 import social.tangent.mobile.data.extensions.toContent
 import social.tangent.mobile.data.extensions.toList
-import social.tangent.mobile.data.ng.storage.DbStorage
-import social.tangent.mobile.data.ng.storage.PostStorage
+import social.tangent.mobile.data.ng.repos.CompositeRepo
+import social.tangent.mobile.data.ng.repos.PostRepo
 import social.tangent.mobile.sdk.Mastodon
 
 sealed class TimelineId(
@@ -27,21 +26,21 @@ sealed class TimelineId(
         "thread:$status",
         false
     ) {
-        override fun process(list: List<StatusContent>) = list.asReversed().threaded(status)
+        override fun process(list: List<Status>) = list.asReversed()//.threaded(status)
     }
 
     operator fun invoke(): String = id
-    open fun process(list: List<StatusContent>) = list
+    open fun process(list: List<Status>) = list
 }
 
 class TimelineStorage(
     private val id: TimelineId,
-    private val storage: PostStorage,
+    private val storage: PostRepo,
     private val mastodon: Mastodon,
 ) {
     val timeline
         get() = storage.posts.map {
-            Timeline(it)
+            Timeline(it.map(Status::toContent))
         }
 
     val isLoading: StateFlow<Boolean>
@@ -101,13 +100,13 @@ class TimelineStorage(
         val updated = lookup.map {
             it.copy(reblog = status)
         } + status
-        storage.insert(updated.map { it.toContent() })
+        storage.insert(updated)
         return status
     }
 
     private fun insert(statuses: List<Status>, clearLoadMore: String? = null) {
-        storage.insert(statuses.map { it.toContent() })
-        clearLoadMore?.let { storage.clearLoadMore(it) }
+        storage.insert(statuses)
+        // clearLoadMore?.let { storage.clearLoadMore(it) }
     }
 
     companion object : KoinComponent {
@@ -117,7 +116,9 @@ class TimelineStorage(
             scope: CoroutineScope
         ): TimelineStorage {
             val db = get<DbFactory>()[mastodon.id]
-            val storage = DbStorage(timelineId, db, scope)
+            // val storage = DbRepo(timelineId, db, scope)
+            // val storage = MemoryRepo(timelineId, scope)
+            val storage = CompositeRepo(timelineId, db, scope)
             return TimelineStorage(timelineId, storage, mastodon)
         }
     }
