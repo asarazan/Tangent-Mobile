@@ -44,9 +44,9 @@ see **[AGENTS.md](AGENTS.md)**.
 
 ## Building
 
-> ⚠️ The dependency stack is pinned to early-2023 versions (Kotlin 1.7.20, AGP 7.4.0) and the
-> build has not been verified on modern toolchains. Modernization is the first item on the
-> project backlog.
+> The dependency stack is pinned to early-2023 versions (Kotlin 1.7.20, AGP 7.4.0) but builds
+> green on JDK 17 + Gradle 8.9 + Xcode 26.6 (verified 2026-08). Gradle 9 will break it;
+> modernization is the first item on the project backlog.
 
 ```bash
 ./gradlew :androidApp:assembleDebug        # Android

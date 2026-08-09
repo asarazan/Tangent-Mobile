@@ -21,6 +21,8 @@ kotlin {
         version = "1.0"
         ios.deploymentTarget = "14.1"
         podfile = project.file("../iosApp/Podfile")
+        // SQLiter (via SQLDelight's native driver) links against the system sqlite3.
+        extraSpecAttributes["libraries"] = "'c++', 'sqlite3'"
         framework {
             baseName = "shared"
         }

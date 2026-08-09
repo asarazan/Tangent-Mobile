@@ -147,19 +147,24 @@ Kotlin **1.7.20**, AGP **7.4.0**, Compose compiler **1.3.2** / UI 1.3.x (Materia
 Ktor 2.1.3, Ktorfit 1.0.0-beta16, SQLDelight **1.5.4** (old `com.squareup` coordinates),
 Koin 3.2/3.3, compileSdk 33, minSdk 26, CocoaPods integration for iOS.
 
-The last substantive work was Jan 2023 (one build-tweak commit Dec 2024). Expect the build to
-need toolchain archaeology (old JDK/AGP pairing) or, better, a modernization pass: Kotlin 2.x/K2,
-AGP 8.x, SQLDelight 2.x (`app.cash` coordinates), Compose BOM + Material 3 decision, CocoaPods →
-SPM/embedAndSign for the iOS framework, SKIE for Swift-friendly flow/suspend interop. **Do not
-assume `./gradlew` tasks succeed until CI exists proving it.**
+**Verified green (2026-08-09):** despite the stale pins, the full stack builds on JDK 17 +
+Gradle 8.9 + Xcode 26.6 — `:androidApp:assembleDebug`, `:androidApp:testDebugUnitTest`,
+`:shared:linkDebugFrameworkIosSimulatorArm64`, and the iOS app via `xcodebuild`. Gradle emits
+"incompatible with Gradle 9.0" deprecation warnings — the pins are living on borrowed time.
+Modernization remains a project goal: Kotlin 2.x/K2, AGP 8.x, SQLDelight 2.x (`app.cash`
+coordinates), Compose BOM + Material 3 decision, CocoaPods → SPM/embedAndSign for the iOS
+framework, SKIE for Swift-friendly flow/suspend interop.
 
-## Commands (unverified on modern toolchains — see above)
+## Commands (verified 2026-08-09)
 
 ```bash
 ./gradlew :androidApp:assembleDebug        # build Android app
 ./gradlew :androidApp:testDebugUnitTest    # run the only real tests (HTML/emoji parsing)
+./gradlew :shared:linkDebugFrameworkIosSimulatorArm64   # iOS framework only
 ./build_schema.sh                          # regen API entities (requires martok CLI)
-cd iosApp && pod install                   # then open iosApp.xcworkspace
+cd iosApp && pod install                   # after changing shared's cocoapods config
+xcodebuild -workspace iosApp/iosApp.xcworkspace -scheme iosApp \
+  -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' build
 ```
 
 ## Conventions

@@ -2,10 +2,10 @@ import SwiftUI
 import shared
 
 struct ContentView: View {
-	let greet = Greeting().greeting()
+	let platform = PlatformKt.getPlatform().name
 
 	var body: some View {
-		Text(greet)
+		Text("Tangent on \(platform)")
 	}
 }
 

@@ -17,7 +17,7 @@ class EmojiTests {
         val emojified = base.emojify(status.account.emojis)
         val expected = buildAnnotatedString {
             append("HoustonDog ")
-            appendInlineContent("https://cdn.masto.host/mastodongamedevplace/cache/custom_emojis/images/000/194/683/original/86652f0c50f26044.png")
+            appendInlineContent("https://cdn.masto.host/mastodongamedevplace/cache/custom_emojis/images/000/194/683/original/86652f0c50f26044.png", ":mastodonworld:")
         }
         assertEquals(expected, emojified)
     }
@@ -28,9 +28,9 @@ class EmojiTests {
         val emojified = status.content.emojify(status.emojis)
         val expected = buildAnnotatedString {
             append("<p>")
-            appendInlineContent("https://cdn.masto.host/mastodongamedevplace/custom_emojis/images/000/018/602/original/b3fc008178b8d413.png")
+            appendInlineContent("https://cdn.masto.host/mastodongamedevplace/custom_emojis/images/000/018/602/original/b3fc008178b8d413.png", ":drake_dislike:")
             append(" sit around and think<br>")
-            appendInlineContent("https://cdn.masto.host/mastodongamedevplace/custom_emojis/images/000/018/603/original/2cee4ec660ff64f6.png")
+            appendInlineContent("https://cdn.masto.host/mastodongamedevplace/custom_emojis/images/000/018/603/original/2cee4ec660ff64f6.png", ":drake_like:")
             append(" shit around and stink</p>")
         }
         assertEquals(expected, emojified)

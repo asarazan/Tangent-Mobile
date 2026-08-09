@@ -7,7 +7,7 @@ Pod::Spec.new do |spec|
     spec.license                  = ''
     spec.summary                  = 'Some description for the Shared Module'
     spec.vendored_frameworks      = 'build/cocoapods/framework/shared.framework'
-    spec.libraries                = 'c++'
+                
     spec.ios.deployment_target = '14.1'
                 
                 
@@ -35,5 +35,5 @@ Pod::Spec.new do |spec|
             SCRIPT
         }
     ]
-                
+    spec.libraries = 'c++', 'sqlite3'
 end
