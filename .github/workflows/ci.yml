@@ -61,6 +61,21 @@ jobs:
       - name: Build shared iOS framework
         run: ./gradlew :shared:linkDebugFrameworkIosSimulatorArm64
 
+      # CocoaPods integrates the KMP framework via a "Build shared" run-script phase
+      # (no declared outputs) that shells out to `./gradlew :shared:syncFramework`.
+      # On a clean checkout, Xcode's explicit-module dependency scan can run before
+      # that script phase produces the framework in the location the generated
+      # Pods-iosApp xcconfig searches (shared/build/cocoapods/framework), causing
+      # "unable to resolve module dependency: 'shared'" even though the script
+      # phase succeeds moments later. Pre-syncing the framework for both simulator
+      # archs here, before pod install / xcodebuild ever run, avoids that race.
+      - name: Pre-sync shared framework for CocoaPods (avoid Xcode explicit-module scan race)
+        run: |
+          ./gradlew :shared:syncFramework \
+            -Pkotlin.native.cocoapods.platform=iphonesimulator \
+            -Pkotlin.native.cocoapods.archs="arm64 x86_64" \
+            -Pkotlin.native.cocoapods.configuration=Debug
+
       - name: Pod install
         working-directory: iosApp
         run: pod install
