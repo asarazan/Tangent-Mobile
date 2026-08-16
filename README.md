@@ -2,6 +2,8 @@
 
 A Kotlin Multiplatform Mastodon client — and, just as deliberately, a **testbed**.
 
+[![CI](https://github.com/asarazan/Tangent-Mobile/actions/workflows/ci.yml/badge.svg?branch=dev)](https://github.com/asarazan/Tangent-Mobile/actions/workflows/ci.yml)
+
 <img alt="status" src="https://img.shields.io/badge/android-working-brightgreen"> <img alt="status" src="https://img.shields.io/badge/iOS-stub-red"> <img alt="status" src="https://img.shields.io/badge/toolchain-2023--era-orange">
 
 ## What it is

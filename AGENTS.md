@@ -167,6 +167,31 @@ xcodebuild -workspace iosApp/iosApp.xcworkspace -scheme iosApp \
   -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' build
 ```
 
+## CI
+
+GitHub Actions workflow: [`.github/workflows/ci.yml`](.github/workflows/ci.yml).
+
+- **Triggers:** push to `dev` or `main`, pull requests targeting `dev`, and manual dispatch.
+- **`android` job** (ubuntu-latest): `./gradlew :androidApp:assembleDebug :androidApp:testDebugUnitTest`.
+  On failure, test reports are uploaded as a build artifact.
+- **`ios` job** (macos-latest): builds the shared Kotlin/Native framework
+  (`:shared:linkDebugFrameworkIosSimulatorArm64`), runs `pod install`, then builds the SwiftUI
+  stub app via `xcodebuild` (code signing disabled). `~/.konan` is cached across runs.
+  - **Explicit-module scan workaround:** CocoaPods integrates the KMP framework through a
+    `[CP-User] Build shared` run-script phase with no declared outputs, which shells out to
+    `./gradlew :shared:syncFramework`. On a clean checkout, Xcode's explicit-module dependency
+    scan can run *before* that script phase populates `shared/build/cocoapods/framework` (the
+    path the generated `Pods-iosApp` xcconfig searches), producing a spurious
+    `unable to resolve module dependency: 'shared'` build failure even though the script phase
+    itself succeeds moments later. The workflow works around this by invoking the equivalent
+    `:shared:syncFramework` task for both simulator archs (`arm64 x86_64`) itself, before
+    `pod install`/`xcodebuild` ever run, so the framework already exists on disk when Xcode's
+    scan happens. This didn't reproduce in local builds, likely because local `DerivedData` is
+    rarely fully clean.
+
+Both jobs must stay green on the pinned toolchain versions in `buildSrc/Deps.kt` — do not bump
+dependencies to fix a CI failure; fix the workflow or the code instead.
+
 ## Conventions
 
 - Versions live in `buildSrc/Deps.kt`; add new deps there, not inline.
